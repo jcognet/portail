@@ -1,17 +1,16 @@
-{%  extends 'CommunBundle:Email:base.html.twig'%}
+{% extends 'CommunBundle:Email:base.html.twig' %}
 
-{%  block corps_html %}
-
-
+{% block html %}
+    {{ corps }}
 {% endblock %}
 
-{%  block content_title%}
- block content_title
+{% block content_title %}
+    block content_title
     Ca Zap - Contact -
     = subjet
 {% endblock %}
 
-{%  block sujet%}
+{% block sujet %}
     Changesous - Contact -
     = sujet
 {% endblock %}

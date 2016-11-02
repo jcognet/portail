@@ -44,18 +44,20 @@ class MailerService
     /**
      * Envoi un email
      * @param $template
-     * @param $data
+     * @param $var
      * @param $destinataire
      * @param array $fichiers
      * @return int
      */
-    public function envoiEmail($template, $data, $destinataire, $fichiers = [])
+    public function envoieEmail($template, $var, $destinataire, $fichiers = [])
     {
-        $context  = $this->twig->mergeGlobals($data);
+        // Création des variables pour twig
+        $context  = $this->twig->mergeGlobals($var);
         $template = $this->twig->loadTemplate($template);
+        // render de chaque bloque
         $subject  = $template->renderBlock('sujet', $context);
-        $textBody = $template->renderBlock('corps_text', $context);
-        $htmlBody = $template->renderBlock('corps_html', $context);
+        $texte = $template->renderBlock('corps_text', $context);
+        $html = $template->renderBlock('corps_html', $context);
         // Envoi du mail de bienvenue sauf en cas de demande
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
@@ -64,10 +66,10 @@ class MailerService
 
         // Ajout du corps si nécessaire
         if (!empty($htmlBody)) {
-            $message->setBody($htmlBody, 'text/html')
-                ->addPart($textBody, 'text/plain');
+            $message->setBody($html, 'text/html')
+                ->addPart($texte, 'text/plain');
         } else {
-            $message->setBody($textBody);
+            $message->setBody($html);
         }
 
         // Ajout d'une pièce jointe

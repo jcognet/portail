@@ -2,11 +2,15 @@
 
 namespace CommunBundle\Controller;
 
+use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DefaultController extends Controller
 {
@@ -15,14 +19,18 @@ class DefaultController extends Controller
         return $this->render('CommunBundle:Default:index.html.twig');
     }
 
-    public function contactAction()
+    /**
+     * Page de contact
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function contactAction(Request $request)
     {
         // Création du formulaire
         $data        = array();
-        $formBuilder = $this->createFormBuilder($data)
+        $form = $this->createFormBuilder($data)
             ->
             add('email', EmailType::class, array(
-                'label'       => 'contact.email',
                 'constraints' => array(
                     New NotBlank(array()),
                     New Email(array())
@@ -30,15 +38,15 @@ class DefaultController extends Controller
             ))
             ->add('sujet', TextType::class)
             ->add('corps', TextareaType::class)
-            ->add('save', SubmitType::class);
-        $form        = $formBuilder->getForm();
+            ->add('save', SubmitType::class)
+        ->getForm();
         // Gestion du post
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            return $this->get('site.mailer')->envoiEmail(
+            $this->get('commun.mailer')->envoieEmail(
                 'CommunBundle:Email:contact.html.twig',
-                $context,
+                $data,
                 $this->getParameter('destinataire_mail')
             );
             $this->addFlash(
@@ -48,6 +56,7 @@ class DefaultController extends Controller
         }
 
 
-        return $this->render('CommunBundle:Default:contact.html.twig');
+        return $this->render('CommunBundle:Default:contact.html.twig', array(
+            'form'=>$form->createView()));
     }
 }

@@ -1,5 +1,5 @@
 services:
     # Service de mail
-    site.mailer:
+    commun.mailer:
         class: CommunBundle\Service\MailerService
         arguments: ["@twig", "@mailer", "%mailer_from%"]

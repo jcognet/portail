@@ -2,7 +2,7 @@ commun_homepage:
     path:     /
     defaults: { _controller: CommunBundle:Default:index }
 
-
+# Page de contact
 commun_contact:
     path:     /contact
     defaults: { _controller: CommunBundle:Default:contact}

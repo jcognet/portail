@@ -2,4 +2,4 @@ services:
     # Service de mail
     site.mailer:
         class: CommunBundle\Service\MailerService
-        arguments: ["@twig", "@mailer" "%mailer_from%"]
+        arguments: ["@twig", "@mailer", "%mailer_from%"]

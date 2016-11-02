@@ -3,6 +3,8 @@
 namespace CommunBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Commande permettant de tester que l'envoi de mail est ok

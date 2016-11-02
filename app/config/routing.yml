@@ -2,6 +2,11 @@ user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /user
 
+home:
+    path:     /
+    defaults: { _controller: CommunBundle:Default:index }
+
+
 commun:
     resource: "@CommunBundle/Resources/config/routing.yml"
     prefix:   /commun

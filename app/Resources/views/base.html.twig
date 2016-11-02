@@ -21,21 +21,35 @@
 
         <!-- Begin page content -->
         <div class="container">
+            {% embed '::menu_header.html.twig' %}
+            {% endembed %}
+
 
             <div class="page-header">
-                {% block header %}
-                <h1>Changesous</h1>
-                {% endblock header %}
+                <h1>
+                    {% block header %}
+                    Changesous
+                    {% endblock header %}
+                </h1>
             </div>
+            {% for flash_message in app.session.flashBag.get('erreur') %}
+                <div class="alert alert-erreur">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            {% for flash_message in app.session.flashBag.get('notice') %}
+                <div class="alert alert-info">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
 
             {% block body %}{% endblock %}
-            <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS.</p>
-            <p>Use <a href="../sticky-footer-navbar">the sticky footer with a fixed navbar</a> if need be, too.</p>
+
         </div>
 
         <footer class="footer">
             <div class="container">
-                <p class="text-muted">Changesous - Version : {{ version }}</p>
+                <p class="text-muted"> Version : {{ version }} - (c) <a target="_blank" href="https://github.com/jcognet/changesous">Jérôme</a> - 2016</p>
             </div>
         </footer>
     </body>

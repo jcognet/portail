@@ -20,3 +20,12 @@ parameters:
 
     # Numéro de version
     version: 0.1
+
+    destinataire_mail: mail@example.org
+    mailer_from:  mail@example.org
+
+swiftmailer:
+    transport: transport
+    host:      host
+    username:  user
+    password:  password

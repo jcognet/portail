@@ -1,3 +1,4 @@
+{%  set route = (app.request.get('_route')) %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -11,11 +12,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a  href="{{ path('home') }}">Accueil</a></li>
+                <li{%  if route == 'home' %} class="active" {% endif %}><a href="{{ path('home') }}">Accueil</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous/issues">Bug</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous/wiki">Wiki</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
-                <li><a href="{{ path('commun_contact')  }}">Contact</a></li>
+                <li {%  if route == 'commun_contact' %} class="active" {% endif %} ><a href="{{ path('commun_contact')  }}">Contact</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->

@@ -2,6 +2,7 @@
 
 namespace UserBundle\Entity;
 
+use CommunBundle\Entity\Devise;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +22,13 @@ class User extends \FOS\UserBundle\Model\User
      */
     protected $id;
 
+    /**
+     * @var Devise
+     *
+     * @ORM\OneToMany(targetEntity="CommunBundle\Entity\suiviDevise", mappedBy="user")
+     */
+    private $deviseSuivies;
+
 
     /**
      * Get id
@@ -30,5 +38,39 @@ class User extends \FOS\UserBundle\Model\User
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Add deviseSuivy
+     *
+     * @param \CommunBundle\Entity\suiviDevise $deviseSuivy
+     *
+     * @return User
+     */
+    public function addDeviseSuivy(\CommunBundle\Entity\suiviDevise $deviseSuivy)
+    {
+        $this->deviseSuivies[] = $deviseSuivy;
+
+        return $this;
+    }
+
+    /**
+     * Remove deviseSuivy
+     *
+     * @param \CommunBundle\Entity\suiviDevise $deviseSuivy
+     */
+    public function removeDeviseSuivy(\CommunBundle\Entity\suiviDevise $deviseSuivy)
+    {
+        $this->deviseSuivies->removeElement($deviseSuivy);
+    }
+
+    /**
+     * Get deviseSuivies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDeviseSuivies()
+    {
+        return $this->deviseSuivies;
     }
 }

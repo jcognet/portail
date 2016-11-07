@@ -24,6 +24,8 @@ parameters:
     destinataire_mail: mail@example.org
     mailer_from:  mail@example.org
 
+    url_devise_webservice: http://api.fixer.io/
+
 swiftmailer:
     transport: transport
     host:      host

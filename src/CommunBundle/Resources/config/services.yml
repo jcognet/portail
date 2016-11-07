@@ -3,3 +3,7 @@ services:
     commun.mailer:
         class: CommunBundle\Service\MailerService
         arguments: ["@twig", "@mailer", "%mailer_from%"]
+    # Service de devise
+    commun.devise:
+        class: CommunBundle\Service\DeviseService
+        arguments: ["@doctrine.orm.entity_manager", "%url_devise_webservice%"]

@@ -31,14 +31,14 @@ class CoursJournee
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_30_jours", type="decimal", precision=10, scale=2)
+     * @ORM\Column(name="moyenne_30_jours", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $moyenne30Jours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_60_jours", type="decimal", precision=10, scale=2)
+     * @ORM\Column(name="moyenne_60_jours", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $moyenne60Jours;
 

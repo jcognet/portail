@@ -9,7 +9,7 @@ use UserBundle\Entity\User;
  * suivi_devise
  *
  * @ORM\Table(name="suivi_devise")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\suivi_deviseRepository")
+ * @ORM\Entity()
  */
 class suiviDevise
 {

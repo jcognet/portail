@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Devise
  *
  * @ORM\Table(name="devise")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\DeviseRepository")
+ * @ORM\Entity()
  */
 class Devise
 {

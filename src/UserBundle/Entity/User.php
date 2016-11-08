@@ -2,7 +2,7 @@
 
 namespace UserBundle\Entity;
 
-use CommunBundle\Entity\Devise;
+use CommunBundle\Entity\SuiviDevise;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,11 +23,11 @@ class User extends \FOS\UserBundle\Model\User
     protected $id;
 
     /**
-     * @var Devise
+     * @var SuiviDevise
      *
-     * @ORM\OneToMany(targetEntity="CommunBundle\Entity\suiviDevise", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="CommunBundle\Entity\SuiviDevise", mappedBy="user")
      */
-    private $deviseSuivies;
+    private $listeDevises;
 
 
     /**
@@ -40,37 +40,39 @@ class User extends \FOS\UserBundle\Model\User
         return $this->id;
     }
 
+
+
     /**
-     * Add deviseSuivy
+     * Add listeDevise
      *
-     * @param \CommunBundle\Entity\suiviDevise $deviseSuivy
+     * @param \CommunBundle\Entity\SuiviDevise $listeDevise
      *
      * @return User
      */
-    public function addDeviseSuivy(\CommunBundle\Entity\suiviDevise $deviseSuivy)
+    public function addListeDevise(\CommunBundle\Entity\SuiviDevise $listeDevise)
     {
-        $this->deviseSuivies[] = $deviseSuivy;
+        $this->listeDevises[] = $listeDevise;
 
         return $this;
     }
 
     /**
-     * Remove deviseSuivy
+     * Remove listeDevise
      *
-     * @param \CommunBundle\Entity\suiviDevise $deviseSuivy
+     * @param \CommunBundle\Entity\SuiviDevise $listeDevise
      */
-    public function removeDeviseSuivy(\CommunBundle\Entity\suiviDevise $deviseSuivy)
+    public function removeListeDevise(\CommunBundle\Entity\SuiviDevise $listeDevise)
     {
-        $this->deviseSuivies->removeElement($deviseSuivy);
+        $this->listeDevises->removeElement($listeDevise);
     }
 
     /**
-     * Get deviseSuivies
+     * Get listeDevises
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDeviseSuivies()
+    public function getListeDevises()
     {
-        return $this->deviseSuivies;
+        return $this->listeDevises;
     }
 }

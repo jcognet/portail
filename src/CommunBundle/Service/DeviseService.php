@@ -34,30 +34,13 @@ class DeviseService
     }
 
 
-    public function recupereEtSauveCours(array $listeDevise = null, \DateTime $date = null)
-    {
-        $listeCoursJournee = array();
-        foreach ($this->recupereCours($listeDevise, $date) as $devise => $taux) {
-            //TODO : vérifier si l'entité existe en base. Si non => création, si oui, récupération
-            $cours = new CoursJournee();
-            $cours
-                ->setDate($date)
-                ->setDevise($this->em->getRepository('CommunBundle:Devise')->findOneByCodeWebservice($devise));
-            //TODO : calculer moyennes
-            $this->em->persist($cours);
-        }
-        $this->em->flush();
-        return $listeCoursJournee;
-
-    }
-
     /**
-     * Recupere les cours d'une liste de devise
-     * @param array|null $listeDevise liste des devises à traiter
-     * @param \DateTime|null $date jour à récupérer
-     * @return array de la forme code devise => $taux / euros
+     * Recupère et sauve les cours
+     * @param array|null $listeDevise Liste des devises à traiter
+     * @param \DateTime|null $date Date du traitement
+     * @return array
      */
-    public function recupereCours(array $listeDevise = null, \DateTime $date = null)
+    public function recupereEtSauveCours(array $listeDevise = null, \DateTime $date = null)
     {
         // Récupération de toutes les devises si 0 paramètre
         if (is_null($listeDevise) || count($listeDevise) == 0) {
@@ -76,15 +59,44 @@ class DeviseService
         if (is_null($date)) {
             $date = new \DateTime('yesterday');
         }
-        // URL du service
-        $urlRequete = strtolower($this->url);
-        // Un peu de protection
-        if (substr($urlRequete, 0, 4) != 'http') {
-            $urlRequete = 'http' . $urlRequete;
+
+        $listeCoursJournee = array();
+        foreach ($this->recupereCours($listeDevise, $date) as $codeDevise => $taux) {
+            // Création ou récupération en base
+            $devise = $this->em->getRepository('CommunBundle:Devise')->findOneByCodeWebservice($codeDevise);
+            if (is_null($cours = $this->em->getRepository('CommunBundle:CoursJournee')->findOneBy(
+                array(
+                    'date'   => $date,
+                    'devise' => $devise
+                )
+            )))
+                $cours = new CoursJournee();
+            // Données par défaut
+            $cours
+                ->setDate($date)
+                ->setDevise($devise)
+                ->setCours($taux)
+                ->setMoyenne30Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 30, $devise))
+                ->setMoyenne60Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 60, $devise))
+                ->setMoyenne90Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 90, $devise))
+                ->setMoyenne120Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 120, $devise));
+            $this->em->persist($cours);
+
         }
-        if (substr($urlRequete, -1) != '/') {
-            $urlRequete .= '/';
-        }
+        $this->em->flush();
+        return $listeCoursJournee;
+
+    }
+
+    /**
+     * Recupere les cours d'une liste de devise
+     * @param array|null $listeDevise liste des devises à traiter
+     * @param \DateTime|null $date jour à récupérer
+     * @return array de la forme code devise => $taux / euros
+     */
+    private function recupereCours(array $listeDevise = null, \DateTime $date = null)
+    {
+        $urlRequete = $this->url;
         // Ajout de la date et de la devise
         $urlRequete .= $date->format('Y-m-d') . '?symbols=' . implode(',', $listeDevise);
         $res = json_decode(file_get_contents($urlRequete));

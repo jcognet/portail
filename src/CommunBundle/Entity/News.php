@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * News
  *
  * @ORM\Table(name="news")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CommunBundle\Repository\NewsRepository")
  */
 class News
 {
@@ -156,4 +156,3 @@ class News
         return $this->dateMiseEnLigne;
     }
 }
-

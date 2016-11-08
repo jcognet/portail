@@ -13,19 +13,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CoursDeviseCommand extends ContainerAwareCommand
 {
-    /**
-     * Nom du fichier de log à envoyer par mail
-     * @var string
-     */
-    protected $fileName = "";
-
     protected function configure()
     {
         $this
             ->setName('cours:get')
             ->addOption('devise', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Devise à récupérer', null)
             ->addOption('date', null, InputOption::VALUE_OPTIONAL, 'Date à requêter', null)
-            ->setDescription('Récupère la devise d\'une commande');
+            ->setDescription('Récupère le cours d\'une devise pour une journée');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

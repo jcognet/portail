@@ -9,9 +9,9 @@ use UserBundle\Entity\User;
  * suivi_devise
  *
  * @ORM\Table(name="suivi_devise")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CommunBundle\Repository\SuiviDeviseRepository")
  */
-class suiviDevise
+class SuiviDevise
 {
     /**
      * @var int

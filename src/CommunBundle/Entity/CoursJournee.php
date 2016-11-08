@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CoursJournee
  *
  * @ORM\Table(name="cours_journee")
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="CommunBundle\Repository\CoursJourneeRepository")
  */
 class CoursJournee
 {
@@ -27,6 +27,13 @@ class CoursJournee
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cours", type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private $cours;
 
     /**
      * @var string
@@ -217,5 +224,29 @@ class CoursJournee
     public function getDevise()
     {
         return $this->devise;
+    }
+
+    /**
+     * Set cours
+     *
+     * @param string $cours
+     *
+     * @return CoursJournee
+     */
+    public function setCours($cours)
+    {
+        $this->cours = $cours;
+
+        return $this;
+    }
+
+    /**
+     * Get cours
+     *
+     * @return string
+     */
+    public function getCours()
+    {
+        return $this->cours;
     }
 }

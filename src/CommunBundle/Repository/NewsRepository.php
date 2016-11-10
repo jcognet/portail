@@ -10,4 +10,19 @@ namespace CommunBundle\Repository;
  */
 class NewsRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Récupère une liste de news triée par date de mise en ligne
+     * @param $maxNews
+     * @return array
+     */
+    public function getListe($maxNews){
+        return $this->createQueryBuilder('n')
+            ->select('n')
+            ->where('n.dateMiseEnLigne<:date')
+            ->setParameter('date', new \DateTime())
+            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->setMaxResults($maxNews)
+            ->getQuery()
+            ->getResult();
+    }
 }

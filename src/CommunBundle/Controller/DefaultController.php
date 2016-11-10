@@ -16,7 +16,15 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('CommunBundle:Default:index.html.twig');
+        // Récupération des news
+        $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
+        // Liste des devises
+        $listeDevise = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
+        return $this->render('CommunBundle:Default:index.html.twig',
+            array(
+                'liste_news' => $listeNews
+            )
+        );
     }
 
     /**
@@ -27,7 +35,7 @@ class DefaultController extends Controller
     public function contactAction(Request $request)
     {
         // Création du formulaire
-        $data        = array();
+        $data = array();
         $form = $this->createFormBuilder($data)
             ->
             add('email', EmailType::class, array(
@@ -39,7 +47,7 @@ class DefaultController extends Controller
             ->add('sujet', TextType::class)
             ->add('corps', TextareaType::class)
             ->add('save', SubmitType::class)
-        ->getForm();
+            ->getForm();
         // Gestion du post
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,6 +65,6 @@ class DefaultController extends Controller
 
 
         return $this->render('CommunBundle:Default:contact.html.twig', array(
-            'form'=>$form->createView()));
+            'form' => $form->createView()));
     }
 }

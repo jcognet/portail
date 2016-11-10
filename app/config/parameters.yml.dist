@@ -21,6 +21,9 @@ parameters:
     # Numéro de version
     version: 0.3<
 
+    # Nombre de news sur la page d'accueil
+    nombre_news: 1
+
     destinataire_mail: mail@example.org
     mailer_from:  mail@example.org
 

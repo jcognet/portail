@@ -1,4 +1,18 @@
 {% extends '::base.html.twig' %}
 {% block body %}
-    Hello World!
+    <div class="row">
+        <div class="liste_news col-sm-6">
+            {% for news in liste_news %}
+                <div class="news">
+                    <h2 class="titre">{{ news.titre }}</h2>
+                    <div class="corps">
+                        {{ news.corps|raw }}
+                    </div>
+
+                </div>
+            {% endfor %}
+        </div>
+        <div class="liste_devise col-sm-6">
+        </div>
+    </div>
 {% endblock %}

@@ -19,7 +19,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # Numéro de version
-    version: 0.3
+    version: 0.3<
 
     destinataire_mail: mail@example.org
     mailer_from:  mail@example.org

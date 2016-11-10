@@ -53,7 +53,7 @@ class SuiviDevise
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="deviseSuivies")
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="listeDevises")
      */
     private $user;
 

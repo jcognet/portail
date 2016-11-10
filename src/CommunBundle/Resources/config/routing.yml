@@ -1,3 +1,4 @@
+# Homepage
 commun_homepage:
     path:     /
     defaults: { _controller: CommunBundle:Default:index }
@@ -6,3 +7,10 @@ commun_homepage:
 commun_contact:
     path:     /contact
     defaults: { _controller: CommunBundle:Default:contact}
+
+
+commun_devise_get_ajax:
+    path:     /devise/{id}
+    defaults: { _controller: CommunBundle:Default:getCoursAjax }
+    options:
+       expose: true

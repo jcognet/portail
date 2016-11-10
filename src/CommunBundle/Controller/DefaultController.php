@@ -2,8 +2,10 @@
 
 namespace CommunBundle\Controller;
 
+use CommunBundle\Entity\Devise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,7 +16,13 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+
+    /**
+     * Page d'accueil
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function indexAction(Request $request)
     {
         // Récupération des news
         $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
@@ -22,7 +30,8 @@ class DefaultController extends Controller
         $listeDevise = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
         return $this->render('CommunBundle:Default:index.html.twig',
             array(
-                'liste_news' => $listeNews
+                'liste_news'   => $listeNews,
+                'liste_devise' => $listeDevise
             )
         );
     }
@@ -66,5 +75,22 @@ class DefaultController extends Controller
 
         return $this->render('CommunBundle:Default:contact.html.twig', array(
             'form' => $form->createView()));
+    }
+
+    /**
+     * Récupère le cours d'une devise
+     * @param Request $request
+     * @param Devise $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getCoursAjaxAction(Request $request, Devise $devise)
+    {
+        $jsonResponse = new JsonResponse();
+        $data         = array(
+            'success' => true
+        );
+        // Envoie de la réponse
+        $jsonResponse->setData($data);
+        return $jsonResponse;
     }
 }

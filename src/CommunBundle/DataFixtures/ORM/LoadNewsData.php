@@ -36,7 +36,7 @@ Fin estimé : Jeudi 03 Novembre<br/>
         $newsVersion2 = new News();
         $newsVersion2->setDateCreation(new \DateTime('2016-11-04'))
             ->setDateMiseEnLigne(new \DateTime('2016-11-08'))
-            ->setTitre('Run 1 : Configuration technique')
+            ->setTitre('Run 2 : Création des entités')
             ->setCorps('
             <ul>
             <li>Mise en place du modèle objet</li>

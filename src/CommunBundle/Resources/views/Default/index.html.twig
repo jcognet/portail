@@ -1,10 +1,15 @@
 {% extends '::base.html.twig' %}
+ {% block header %}
+     Changesous : le suivi des devises
+ {% endblock header %}
+
 {% block body %}
     <div class="row">
         <div class="liste_news col-sm-6">
+            <h2>Dernières actualités</h2>
             {% for news in liste_news %}
                 <div class="news">
-                    <h2 class="titre">{{ news.titre }}</h2>
+                    <h3 class="titre">{{ news.titre }}</h3>
                     <div class="corps">
                         {{ news.corps|raw }}
                     </div>
@@ -13,6 +18,17 @@
             {% endfor %}
         </div>
         <div class="liste_devise col-sm-6">
+            <h3>Devises</h3>
+            <select id="sltDevise">
+                <option value="0">-</option>
+                {% for devise in liste_devise %}
+                    <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/devise.js') }}"></script>
 {% endblock %}

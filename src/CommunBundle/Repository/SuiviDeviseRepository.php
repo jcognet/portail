@@ -10,4 +10,5 @@ namespace CommunBundle\Repository;
  */
 class SuiviDeviseRepository extends \Doctrine\ORM\EntityRepository
 {
+
 }

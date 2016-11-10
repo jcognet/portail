@@ -23,6 +23,8 @@ parameters:
 
     # Nombre de news sur la page d'accueil
     nombre_news: 1
+    # Nombre de jours dans l'appel AJAX
+    nombre_jours: 30
 
     destinataire_mail: mail@example.org
     mailer_from:  mail@example.org

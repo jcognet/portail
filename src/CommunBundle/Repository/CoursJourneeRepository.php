@@ -35,7 +35,31 @@ class CoursJourneeRepository extends \Doctrine\ORM\EntityRepository
             $out["cours"] = 0;
         }
         return $out["cours"];
+    }
 
+    /**
+     * Retour une liste de CoursJournee sur une période donnée
+     * @param \DateTime $date
+     * @param $nbDays
+     * @param Devise $devise
+     * @return CoursJournee[]
+     */
+    public function getListeSurPeriode(\DateTime $date = null, $nbDays, Devise $devise){
+        if(is_null($date)){
+            $date = new \DateTime(); // now
+        }
+        // From
+        $from = clone($date);
+        $from = $from->sub(new \DateInterval("P" . $nbDays . "D"));
 
+        return $this->createQueryBuilder('cj')
+            ->select('cj')
+            ->where('cj.date>=:from AND cj.date <= :to  and cj.devise =:devise')
+            ->setParameter('from', $from)
+            ->setParameter('to', $date)
+            ->setParameter('devise', $devise)
+            ->addOrderBy('cj.date', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

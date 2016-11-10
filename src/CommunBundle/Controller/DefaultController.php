@@ -78,18 +78,24 @@ class DefaultController extends Controller
     }
 
     /**
-     * Récupère le cours d'une devise
+     * Récupèr le cours d'une devise
      * @param Request $request
-     * @param Devise $id
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param Devise $devise
+     * @return JsonResponse
      */
     public function getCoursAjaxAction(Request $request, Devise $devise)
     {
-        $jsonResponse = new JsonResponse();
-        $data         = array(
-            'success' => true
-        );
+        $data        = array();
+        $listeCoursJournee = $this->getDoctrine()->getRepository('CommunBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
+        foreach ($listeCoursJournee as $coursJournees) {
+            $data[] = array(
+                'cours' => $coursJournees->getCours(),
+                'date'  => $coursJournees->getDate()->format('d/m/Y'),
+            );
+        }
+
         // Envoie de la réponse
+        $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
         return $jsonResponse;
     }

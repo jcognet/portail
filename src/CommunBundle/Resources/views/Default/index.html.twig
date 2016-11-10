@@ -25,10 +25,14 @@
                     <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
                 {% endfor %}
             </select>
+            <div class="chart">
+                <div id="container"></div>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/devise.js') }}"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 {% endblock %}

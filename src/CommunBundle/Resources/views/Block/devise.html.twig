@@ -1,0 +1,84 @@
+<div class="block_devise">
+    <div id="{{ divId }}">
+    </div>
+    <div class="liste_moyenne">
+        <table>
+            <tr>
+                <td>
+                    Dernier cours enregistré ({{  devise.jour|date('d/m/Y')}}) :
+                </td>
+                <td>
+                    1 euro = {{ devise.coursJour }}{{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                   &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Moyenne des 30 derniers jours :
+                </td>
+                <td>
+                    1 euro = {{ devise.moyenne30Jours }}{{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    {% if devise.coursJour>=devise.moyenne30Jours %}
+                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Moyenne des 60 derniers jours:
+                </td>
+                <td>
+                    1 euro = {{ devise.moyenne60Jours }}{{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    {% if devise.coursJour >=devise.moyenne60Jours %}
+                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Moyenne des 90 derniers jours :
+                </td>
+                <td>
+                    1 euro = {{ devise.moyenne90Jours }}{{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    {% if devise.coursJour>=devise.moyenne90Jours %}
+                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Moyenne des 120 derniers jours :
+                </td>
+                <td>
+                    1 euro = {{ devise.moyenne120Jours }}{{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    {% if devise.coursJour>=devise.moyenne120Jours %}
+                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<script>
+    var json = {{ json|raw }};
+    var divId = '{{ divId }}';
+    afficheChart(json, divId);
+</script>

@@ -3,6 +3,7 @@
 namespace CommunBundle\Service;
 
 use CommunBundle\Entity\CoursJournee;
+use CommunBundle\Entity\Devise;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -85,7 +86,42 @@ class DeviseService
         }
         $this->em->flush();
         return $listeCoursJournee;
+    }
 
+    /**
+     * Met à jour une devise à partir du cours le + récent
+     * @param Devise $devise
+     */
+    public function updateCoursJoursDevise(Devise $devise)
+    {
+        $listeCours      = $this->em->getRepository('CommunBundle:CoursJournee')->findBy(
+            array('devise' => $devise),
+            array('date' => 'DESC'),
+            1
+        );
+        $coursPlusRecent = reset($listeCours);
+        // Mise à jour de la devise
+        $devise->setCoursJour($coursPlusRecent->getCours());
+        $devise->setJour($coursPlusRecent->getDate());
+        $devise->setMoyenne30Jours($coursPlusRecent->getMoyenne30Jours());
+        $devise->setMoyenne60Jours($coursPlusRecent->getMoyenne60Jours());
+        $devise->setMoyenne90Jours($coursPlusRecent->getMoyenne90Jours());
+        $devise->setMoyenne120Jours($coursPlusRecent->getMoyenne120Jours());
+        $this->em->persist($devise);
+        $this->em->flush();
+    }
+
+
+
+    /**
+     * Met à jours toutes les devises de l'application
+     * @return bool
+     */
+    public function updateCoursTouteDevise(){
+        foreach($this->em->getRepository('CommunBundle:Devise')->findAll() as $devise){
+            $this->updateCoursJoursDevise($devise);
+        }
+        return true;
     }
 
     /**

@@ -50,6 +50,7 @@ class CoursDevisePeriodCommand extends ContainerAwareCommand
             $this->getContainer()->get('commun.devise')->recupereEtSauveCours($input->getOption('devise'), $date);
             sleep(2);
         }
+        $this->getContainer()->get('commun.devise')->updateCoursTouteDevise();
     }
 
 

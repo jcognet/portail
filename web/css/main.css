@@ -1,9 +1,9 @@
-
-.liste_news{
-
+.ajax{
+    opacity: 0.5;
 }
-
-
-.liste_devise{
-
+#divDevise{
+    min-height: 100px;
+}
+.liste_moyenne table{
+    width: 100%;
 }

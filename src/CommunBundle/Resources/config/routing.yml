@@ -10,7 +10,13 @@ commun_contact:
 
 
 commun_devise_get_ajax:
-    path:     /devise/{id}
+    path:     /devise/json/{id}
     defaults: { _controller: CommunBundle:Default:getCoursAjax }
+    options:
+       expose: true
+
+commun_devise_affiche_ajax:
+    path:     /devise/affiche/{id}
+    defaults: { _controller: CommunBundle:Default:renderCoursAjax }
     options:
        expose: true

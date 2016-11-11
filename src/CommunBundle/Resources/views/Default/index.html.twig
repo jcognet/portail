@@ -1,11 +1,13 @@
 {% extends '::base.html.twig' %}
+{% set divIdDevise = "divDevise" %}
+
  {% block header %}
      Changesous : le suivi des devises
  {% endblock header %}
 
 {% block body %}
     <div class="row">
-        <div class="liste_news col-sm-6">
+        <div class="liste_news col-sm-4">
             <h2>Dernières actualités</h2>
             {% for news in liste_news %}
                 <div class="news">
@@ -13,11 +15,10 @@
                     <div class="corps">
                         {{ news.corps|raw }}
                     </div>
-
                 </div>
             {% endfor %}
         </div>
-        <div class="liste_devise col-sm-6">
+        <div class="liste_devise col-sm-4">
             <h3>Devises</h3>
             <select id="sltDevise">
                 <option value="0">-</option>
@@ -25,14 +26,24 @@
                     <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
                 {% endfor %}
             </select>
-            <div class="chart">
-                <div id="container"></div>
+            <div id="{{ divIdDevise }}">
             </div>
+        </div>
+        <div class="liste_devise_suivie col-sm-4">
+            <h3>Vos devises suivies</h3>
+                {% for devise_suivie in liste_devises_suivies  %}
+                    {% set devise = devise_suivie.devise %}
+                    {%  embed '@Commun/Block/devise.html.twig'  %}
+                    {% endembed %}
+                {% endfor %}
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
+    <script>
+        var divIdDevise= '{{ divIdDevise }}';
+    </script>
     <script src="{{ asset('js/devise.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
 {% endblock %}

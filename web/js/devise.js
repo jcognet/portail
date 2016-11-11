@@ -1,45 +1,34 @@
 $(document).ready(function() {
 
   $("#sltDevise").change(function () {
-    url = Routing.generate('commun_devise_get_ajax', {'id':$(this).val()})
-    $.ajax({
-      url : url,
-      type : 'GET',
-      dataType : 'json',
-      success : function(json, statut){ // success est toujours en place, bien sûr !
-        afficheChart(json);
-      },
-
-      error : function(resultat, statut, erreur){
-        console.log('*****erreur*****');
-        console.log(resultat);
-        console.log(statut);
-        console.log(erreur);
-        console.log('**********');
-      }
-
-    });
+      disableDdlDevise();
+      afficheBlockDevise(divIdDevise, $(this).val());
   });
 });
 
-function afficheChart(json){
+function disableDdlDevise(){
+  $("#sltDevise").prop("disabled", true);
+}
+function enableDdlDevise(){
+  $("#sltDevise").prop("disabled", false);
+}
+
+function afficheChart(json, divChart){
   var listeDate = [];
   var listeCoursDevise = [];
   // TODO : vérifier unicité sur les jours
-  for (i = 0; i < json.length; i++) {
-    listeDate.push(json[i]['date']);
-    listeCoursDevise.push(parseFloat(json[i]['cours']));
+  for (i = 0; i < json['cours'].length; i++) {
+    listeDate.push(json['cours'][i]['date']);
+    listeCoursDevise.push(parseFloat(json['cours'][i]['taux']));
   }
-  console.log(listeCoursDevise);
-  console.log(listeDate);
 
-    Highcharts.chart('container', {
+    Highcharts.chart(divChart, {
       title: {
-        text: 'Monthly Average Temperature',
+        text: 'Cours par rapport à l\'euro',
         x: -20 //center
       },
       subtitle: {
-        text: 'Source: WorldClimate.com',
+        text: 'Source : http://www.fixer.io/',
         x: -20
       },
       xAxis: {
@@ -56,7 +45,7 @@ function afficheChart(json){
         }]
       },
       tooltip: {
-        valueSuffix: '°C'
+        valueSuffix: json['symbole']
       },
       legend: {
         layout: 'vertical',
@@ -65,8 +54,34 @@ function afficheChart(json){
         borderWidth: 0
       },
       series: [{
-        name: 'Tokyo',
+        name: json['label'],
         data: listeCoursDevise
       }]
     });
+}
+
+function afficheBlockDevise(blockId, deviseId){
+  setAjaxWorking(blockId);
+  url = Routing.generate('commun_devise_affiche_ajax', {'id':deviseId});
+  $.ajax({
+    url : url,
+    type : 'GET',
+    dataType : 'html',
+    success : function(block_html, statut){ // success est toujours en place, bien sûr !
+      $('#'+blockId).html(block_html);
+      unsetAjaxWorking(blockId);
+      enableDdlDevise();
+    },
+
+    error : function(resultat, statut, erreur){
+      console.log('*****erreur*****');
+      console.log(resultat);
+      console.log(statut);
+      console.log(erreur);
+      console.log('**********');
+      unsetAjaxWorking(blockId);
+      enableDdlDevise();
+    }
+
+  });
 }

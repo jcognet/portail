@@ -43,18 +43,18 @@ class CleanProjetCommand extends ContainerAwareCommand
         $inputTablesCreate      = new ArrayInput($argumentsTablesCreate);
         $returnCodeTablesCreate = $commandTablesCreate->run($inputTablesCreate, $output);
         // Execution de la commande des fixtures
-        $commandFixtures            = $this->getApplication()->find('doctrine:fixtures:load');
+        $commandFixtures    = $this->getApplication()->find('doctrine:fixtures:load');
         $argumentsFixtures  = array(
             '--no-interaction' => true
         );
         $inputFixtures      = new ArrayInput($argumentsFixtures);
         $returnCodeFixtures = $commandFixtures->run($inputFixtures, $output);
         // récupération des devises
-        $commandDevise  = $this->getApplication()->find('cours:get-periode');
-        $argumentsDevise = array(
-
+        $commandDevise    = $this->getApplication()->find('cours:get-periode');
+        $argumentsDevise  = array(
+            '--duree' => 60,
         );
-        $inputDevise = new ArrayInput($argumentsDevise);
+        $inputDevise      = new ArrayInput($argumentsDevise);
         $returnCodeDevise = $commandDevise->run($inputDevise, $output);
     }
 

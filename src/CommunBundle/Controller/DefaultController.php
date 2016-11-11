@@ -24,14 +24,18 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->get('commun.devise')->updateCoursTouteDevise();
+
+
         // Récupération des news
         $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
         // Liste des devises
         $listeDevise = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
         return $this->render('CommunBundle:Default:index.html.twig',
             array(
-                'liste_news'   => $listeNews,
-                'liste_devise' => $listeDevise
+                'liste_news'            => $listeNews,
+                'liste_devise'          => $listeDevise,
+                'liste_devises_suivies' => array()
             )
         );
     }
@@ -85,12 +89,22 @@ class DefaultController extends Controller
      */
     public function getCoursAjaxAction(Request $request, Devise $devise)
     {
-        $data        = array();
+        $data = array(
+            'label'       => $devise->getLabel(),
+            'symbole'     => $devise->getRaccourciOuLabel(),
+            'cours'       => $devise->getCoursJour(),
+            'moyenne_30'  => $devise->getMoyenne30Jours(),
+            'moyenne_60'  => $devise->getMoyenne60Jours(),
+            'moyenne_90'  => $devise->getMoyenne90Jours(),
+            'moyenne_120' => $devise->getMoyenne120Jours(),
+            'cours'       => array()
+        );
+
         $listeCoursJournee = $this->getDoctrine()->getRepository('CommunBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
         foreach ($listeCoursJournee as $coursJournees) {
-            $data[] = array(
-                'cours' => $coursJournees->getCours(),
-                'date'  => $coursJournees->getDate()->format('d/m/Y'),
+            $data['cours'][] = array(
+                'taux' => $coursJournees->getCours(),
+                'date' => $coursJournees->getDate()->format('d/m/Y'),
             );
         }
 
@@ -98,5 +112,38 @@ class DefaultController extends Controller
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
         return $jsonResponse;
+    }
+
+    public function renderCoursAjaxAction(Request $request, Devise $devise)
+    {
+        $data = array(
+            'label'       => $devise->getLabel(),
+            'symbole'     => $devise->getRaccourciOuLabel(),
+            'cours'       => $devise->getCoursJour(),
+            'moyenne_30'  => $devise->getMoyenne30Jours(),
+            'moyenne_60'  => $devise->getMoyenne60Jours(),
+            'moyenne_90'  => $devise->getMoyenne90Jours(),
+            'moyenne_120' => $devise->getMoyenne120Jours(),
+            'cours'       => array()
+        );
+
+        $listeCoursJournee = $this->getDoctrine()->getRepository('CommunBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
+        foreach ($listeCoursJournee as $coursJournees) {
+            $data['cours'][] = array(
+                'taux' => $coursJournees->getCours(),
+                'date' => $coursJournees->getDate()->format('d/m/Y'),
+            );
+        }
+
+        // Envoie de la réponse
+        $jsonResponse = new JsonResponse();
+        $jsonResponse->setData($data);
+        return $this->render('CommunBundle:Block:devise.html.twig',
+            array(
+                'devise' => $devise,
+                'divId'  => 'chart',
+                'json'   => $jsonResponse->getContent()
+            )
+        );
     }
 }

@@ -50,6 +50,13 @@ class Devise
     private $coursJour;
 
     /**
+     * @var datetime
+     *
+     * @ORM\Column(name="jour", type="datetime", nullable=true)
+     */
+    private $jour;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="moyenne_30_jours", type="decimal", precision=10, scale=2, nullable=true)
@@ -76,6 +83,13 @@ class Devise
      * @ORM\Column(name="moyenne_120_jours", type="decimal", precision=10, scale=2, nullable=true)
      */
     private $moyenne120Jours;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="symbole", type="string", length=10, nullable=true)
+     */
+    private $symbole;
 
 
     /**
@@ -280,5 +294,64 @@ class Devise
     public function getCodeWebservice()
     {
         return $this->codeWebservice;
+    }
+
+    /**
+     * Set symbole
+     *
+     * @param string $symbole
+     *
+     * @return Devise
+     */
+    public function setSymbole($symbole)
+    {
+        $this->symbole = $symbole;
+
+        return $this;
+    }
+
+    /**
+     * Get symbole
+     *
+     * @return string
+     */
+    public function getSymbole()
+    {
+        return $this->symbole;
+    }
+
+    /**
+     * get symbole ou la chaîne complète
+     * @return string
+     */
+    public function getRaccourciOuLabel(){
+        if(strlen($this->getSymbole())>0){
+            return $this->getSymbole();
+        }
+        return $this->getLabel();
+    }
+
+    /**
+     * Set jour
+     *
+     * @param \DateTime $jour
+     *
+     * @return Devise
+     */
+    public function setJour($jour)
+    {
+        $this->jour = $jour;
+
+        return $this;
+    }
+
+    /**
+     * Get jour
+     *
+     * @return \DateTime
+     */
+    public function getJour()
+    {
+        return $this->jour;
     }
 }

@@ -17,6 +17,7 @@ class LoadDeviseData implements FixtureInterface
             ->setMoyenne30Jours(0)
             ->setMoyenne60Jours(0)
             ->setMoyenne90Jours(0)
+            ->setSymbole('¥')
             ->setMoyenne120Jours(0);
         $manager->persist($deviseYen);
 
@@ -27,6 +28,7 @@ class LoadDeviseData implements FixtureInterface
             ->setMoyenne30Jours(0)
             ->setMoyenne60Jours(0)
             ->setMoyenne90Jours(0)
+            ->setSymbole('$')
             ->setMoyenne120Jours(0);
         $manager->persist($deviseDollars);
 

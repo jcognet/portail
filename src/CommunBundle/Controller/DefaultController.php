@@ -4,6 +4,7 @@ namespace CommunBundle\Controller;
 
 use CommunBundle\Entity\Devise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
+use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +25,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->get('commun.devise')->updateCoursTouteDevise();
-
-
         // Récupération des news
         $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
         // Liste des devises
@@ -36,6 +34,21 @@ class DefaultController extends Controller
                 'liste_news'            => $listeNews,
                 'liste_devise'          => $listeDevise,
                 'liste_devises_suivies' => array()
+            )
+        );
+    }
+
+    /**
+     * Affiche le formulaire et de login
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function registerOuLoginAction(Request $request)
+    {
+        $formEnregistrement = $this->createForm(RegistrationFormType::class);
+        return $this->render('CommunBundle:Block:login.html.twig',
+            array(
+                'form_enregistement' => $formEnregistrement->createView(),
             )
         );
     }
@@ -114,6 +127,12 @@ class DefaultController extends Controller
         return $jsonResponse;
     }
 
+    /**
+     * Afficher le bloc des cours
+     * @param Request $request
+     * @param Devise $devise
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function renderCoursAjaxAction(Request $request, Devise $devise)
     {
         $data = array(

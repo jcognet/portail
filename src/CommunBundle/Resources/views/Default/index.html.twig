@@ -31,18 +31,22 @@
         </div>
         <div class="liste_devise_suivie col-sm-4">
             <h3>Vos devises suivies</h3>
-                {% for devise_suivie in liste_devises_suivies  %}
+            {% if app.user %}
+                {% for devise_suivie in liste_devises_suivies %}
                     {% set devise = devise_suivie.devise %}
-                    {%  embed '@Commun/Block/devise.html.twig'  %}
+                    {% embed '@Commun/Block/devise.html.twig' %}
                     {% endembed %}
                 {% endfor %}
+            {% else %}
+                {{ render(controller('CommunBundle:Default:registerOuLogin')) }}
+            {% endif %}
         </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        var divIdDevise= '{{ divIdDevise }}';
+        var divIdDevise = '{{ divIdDevise }}';
     </script>
     <script src="{{ asset('js/devise.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>

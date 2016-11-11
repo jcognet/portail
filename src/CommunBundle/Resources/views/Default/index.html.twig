@@ -32,13 +32,14 @@
         <div class="liste_devise_suivie col-sm-4">
             <h3>Vos devises suivies</h3>
             {% if app.user %}
+                toto
                 {% for devise_suivie in liste_devises_suivies %}
                     {% set devise = devise_suivie.devise %}
                     {% embed '@Commun/Block/devise.html.twig' %}
                     {% endembed %}
                 {% endfor %}
             {% else %}
-                {{ render(controller('CommunBundle:Default:registerOuLogin')) }}
+                {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
             {% endif %}
         </div>
     </div>

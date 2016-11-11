@@ -17,6 +17,9 @@
                 <li><a target="_blank" href="https://github.com/jcognet/changesous/wiki">Wiki</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
                 <li {%  if route == 'commun_contact' %} class="active" {% endif %} ><a href="{{ path('commun_contact')  }}">Contact</a></li>
+                {% if app.user %}
+                    <li><a href="{{ path('fos_user_security_logout')}}">Déconnexion</a></li>
+                {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
     </div><!--/.container-fluid -->

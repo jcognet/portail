@@ -4,12 +4,14 @@ namespace UserBundle\Entity;
 
 use CommunBundle\Entity\SuiviDevise;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ * @UniqueEntity("email")
  */
 class User extends \FOS\UserBundle\Model\User
 {

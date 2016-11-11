@@ -13,11 +13,11 @@ class LoadUserData implements FixtureInterface
     {
         $user = new User();
         $user->setEmail('jcognet@gmail.com')
-        ->setUsername('jcognet')
+        ->setUsername('jcognet@gmail.com')
             ->setUsernameCanonical('jcognet')
             ->setEnabled(true)
-            ->setPlainPassword('jcognet')
-            ->setPassword('jcognet')
+            ->setPlainPassword('jcognet@gmail.com')
+            ->setPassword('jcognet@gmail.com')
             ->setSuperAdmin(true)
         ;
 

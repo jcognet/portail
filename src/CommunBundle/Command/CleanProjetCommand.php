@@ -17,8 +17,10 @@ class CleanProjetCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('projet:clean')
-            ->setDescription('Remet à 0 la database et charge les fixtures');
+            ->setName('clean:projet')
+            ->setDescription('Remet à 0 la database et charge les fixtures')
+            ->addOption('duree', null, InputOption::VALUE_OPTIONAL, 'durée de requête (en jour) ', null)
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -50,9 +52,13 @@ class CleanProjetCommand extends ContainerAwareCommand
         $inputFixtures      = new ArrayInput($argumentsFixtures);
         $returnCodeFixtures = $commandFixtures->run($inputFixtures, $output);
         // récupération des devises
+        $duree     = 60;
+        if ($input->getOption('duree') > 0) {
+            $duree = $input->getOption('duree');
+        }
         $commandDevise    = $this->getApplication()->find('cours:get-periode');
         $argumentsDevise  = array(
-            '--duree' => 60,
+            '--duree' => $duree,
         );
         $inputDevise      = new ArrayInput($argumentsDevise);
         $returnCodeDevise = $commandDevise->run($inputDevise, $output);

@@ -1,7 +1,7 @@
 <h4>Connexion</h4>
 
 
-<form action="{{ path('fos_user_security_check') }}" method="post">
+<form id="frmConnexion" action="{{ path('fos_user_security_check') }}" method="post">
     {% if error is defined and error is not empty%}
         <div class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -21,8 +21,9 @@
     >
 
     <input type="hidden" name="_target_path" value="commun_homepage" />
+    <input type="hidden" name="hidDevise" id="hidDevise" value="" />
 
-    <button type="submit" class="btn-default btn">Se connecter</button>
+    <button id="btnConnexion" type="submit" class="btn-default btn">Se connecter</button>
 </form>
 
 <h4>Enregistrement</h4>

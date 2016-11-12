@@ -1,4 +1,5 @@
 <div class="block_devise">
+    <input class="input_devise_id" type="hidden" id="{{ divId }}_devise_id" value="{{ devise.id }}"/>
     <div id="{{ divId }}">
     </div>
     <div class="liste_moyenne">
@@ -20,7 +21,7 @@
                     {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
-                    &nbsp;
+                    &nbsp; &nbsp;
                 </td>
             </tr>
             <tr>
@@ -58,7 +59,8 @@
                     €
                 </td>
                 <td>
-                    = {{ affichePrix(devise.moyenne60Jours) }}</td>
+                    = {{ affichePrix(devise.moyenne60Jours) }}
+                </td>
                 <td>
                     {{ devise.raccourciOuLabel }}
                 </td>
@@ -120,7 +122,6 @@
             </tr>
             <tr id="{{ divId }}_trCalcul" class="tr_calcul">
                 <td>
-                    <input class="input_devise_id" type="hidden" id="{{ divId }}_devise_id" value="{{ devise.id }}"/>
                     Calculs
                 </td>
                 <td>
@@ -130,16 +131,90 @@
                     €
                 </td>
                 <td>
-                    = <input class="input_calcul_devise input_devise_autre" type="text"
-                             id="{{ divId }}_autre"/>
+                    =
+                    <input class="input_calcul_devise input_devise_autre" type="text"
+                           id="{{ divId }}_autre"/>
                 </td>
                 <td>
                     {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
-                    &nbsp;
+                    &nbsp;&nbsp;
                 </td>
             </tr>
+            {% if app.user %}
+                <tr id="tr_seuil_min">
+                    <td>
+                        Seuil minimum d'alerte
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        €
+                    </td>
+                    <td>
+                        {% set seuil = '' %}
+                        {% if suiviDevise is not empty and  suiviDevise.seuilMin >0 %}
+                            {% set seuil = suiviDevise.seuilMin %}
+                        {% endif %}
+                        =
+                        <input class="input_seuil_devise input_seuil_min" type="text"
+                               id="{{ divId }}_min" name="{{ divId }}_min" value="{{ seuil }}"/>
+                    </td>
+                    <td>
+                        {{ devise.raccourciOuLabel }}
+                    </td>
+                    <td>
+                        {% if suiviDevise is not empty and  suiviDevise.seuilMin > 0  and  suiviDevise.seuilMin < devise.moyenne30Jours %}
+                            <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                        {% elseif suiviDevise is not empty and  suiviDevise.seuilMin >0 %}
+                            <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr id="tr_seuil_max">
+                    <td>
+                        Seuil maximum d'alerte
+                    </td>
+                    <td>
+                        1
+                    </td>
+                    <td>
+                        €
+                    </td>
+                    <td>
+                        {% set seuil = '' %}
+                        {% if suiviDevise is not empty and  suiviDevise.seuilMax >0 %}
+                            {% set seuil = suiviDevise.seuilMax %}
+                        {% endif %}
+                        =
+                        <input class="input_seuil_devise input_seuil_max" type="text"
+                               id="{{ divId }}_max" name="{{ divId }}_max" value="{{ seuil }}"/>
+                    </td>
+                    <td>
+                        {{ devise.raccourciOuLabel }}
+                    </td>
+                    <td>
+                        {% if suiviDevise is not empty and  suiviDevise.seuilMax > 0 and  suiviDevise.seuilMax > devise.moyenne30Jours %}
+                            <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                        {% elseif suiviDevise is not empty and  suiviDevise.seuilMax > 0%}
+                            <span class="glyphicon glyphicon-remove alert-danger" aria-hidden="true"></span>
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="alert-info">
+                        Vous pouvez mettre en place un système d'alerte en créant un compte.
+                    </td>
+                </tr>
+            {% endif %}
+
         </table>
     </div>
 </div>
@@ -149,5 +224,9 @@
     afficheChart(json, divId);
     $(".input_calcul_devise").change(function (e) {
         calculeSomme($(this));
+    });
+    $(".input_seuil_devise").change(function (e) {
+        enregistreSuiviDevise($(this));
+        e.stopPropagation();
     });
 </script>

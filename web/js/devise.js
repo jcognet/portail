@@ -4,6 +4,10 @@ $(document).ready(function() {
       disableDdlDevise();
       afficheBlockDevise(divIdDevise, $(this).val());
   });
+  $("#frmConnexion").submit(function () {
+    $("#hidDevise").val($("#sltDevise").val());
+  });
+
 });
 
 function disableDdlDevise(){
@@ -110,7 +114,7 @@ function calculeSomme(input){
     valeurAutre = input.val();
     inputResultat = input.parents('.tr_calcul').find('.input_devise_euro');
   }
-  deviseId = input.parents('.tr_calcul').find('.input_devise_id').val();
+  deviseId = input.parents('.block_devise').find('.input_devise_id').val();
   // Aucune valeur => rien à faire
   if(valeurEuros.length ==0 && valeurAutre.length ==0 ){
     return;
@@ -127,7 +131,6 @@ function calculeSomme(input){
     type : 'GET',
     dataType : 'json',
     success : function(data, statut){ // success est toujours en place, bien sûr !
-      console.log(data);
       inputResultat.val(data);
       unsetAjaxWorking(divId);
       enableInput(inputResultat);
@@ -141,6 +144,37 @@ function calculeSomme(input){
       console.log('**********');
       unsetAjaxWorking(divId);
       enableInput(inputResultat);
+    }
+
+  });
+}
+
+function enregistreSuiviDevise(input){
+  // Init des variables
+  var deviseId = input.parents('.block_devise').find('.input_devise_id').val();
+  var seuil = input.val();
+  var seuilMax = false;
+  var divId = input.parents('tr').attr('id');
+  if(input.hasClass('input_seuil_max')){
+    seuilMax = true
+  }
+  url = Routing.generate('commun_devise_sauve_ajax', {'id':deviseId, 'seuilMax':seuilMax, 'seuil':seuil});
+  setAjaxWorking(divId);
+  $.ajax({
+    url : url,
+    type : 'GET',
+    dataType : 'json',
+    success : function(data, statut){ // success est toujours en place, bien sûr !
+      unsetAjaxWorking(divId);
+    },
+
+    error : function(resultat, statut, erreur){
+      console.log('*****erreur*****');
+      console.log(resultat);
+      console.log(statut);
+      console.log(erreur);
+      console.log('**********');
+      unsetAjaxWorking(divId);
     }
 
   });

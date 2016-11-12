@@ -22,12 +22,31 @@
             <h3>Devises</h3>
             <select id="sltDevise">
                 <option value="0">-</option>
+                {% set devises_affiches = {} %}
+                {% if liste_devises_suivies|length>0 %}
+                    <optgroup label="Devises suivies">
+                        {% for deviseSuivi in liste_devises_suivies %}
+                            <option value="{{ deviseSuivi.devise.id }}">{{ deviseSuivi.devise.label }}
+                                ({{ deviseSuivi.devise.code }})
+                            </option>
+                            {% set devises_affiches = devises_affiches|merge([deviseSuivi.devise.id]) %}
+                        {% endfor %}
+                    </optgroup>
+                    <optgroup label="Autres devises">
+                {% endif %}
+
                 {% for devise in liste_devise %}
-                    <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
+                    {% if devise.id not in devises_affiches %}
+                        <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
+                    {% endif %}
                 {% endfor %}
+
+                {% if liste_devises_suivies|length>0 %}
+                    </optgroup>
+                {% endif %}
             </select>
             <div id="{{ divIdDevise }}">
-                Choisissez une devise.
+                En attente d'un choix de devise.
             </div>
         </div>
         <div class="liste_devise_suivie col-sm-4">
@@ -35,9 +54,7 @@
             {% if app.user %}
                 toto
                 {% for devise_suivie in liste_devises_suivies %}
-                    {% set devise = devise_suivie.devise %}
-                    {% embed '@Commun/Block/devise.html.twig' %}
-                    {% endembed %}
+
                 {% endfor %}
             {% else %}
                 {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}

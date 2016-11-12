@@ -32,3 +32,11 @@ commun_devise_calcul_ajax:
         page: '\d+'
     options:
        expose: true
+
+commun_devise_sauve_ajax:
+    path:     /devise/sauve/{id}/{seuilMax}/{seuil}
+    defaults: { _controller: CommunBundle:Default:sauveDeviseAjax }
+    requirements:
+        page: '\d+'
+    options:
+       expose: true

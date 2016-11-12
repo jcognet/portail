@@ -7,7 +7,7 @@
 .liste_moyenne table{
     width: 100%;
 }
-.input_calcul_devise{
+.input_calcul_devise, .input_seuil_devise{
     width:60px;
 }
 #loader_ajax{

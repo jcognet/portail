@@ -3,6 +3,7 @@
 namespace CommunBundle\Controller;
 
 use CommunBundle\Entity\Devise;
+use CommunBundle\Entity\SuiviDevise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -17,6 +18,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use UserBundle\Entity\User;
 
 class DefaultController extends Controller
 {
@@ -31,12 +33,17 @@ class DefaultController extends Controller
         // Récupération des news
         $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
         // Liste des devises
-        $listeDevise = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
+        $listeDevise        = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
+        $listeDeviseSuivies = array();
+        $user               = $this->getUser();
+        if ($user instanceof User) {
+            $listeDeviseSuivies = $user->getListeDevises();
+        }
         return $this->render('CommunBundle:Default:index.html.twig',
             array(
                 'liste_news'            => $listeNews,
                 'liste_devise'          => $listeDevise,
-                'liste_devises_suivies' => array()
+                'liste_devises_suivies' => $listeDeviseSuivies
             )
         );
     }
@@ -73,6 +80,7 @@ class DefaultController extends Controller
                     'L\'utilisateur a bien été créé'
                 );
 
+                // Force l'authentification
                 $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
                 $this->get("security.token_storage")->setToken($token); //now the user is logged in
 
@@ -195,30 +203,100 @@ class DefaultController extends Controller
             );
         }
 
+        $user        = $this->getUser();
+        $suiviDevise = null;
+        if (!is_null($user)) {
+            $suiviDevise = $this->getDoctrine()->getManager()->getRepository('CommunBundle:SuiviDevise')->findOneBy(
+                array(
+                    'user'   => $user,
+                    'devise' => $devise
+                ));
+        }
+
         // Envoie de la réponse
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($data);
         return $this->render('CommunBundle:Block:devise.html.twig',
             array(
-                'devise' => $devise,
-                'divId'  => 'chart',
-                'json'   => $jsonResponse->getContent()
+                'devise'      => $devise,
+                'divId'       => 'chart',
+                'suiviDevise' => $suiviDevise,
+                'json'        => $jsonResponse->getContent()
             )
         );
     }
 
-    public function calculDeviseAjaxAction(Request $request, Devise $devise, $valeurEuros, $valeurAutre)
+    /**
+     * Calcule le change d'une devise / euro en Ajax
+     * @param Request $request
+     * @param Devise $devise
+     * @param $valeurEuros
+     * @param $valeurAutre
+     * @return JsonResponse
+     */
+    public
+    function calculDeviseAjaxAction(Request $request, Devise $devise, $valeurEuros, $valeurAutre)
     {
+        //TODO : protéger sur les valeurs $valeurEuros et $valeurAutre, que se passe-t-il si chaîne de caractères ou float ?
         // Calcul
         $data = 0;
         if ($valeurEuros > 0) {
             $data = $valeurEuros * $devise->getCoursJour();
-        }else{
+        } else {
             $data = $valeurAutre / $devise->getCoursJour();
         }
-        // Retourne
+        // Retour
         $jsonResponse = new JsonResponse();
         $jsonResponse->setData($this->get('commun.devise_extension')->affichePrix($data));
+        return $jsonResponse;
+    }
+
+    /**
+     * Sauve le cours d'une devise en AJAX pour un utilisateur
+     * @param Request $request
+     * @param Devise $devise
+     * @param $seuilMax
+     * @param $seuil
+     * @return JsonResponse
+     */
+    public function sauveDeviseAjaxAction(Request $request, Devise $devise, $seuilMax, $seuil)
+    {
+        // Initilisation des variables
+        $jsonResponse = new JsonResponse();
+        $user         = $this->getUser();
+        $seuilMax     = ($seuilMax == 'true') ? true : false;
+        $seuil        = str_replace(',', '.', $seuil);
+        $seuil        = floatval($seuil);
+        // Protection de la page
+        if (!$user instanceof User || $seuil <= 0) {
+            $valeurRetour = false;
+            $jsonResponse->setData(array('success' => $valeurRetour));
+            return $jsonResponse;
+        }
+        // On enregistre en base
+        $em = $this->getDoctrine()->getManager();
+        if (is_null($suiviDevise = $em->getRepository('CommunBundle:SuiviDevise')->findOneBy(
+            array(
+                'user'   => $user,
+                'devise' => $devise
+            )
+        ))) {
+            $suiviDevise = new SuiviDevise();
+            $suiviDevise->setUser($user)
+                ->setDevise($devise);
+        }
+        if ($seuilMax) {
+            $suiviDevise->setSeuilMax($seuil);
+        } else {
+            $suiviDevise->setSeuilMin($seuil);
+        }
+        $em->persist($suiviDevise);
+        $em->flush();
+
+        $valeurRetour = true;
+        $jsonResponse->setData(array('success' => $valeurRetour));
+
+
         return $jsonResponse;
     }
 }

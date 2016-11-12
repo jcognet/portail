@@ -7,3 +7,7 @@ services:
     commun.devise:
         class: CommunBundle\Service\DeviseService
         arguments: ["@doctrine.orm.entity_manager", "%url_devise_webservice%"]
+    commun.devise_extension:
+          class: CommunBundle\Twig\DeviseExtension
+          tags:
+              - { name: twig.extension }

@@ -31,35 +31,35 @@ class CoursJournee
     /**
      * @var string
      *
-     * @ORM\Column(name="cours", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="cours", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $cours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_30_jours", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="moyenne_30_jours", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $moyenne30Jours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_60_jours", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="moyenne_60_jours", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $moyenne60Jours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_90_jours", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="moyenne_90_jours", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $moyenne90Jours;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="moyenne_120_jours", type="decimal", precision=10, scale=2, nullable=true)
+     * @ORM\Column(name="moyenne_120_jours", type="decimal", precision=10, scale=4, nullable=true)
      */
     private $moyenne120Jours;
 

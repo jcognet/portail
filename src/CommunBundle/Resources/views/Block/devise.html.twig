@@ -5,13 +5,22 @@
         <table>
             <tr>
                 <td>
-                    Dernier cours enregistré ({{  devise.jour|date('d/m/Y')}}) :
+                    Dernier cours enregistré ({{ devise.jour|date('d/m/Y') }}) :
                 </td>
                 <td>
-                    1 euro = {{ devise.coursJour }}{{ devise.raccourciOuLabel }}
+                    1
                 </td>
                 <td>
-                   &nbsp;
+                    €
+                </td>
+                <td>
+                    = {{ affichePrix(devise.coursJour) }}
+                </td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    &nbsp;
                 </td>
             </tr>
             <tr>
@@ -19,7 +28,16 @@
                     Moyenne des 30 derniers jours :
                 </td>
                 <td>
-                    1 euro = {{ devise.moyenne30Jours }}{{ devise.raccourciOuLabel }}
+                    1
+                </td>
+                <td>
+                    €
+                </td>
+                <td>
+                    = {{ affichePrix(devise.moyenne30Jours) }}
+                </td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
                     {% if devise.coursJour>=devise.moyenne30Jours %}
@@ -31,10 +49,18 @@
             </tr>
             <tr>
                 <td>
-                    Moyenne des 60 derniers jours:
+                    Moyenne des 60 derniers jours :
                 </td>
                 <td>
-                    1 euro = {{ devise.moyenne60Jours }}{{ devise.raccourciOuLabel }}
+                    1
+                </td>
+                <td>
+                    €
+                </td>
+                <td>
+                    = {{ affichePrix(devise.moyenne60Jours) }}</td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
                     {% if devise.coursJour >=devise.moyenne60Jours %}
@@ -49,7 +75,16 @@
                     Moyenne des 90 derniers jours :
                 </td>
                 <td>
-                    1 euro = {{ devise.moyenne90Jours }}{{ devise.raccourciOuLabel }}
+                    1
+                </td>
+                <td>
+                    €
+                </td>
+                <td>
+                    = {{ affichePrix(devise.moyenne90Jours) }}
+                </td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
                     {% if devise.coursJour>=devise.moyenne90Jours %}
@@ -64,7 +99,16 @@
                     Moyenne des 120 derniers jours :
                 </td>
                 <td>
-                    1 euro = {{ devise.moyenne120Jours }}{{ devise.raccourciOuLabel }}
+                    1
+                </td>
+                <td>
+                    €
+                </td>
+                <td>
+                    = {{ affichePrix(devise.moyenne120Jours) }}
+                </td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
                 </td>
                 <td>
                     {% if devise.coursJour>=devise.moyenne120Jours %}
@@ -74,6 +118,28 @@
                     {% endif %}
                 </td>
             </tr>
+            <tr id="{{ divId }}_trCalcul" class="tr_calcul">
+                <td>
+                    <input class="input_devise_id" type="hidden" id="{{ divId }}_devise_id" value="{{ devise.id }}"/>
+                    Calculs
+                </td>
+                <td>
+                    <input class="input_calcul_devise input_devise_euro" type="text" id="{{ divId }}_euro"/>
+                </td>
+                <td>
+                    €
+                </td>
+                <td>
+                    = <input class="input_calcul_devise input_devise_autre" type="text"
+                             id="{{ divId }}_autre"/>
+                </td>
+                <td>
+                    {{ devise.raccourciOuLabel }}
+                </td>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
         </table>
     </div>
 </div>
@@ -81,4 +147,7 @@
     var json = {{ json|raw }};
     var divId = '{{ divId }}';
     afficheChart(json, divId);
+    $(".input_calcul_devise").change(function (e) {
+        calculeSomme($(this));
+    });
 </script>

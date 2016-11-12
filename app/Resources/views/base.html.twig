@@ -47,6 +47,9 @@
             {% endfor %}
 
             {% block body %}{% endblock %}
+            <div id="loader_ajax">
+                <img src="{{ asset('img/ajax-loader.gif') }}" alt="En cours de traitement"/>
+            </div>
 
         </div>
 

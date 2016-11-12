@@ -7,3 +7,18 @@
 .liste_moyenne table{
     width: 100%;
 }
+.input_calcul_devise{
+    width:60px;
+}
+#loader_ajax{
+    visibility: hidden;
+}
+.loader{
+    position: absolute;
+    z-index:4;
+    opacity: 1;
+}
+.news, #sltDevise, .block_devise, #divDevise{
+    position: relative;
+    z-index: 1;
+}

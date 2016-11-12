@@ -13,6 +13,13 @@ function enableDdlDevise(){
   $("#sltDevise").prop("disabled", false);
 }
 
+function disableInput(input){
+  input.prop("disabled", true);
+}
+function enableInput(input){
+  input.prop("disabled", false);
+}
+
 function afficheChart(json, divChart){
   var listeDate = [];
   var listeCoursDevise = [];
@@ -81,6 +88,59 @@ function afficheBlockDevise(blockId, deviseId){
       console.log('**********');
       unsetAjaxWorking(blockId);
       enableDdlDevise();
+    }
+
+  });
+}
+
+function calculeSomme(input){
+  // Init des variables
+  var valeurEuros = 0;
+  var valeurAutre = 0;
+  var deviseId = 0;
+  var divId = '';
+  var inputResultat = '';
+  // Gestion du dom
+  divId = input.parents('.tr_calcul').attr('id');
+  // Récupération des données
+  if(input.hasClass('input_devise_euro')){
+    valeurEuros = input.val();
+    inputResultat = input.parents('.tr_calcul').find('.input_devise_autre');
+  }else{
+    valeurAutre = input.val();
+    inputResultat = input.parents('.tr_calcul').find('.input_devise_euro');
+  }
+  deviseId = input.parents('.tr_calcul').find('.input_devise_id').val();
+  // Aucune valeur => rien à faire
+  if(valeurEuros.length ==0 && valeurAutre.length ==0 ){
+    return;
+  }
+  if(deviseId.length == 0){
+    return;
+  }
+  setAjaxWorking(divId);
+  disableInput(inputResultat);
+
+  url = Routing.generate('commun_devise_calcul_ajax', {'id':deviseId, 'valeurEuros':valeurEuros, 'valeurAutre':valeurAutre});
+  $.ajax({
+    url : url,
+    type : 'GET',
+    dataType : 'json',
+    success : function(data, statut){ // success est toujours en place, bien sûr !
+      console.log(data);
+      inputResultat.val(data);
+      unsetAjaxWorking(divId);
+      enableInput(inputResultat);
+    },
+
+    error : function(resultat, statut, erreur){
+      console.log('*****erreur*****');
+      console.log(resultat);
+      console.log(statut);
+      console.log(erreur);
+      console.log('**********');
+      unsetAjaxWorking(divId);
+      enableInput(inputResultat);
     }
 
   });

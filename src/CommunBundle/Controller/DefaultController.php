@@ -206,4 +206,19 @@ class DefaultController extends Controller
             )
         );
     }
+
+    public function calculDeviseAjaxAction(Request $request, Devise $devise, $valeurEuros, $valeurAutre)
+    {
+        // Calcul
+        $data = 0;
+        if ($valeurEuros > 0) {
+            $data = $valeurEuros * $devise->getCoursJour();
+        }else{
+            $data = $valeurAutre / $devise->getCoursJour();
+        }
+        // Retourne
+        $jsonResponse = new JsonResponse();
+        $jsonResponse->setData($this->get('commun.devise_extension')->affichePrix($data));
+        return $jsonResponse;
+    }
 }

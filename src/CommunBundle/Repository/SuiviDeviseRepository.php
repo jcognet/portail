@@ -10,5 +10,23 @@ namespace CommunBundle\Repository;
  */
 class SuiviDeviseRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     *Renvoie les suivi à relancer
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function findSuiviARelancer()
+    {
+        // TODO : prendre en compte l'enregistrement utilisateur sur le datetinterval
+        $dateMin = new \DateTime();
+        $dateMin->sub(new \DateInterval('P7D'));
+        return $this->createQueryBuilder('sd')
+            ->join('sd.user', 'user')
+            ->join('sd.devise', 'devise')
+            ->select('sd, user, devise')
+            ->where('sd.dateAlerte is NULL or sd.dateAlerte < :date')
+            ->setParameter('date', $dateMin)
+            ->getQuery()
+            ->getResult();
 
+    }
 }

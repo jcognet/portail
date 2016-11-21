@@ -1,0 +1,24 @@
+{% extends 'CommunBundle:Email:base.html.twig' %}
+
+{% block html %}
+    Bonjour {{ user.email }},<br/>
+    <br/>
+    La devise {{ devise.label }} a un taux qui pourrait vous intéresser :<br/>
+    <ul>
+        <li>Cours d'hier : {{devise.coursJour  }}</li>
+        <li>Cours des 30 derniers jours : {{devise.moyenne30Jours  }} {{ devise.raccourciOuLabel }}</li>
+        <li>Cours des 60 derniers jours : {{devise.moyenne60Jours  }} {{ devise.raccourciOuLabel }}</li>
+        <li>Cours des 90 derniers jours : {{devise.moyenne90Jours  }} {{ devise.raccourciOuLabel }}</li>
+        <li>Cours des 120 derniers jours : {{devise.moyenne120Jours  }} {{ devise.raccourciOuLabel }}</li>
+    </ul>
+
+    A bientôt sur le site
+{% endblock %}
+
+{% block content_title %}
+    Changesous - Alerte devise {{ devise.label }}
+{% endblock %}
+
+{% block sujet %}
+    Changesous - Alerte devise {{ devise.label }}
+{% endblock %}

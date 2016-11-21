@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Validator\Constraints\Email;
@@ -80,15 +81,7 @@ class DefaultController extends Controller
                     'L\'utilisateur a bien été créé'
                 );
 
-                // Force l'authentification
-                $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
-                $this->get("security.token_storage")->setToken($token); //now the user is logged in
-
-                // Fire the login event
-                // Logging the user in above the way we do it doesn't do this automatically
-                $event = new InteractiveLoginEvent($request, $token);
-                $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
-                return $this->render('CommunBundle:Block:redirect.html.twig');
+                return $this->connecteUtilisateur($request, $user);
             }
         }
 
@@ -298,5 +291,39 @@ class DefaultController extends Controller
 
 
         return $jsonResponse;
+    }
+
+    /**
+     * Reconnecte automatiquement un utilisateur
+     * @param Request $request
+     * @param $hash
+     * @param User $user
+     * @return Response
+     */
+    public function retourAction(Request $request, $hash, User $user)
+    {
+        // Connexion de l'utilisateur
+        if ($this->get('user.service')->verifieHachage($user, urldecode($hash))) {
+            return $this->connecteUtilisateur($request, $user);
+        } else {
+            return new Response('Erreur');
+        }
+    }
+
+    /**
+     * Force la connexion d'un utilisateur
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    private function connecteUtilisateur(Request $request, User $user)
+    {
+        $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
+        $this->get("security.token_storage")->setToken($token); //now the user is logged in
+        // Fire the login event
+        // Logging the user in above the way we do it doesn't do this automatically
+        $event = new InteractiveLoginEvent($request, $token);
+        $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
+        return $this->render('CommunBundle:Block:redirect.html.twig');
     }
 }

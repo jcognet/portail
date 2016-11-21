@@ -31,6 +31,9 @@ parameters:
 
     url_devise_webservice: http://api.fixer.io/
 
+    router.request_context.host: example.org
+    router.request_context.scheme: https
+
 swiftmailer:
     transport: transport
     host:      host

@@ -40,3 +40,9 @@ commun_devise_sauve_ajax:
         page: '\d+'
     options:
        expose: true
+
+commun_reconnexion:
+    path:     /retour/{hash}/{id}
+    defaults: { _controller: CommunBundle:Default:retour}
+    requirements:
+        page: '\d+'

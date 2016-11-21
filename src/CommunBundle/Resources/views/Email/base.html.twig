@@ -43,6 +43,10 @@
         {% endblock %}
         <br/>
         -- Changesous
+        {% if url_retour is not empty %}
+            <a href="{{ url_retour }}" target="_blank">{{ url_retour }}</a>
+        {% endif %}
+
 
     </font></body>
     </html>
@@ -51,6 +55,6 @@
 
 {% endblock %}
 
-{% block subject  %}
+{% block subject %}
     sujet
 {% endblock %}

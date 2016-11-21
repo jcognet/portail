@@ -8,6 +8,15 @@ $(document).ready(function() {
     $("#hidDevise").val($("#sltDevise").val());
   });
 
+  $(".acces_rapide").click(function (e) {
+    var deviseId =$(this).attr('data-devise-id')
+    $("#sltDevise").val(deviseId);
+    disableDdlDevise();
+    afficheBlockDevise(divIdDevise, deviseId);
+    e.preventDefault();
+  });
+
+
 });
 
 function disableDdlDevise(){

@@ -78,7 +78,7 @@ class DefaultController extends Controller
                 $userManager->updateUser($user);
                 $this->addFlash(
                     'notice',
-                    'L\'utilisateur a bien été créé'
+                    'L\'utilisateur a bien été créé.'
                 );
 
                 return $this->connecteUtilisateur($request, $user);

@@ -21,7 +21,9 @@ class AppKernel extends Kernel
             new UserBundle\UserBundle(),
 
         ];
-        $bundles[] =new Sentry\SentryBundle\SentryBundle();
+        if (in_array($this->getEnvironment(), ['prod'], true)) {
+            $bundles[] = new Sentry\SentryBundle\SentryBundle(); // log sentry qui centralise les erreurs clients
+        }
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();

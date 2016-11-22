@@ -19,7 +19,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     # Numéro de version
-    version: 0.3<
+    version: 0.3
 
     # Nombre de news sur la page d'accueil
     nombre_news: 1
@@ -33,6 +33,7 @@ parameters:
 
     router.request_context.host: example.org
     router.request_context.scheme: https
+    sentry_dsn: "url_entry"
 
 swiftmailer:
     transport: transport

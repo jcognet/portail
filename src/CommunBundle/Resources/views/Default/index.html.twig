@@ -7,17 +7,6 @@
 
 {% block body %}
     <div class="row">
-        <div class="liste_news col-sm-4 hidden-xs">
-            <h2>Dernières actualités</h2>
-            {% for news in liste_news %}
-                <div class="news">
-                    <h3 class="titre">{{ news.titre }}</h3>
-                    <div class="corps">
-                        {{ news.corps|raw }}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
         <div class="liste_devise col-sm-4 col-xs-12">
             <h3>Devises</h3>
             <select id="sltDevise">
@@ -108,6 +97,17 @@
             {% else %}
                 {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
             {% endif %}
+        </div>
+        <div class="liste_news col-sm-4 hidden-xs">
+            <h2>Dernières actualités</h2>
+            {% for news in liste_news %}
+                <div class="news">
+                    <h3 class="titre">{{ news.titre }}</h3>
+                    <div class="corps">
+                        {{ news.corps|raw }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

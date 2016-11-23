@@ -18,3 +18,4 @@ php bin/console assets:install --env=prod
 # Cache
 echo "Cache"
 php bin/console cache:clear --env=prod
+chmod 777 -R .

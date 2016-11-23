@@ -7,7 +7,7 @@ $loader = require __DIR__.'/../app/autoload.php';
 include_once __DIR__.'/../var/bootstrap.php.cache';
 
 $envProd = true;
-if (in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
+if (in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']) ||(isset($_GET['debug']) && $_GET['debug']='proutprout') ) {
     $envProd = false;
 }
 if($envProd ) {

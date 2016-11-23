@@ -5,7 +5,7 @@
     <head>
         <meta charset="ISO-8859-1">
         <title>
-            Ca Zap -
+            Changesous -
             {% block content_title %}
             {% endblock %}
         </title>
@@ -43,7 +43,7 @@
         {% endblock %}
         <br/>
         -- Changesous
-        {% if url_retour is not empty %}
+        {% if url_retour is defined and url_retour is not null and url_retour|length>0 %}
             <a href="{{ url_retour }}" target="_blank">{{ url_retour }}</a>
         {% endif %}
 

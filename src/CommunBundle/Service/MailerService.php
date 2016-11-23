@@ -88,7 +88,6 @@ class MailerService
         // render de chaque bloque
         $subject = $template->renderBlock('sujet', $context);
         $html    = $template->renderBlock('corps_html', $context);
-        var_dump($html);
         // Nettoyage du code HTML pour la partie texte
         $texte = trim(strip_tags(substr($html, strpos($html, '<font face="arial" style="font-size: 12px;">'), strpos($html, '</body>'))));
 

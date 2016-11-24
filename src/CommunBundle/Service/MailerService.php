@@ -99,13 +99,13 @@ class MailerService
 
         // Ajout du corps si nécessaire
         if (!empty($htmlBody)) {
-            $message->setBody($html, 'text/html')
+            $message->setBody($htmlBody, 'text/html')
                 ->addPart($texte, 'text/plain');
         } else {
             $message->setBody($html);
         }
 
-        // Ajout d'une pièce jointe
+        // Ajout de pièces jointes
         if (!empty($fichiers)) {
             foreach ($fichiers as $fichier) {
                 $message->attach(\Swift_Attachment::fromPath($fichier));

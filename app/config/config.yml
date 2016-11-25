@@ -9,6 +9,8 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    version: 0.3.2
+    date_version: 25/11/2016
 
 framework:
     #esi:             ~
@@ -40,6 +42,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
       version: "%version%"
+      date_version: "%date_version%"
     form_themes:
       - 'bootstrap_3_layout.html.twig'
 # Doctrine Configuration

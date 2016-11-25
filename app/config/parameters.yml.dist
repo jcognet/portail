@@ -18,8 +18,6 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # Numéro de version
-    version: 0.3
 
     # Nombre de news sur la page d'accueil
     nombre_news: 1

@@ -18,7 +18,7 @@ class SuiviDeviseRepository extends \Doctrine\ORM\EntityRepository
     {
         // TODO : prendre en compte l'enregistrement utilisateur sur le datetinterval
         $dateMin = new \DateTime();
-        $dateMin->sub(new \DateInterval('P7D'));
+        $dateMin->sub(new \DateInterval('P1D'));
         return $this->createQueryBuilder('sd')
             ->join('sd.user', 'user')
             ->join('sd.devise', 'devise')

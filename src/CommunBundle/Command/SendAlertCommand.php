@@ -2,6 +2,7 @@
 
 namespace CommunBundle\Command;
 
+use CommunBundle\Entity\Batch;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,9 +24,22 @@ class SendAlertCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $alerteService = $this->getContainer()->get('commun.alert');
+        $now = new \DateTime();
+        $output->writeln(array("Début de la commande d'alerte",
+                               $now->format('d/m/Y à H:i:s'),
+                               "***************"));
+
+        $batch  = $this->getContainer()->get('commun.batch')->lanceBatch(Batch::TYPE_ALERTE_ENVOYEE);
+        $erreur = $alerteService = $this->getContainer()->get('commun.alert');
+        // Si aucune erreur => chaine de caractère vide
+        if (count($erreur) == 0) {
+            $erreur = "";
+        }
         $alerteService->setOutput($output);
         $alerteService->previentUtilisateurs();
+        $this->getContainer()->get('commun.batch')->arreteBatch($batch, $erreur);
+
+        $output->writeln('<comment>Fini !</comment>');
     }
 
 

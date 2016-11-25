@@ -17,6 +17,6 @@ services:
           tags:
               - { name: twig.extension }
     # Service de gestion de batch
-    commun.devise:
+    commun.batch:
         class: CommunBundle\Service\BatchService
         arguments: ["@doctrine.orm.entity_manager"]

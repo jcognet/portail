@@ -7,3 +7,39 @@
 {% block admin_header %}
     Tableau de bord
 {% endblock admin_header %}
+
+{% block body %}
+    <div class="navigation text-center">
+        {{ knp_pagination_render(batch_pagination) }}
+    </div>
+    <table class="table table-hover table-responsive">
+        <thead>
+        <tr>
+            <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateDebut') %}sorted{% endif %}">
+                {{ knp_pagination_sortable(batch_pagination, 'Date de début', 'b.dateDebut') }}
+            </th>
+            <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateFin') %}sorted{% endif %}">
+                {{ knp_pagination_sortable(batch_pagination, 'Date de fin', 'b.dateFin') }}
+            </th>
+            <th class="col-sm-1">Type</th>
+            <th class="col-sm-5">Commentaire</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for batch in batch_pagination %}
+            <tr>
+                <td>{{ batch.dateDebut|date('d/m/Y H:i:s')}}</td>
+                <td>{{ batch.dateFin|date('d/m/Y H:i:s')}}</td>
+                <td>{{ batch.type }}</td>
+                <td>
+                    {{ batch.commentaire }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(batch_pagination) }}
+    </div>
+{% endblock %}

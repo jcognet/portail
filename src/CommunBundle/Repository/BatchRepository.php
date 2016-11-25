@@ -10,4 +10,13 @@ namespace CommunBundle\Repository;
  */
 class BatchRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Récupère la liste de tous les batchs
+     * @return \Doctrine\ORM\Query
+     */
+    public function getQueryListBatch()
+    {
+        return $this->createQueryBuilder('b')
+            ->getQuery();
+    }
 }

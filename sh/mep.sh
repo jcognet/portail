@@ -4,7 +4,7 @@ cd $DIR
 cd ..
 echo "Pull de la branche master"
 # Branche master
-git branch master
+git checkout master
 # Pull
 git pull
 echo "Mise à jour de la base de données"

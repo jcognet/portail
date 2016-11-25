@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>{% block title %}{% endblock %}</title>
+        <title>Changesous - {% block title %}{% endblock %}</title>
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
@@ -46,7 +46,9 @@
                 </div>
             {% endfor %}
 
-            {% block body %}{% endblock %}
+            <div class="row content">
+                {% block body %}{% endblock %}
+            </div>
             <div id="loader_ajax">
                 <img src="{{ asset('img/ajax-loader.gif') }}" alt="En cours de traitement"/>
             </div>

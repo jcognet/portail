@@ -6,109 +6,109 @@
  {% endblock header %}
 
 {% block body %}
-    <div class="row">
-        <div class="liste_devise col-sm-4 col-xs-12">
-            <h3>Devises</h3>
-            <select id="sltDevise">
-                <option value="0">-</option>
-                {% set devises_affiches = {} %}
-                {% if liste_devises_suivies|length>0 %}
-                <optgroup label="Devises suivies">
-                    {% for deviseSuivi in liste_devises_suivies %}
-                        <option value="{{ deviseSuivi.devise.id }}">{{ deviseSuivi.devise.label }}
-                            ({{ deviseSuivi.devise.code }})
-                        </option>
-                        {% set devises_affiches = devises_affiches|merge([deviseSuivi.devise.id]) %}
-                    {% endfor %}
-                </optgroup>
-                <optgroup label="Autres devises">
+
+    <div class="liste_devise col-sm-4 col-xs-12">
+        <h3>Devises</h3>
+        <select id="sltDevise">
+            <option value="0">-</option>
+            {% set devises_affiches = {} %}
+            {% if liste_devises_suivies|length>0 %}
+            <optgroup label="Devises suivies">
+                {% for deviseSuivi in liste_devises_suivies %}
+                    <option value="{{ deviseSuivi.devise.id }}">{{ deviseSuivi.devise.label }}
+                        ({{ deviseSuivi.devise.code }})
+                    </option>
+                    {% set devises_affiches = devises_affiches|merge([deviseSuivi.devise.id]) %}
+                {% endfor %}
+            </optgroup>
+            <optgroup label="Autres devises">
+                {% endif %}
+
+                {% for devise in liste_devise %}
+                    {% if devise.id not in devises_affiches %}
+                        <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
                     {% endif %}
+                {% endfor %}
 
-                    {% for devise in liste_devise %}
-                        {% if devise.id not in devises_affiches %}
-                            <option value="{{ devise.id }}">{{ devise.label }} ({{ devise.code }})</option>
-                        {% endif %}
-                    {% endfor %}
-
-                    {% if liste_devises_suivies|length>0 %}
-                </optgroup>
-                {% endif %}
-            </select>
-            <div id="{{ divIdDevise }}">
-                En attente d'un choix de devise.
-            </div>
-        </div>
-        <div class="liste_devise_suivie col-sm-4">
-            <h3>Vos devises suivies</h3>
-            {% if app.user %}
-                Bonjour {{ app.user.email }}<br/>
-                {% if liste_devises_suivies|length >0 %}
-                    <table class="table table-striped">
-                        <tr>
-                            <th>
-                                Devise
-                            </th>
-                            <th>
-                                Cours
-                            </th>
-                            <th>
-                                Seuil minium de suivi
-                            </th>
-                            <th>
-                                Seuil maximum de suivi
-                            </th>
-                            <th>
-                                Accès rapide
-                            </th>
-                        </tr>
-                        {% for devise_suivie in liste_devises_suivies %}
-                            <tr>
-                                <td>{{ devise_suivie.devise.label }}</td>
-                                <td>
-                                    1 € = {{ affichePrix(devise_suivie.devise.coursJour) }} {{ devise_suivie.devise.symbole }}
-                                </td>
-                                <td>
-                                    {{ affichePrix(devise_suivie.seuilMin ) }}
-                                    {{ devise_suivie.devise.raccourciOuLabel }}
-                                    {% if devise_suivie.devise.coursJour >=devise_suivie.seuilMin %}
-                                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {{ affichePrix(devise_suivie.seuilMax) }}
-                                    {{ devise_suivie.devise.raccourciOuLabel }}
-                                    {% if devise_suivie.devise.coursJour <=devise_suivie.seuilMax %}
-                                        <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    <a href="#" title=" Accès rapide à la devise" class="acces_rapide"
-                                       data-devise-id="{{ devise_suivie.devise.id }}">
-                                        <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
-                                    </a>
-
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </table>
-                {% endif %}
-                <a href="{{ path('fos_user_change_password') }}">Changer de mot de passe </a><br/>
-                <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
-            {% else %}
-                {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
+                {% if liste_devises_suivies|length>0 %}
+            </optgroup>
             {% endif %}
+        </select>
+        <div id="{{ divIdDevise }}">
+            En attente d'un choix de devise.
         </div>
-        <div class="liste_news col-sm-4 hidden-xs">
-            <h2>Dernières actualités</h2>
-            {% for news in liste_news %}
-                <div class="news">
-                    <h3 class="titre">{{ news.titre }}</h3>
-                    <div class="corps">
-                        {{ news.corps|raw }}
-                    </div>
+    </div>
+    <div class="liste_devise_suivie col-sm-4">
+        <h3>Vos devises suivies</h3>
+        {% if app.user %}
+            Bonjour {{ app.user.email }}<br/>
+            {% if liste_devises_suivies|length >0 %}
+                <table class="table table-striped">
+                    <tr>
+                        <th>
+                            Devise
+                        </th>
+                        <th>
+                            Cours
+                        </th>
+                        <th>
+                            Seuil minium de suivi
+                        </th>
+                        <th>
+                            Seuil maximum de suivi
+                        </th>
+                        <th>
+                            Accès rapide
+                        </th>
+                    </tr>
+                    {% for devise_suivie in liste_devises_suivies %}
+                        <tr>
+                            <td>{{ devise_suivie.devise.label }}</td>
+                            <td>
+                                1 €
+                                = {{ affichePrix(devise_suivie.devise.coursJour) }} {{ devise_suivie.devise.symbole }}
+                            </td>
+                            <td>
+                                {{ affichePrix(devise_suivie.seuilMin ) }}
+                                {{ devise_suivie.devise.raccourciOuLabel }}
+                                {% if devise_suivie.devise.coursJour >=devise_suivie.seuilMin %}
+                                    <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ affichePrix(devise_suivie.seuilMax) }}
+                                {{ devise_suivie.devise.raccourciOuLabel }}
+                                {% if devise_suivie.devise.coursJour <=devise_suivie.seuilMax %}
+                                    <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#" title=" Accès rapide à la devise" class="acces_rapide"
+                                   data-devise-id="{{ devise_suivie.devise.id }}">
+                                    <span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>
+                                </a>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+            <a href="{{ path('fos_user_change_password') }}">Changer de mot de passe </a><br/>
+            <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
+        {% else %}
+            {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
+        {% endif %}
+    </div>
+    <div class="liste_news col-sm-4 hidden-xs">
+        <h2>Dernières actualités</h2>
+        {% for news in liste_news %}
+            <div class="news">
+                <h3 class="titre">{{ news.titre }}</h3>
+                <div class="corps">
+                    {{ news.corps|raw }}
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

@@ -10,6 +10,11 @@ commun:
     resource: "@CommunBundle/Resources/config/routing.yml"
     prefix:   /commun
 
+admin:
+    resource: "@AdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
+
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 

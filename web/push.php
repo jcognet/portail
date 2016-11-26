@@ -12,7 +12,7 @@ if( 'sha1=' . hash_hmac( 'sha1', $_POST['payload'], GIT_HUB_KEY, false ) === $_S
 }
 
 $post_data = file_get_contents('php://input');
-$signature = hash_hmac('sha1', $post_data, $secret);
+$signature = hash_hmac('sha1', $post_data, GIT_HUB_KEY);
 var_dump($signature);
 var_dump($_SERVER[ 'HTTP_X_HUB_SIGNATURE' ]);
 var_dump($post_data);

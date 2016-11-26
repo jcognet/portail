@@ -31,48 +31,52 @@
                     {{ nb_user_actifs }} actifs
                 </td>
             </tr>
-            <tr>
-                <td>
-                    Dernier batch devise executé <span title="{{ dernier_batch_devise.type }}"
-                                                       class="glyphicon glyphicon-{{ dernier_batch_devise.icone }}"
-                                                       aria-hidden="true"></span> :
-                </td>
-                <td>
-                    <div class="alert-info"> Début : {{ dernier_batch_devise.dateDebut|date('d/m/Y H:i:s') }}</div>
-                    <div class="alert-info"> Fin : {% if dernier_batch_devise.dateFin is not null %}
-                            {{ dernier_batch_devise.dateFin|date('d/m/Y H:i:s') }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </div>
-                    <div {% if dernier_batch_devise.estLong %}class="alert-danger"
-                         {% else %}class="alert-info"{% endif %}>
-                        Durée : {{ dernier_batch_devise.duree }}
-                    </div>
+            {% if dernier_batch_devise is not null %}
+                <tr>
+                    <td>
+                        Dernier batch devise executé <span title="{{ dernier_batch_devise.type }}"
+                                                           class="glyphicon glyphicon-{{ dernier_batch_devise.icone }}"
+                                                           aria-hidden="true"></span> :
+                    </td>
+                    <td>
+                        <div class="alert-info"> Début : {{ dernier_batch_devise.dateDebut|date('d/m/Y H:i:s') }}</div>
+                        <div class="alert-info"> Fin : {% if dernier_batch_devise.dateFin is not null %}
+                                {{ dernier_batch_devise.dateFin|date('d/m/Y H:i:s') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                        <div {% if dernier_batch_devise.estLong %}class="alert-danger"
+                             {% else %}class="alert-info"{% endif %}>
+                            Durée : {{ dernier_batch_devise.duree }}
+                        </div>
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Dernier batch alerte executé <span title="{{ dernier_batch_alerte.type }}"
-                                                       class="glyphicon glyphicon-{{ dernier_batch_alerte.icone }}"
-                                                       aria-hidden="true"></span> :
-                </td>
-                <td>
-                    <div class="alert-info"> Début : {{ dernier_batch_alerte.dateDebut|date('d/m/Y H:i:s') }}</div>
-                    <div class="alert-info"> Fin : {% if dernier_batch_alerte.dateFin is not null %}
-                            {{ dernier_batch_alerte.dateFin|date('d/m/Y H:i:s') }}
-                        {% else %}
-                            -
-                        {% endif %}
-                    </div>
-                    <div {% if dernier_batch_alerte.estLong %}class="alert-danger"
-                         {% else %}class="alert-info"{% endif %}>
-                        Durée : {{ dernier_batch_alerte.duree }}
-                    </div>
+                    </td>
+                </tr>
+            {% endif %}
+            {% if dernier_batch_alerte is not null %}
+                <tr>
+                    <td>
+                        Dernier batch alerte executé <span title="{{ dernier_batch_alerte.type }}"
+                                                           class="glyphicon glyphicon-{{ dernier_batch_alerte.icone }}"
+                                                           aria-hidden="true"></span> :
+                    </td>
+                    <td>
+                        <div class="alert-info"> Début : {{ dernier_batch_alerte.dateDebut|date('d/m/Y H:i:s') }}</div>
+                        <div class="alert-info"> Fin : {% if dernier_batch_alerte.dateFin is not null %}
+                                {{ dernier_batch_alerte.dateFin|date('d/m/Y H:i:s') }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </div>
+                        <div {% if dernier_batch_alerte.estLong %}class="alert-danger"
+                             {% else %}class="alert-info"{% endif %}>
+                            Durée : {{ dernier_batch_alerte.duree }}
+                        </div>
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            {% endif %}
             </tbody>
         </table>
     </div>

@@ -145,7 +145,6 @@ class Batch
     }
 
 
-
     /**
      * Set dateDebut
      *
@@ -192,5 +191,39 @@ class Batch
     public function getDateFin()
     {
         return $this->dateFin;
+    }
+
+    /***
+     * Calcule la durée du traitement
+     * @return string
+     */
+    public function getDuree()
+    {
+        if ($this->getDateFin() instanceof \DateTime) {
+            $dt = $this->getDateFin()->diff($this->getDateDebut());
+            return $dt->format('%I:%S');
+        }
+        return "-";
+    }
+
+    /**
+     * Récupère l'icone du batch
+     * @return mixed
+     */
+    public function getIcone()
+    {
+        return self::getListeIcones()[$this->getType()];
+    }
+
+    /***
+     * Liste des icones des batchs suivant le type de batch
+     * @return array
+     */
+    public static function getListeIcones()
+    {
+        return [
+            self::TYPE_ALERTE_ENVOYEE => 'envelope',
+            self::TYPE_IMPORT_DEVISE  => 'euro',
+        ];
     }
 }

@@ -1,8 +1,9 @@
-{%  set route = (app.request.get('_route')) %}
+{% set route = (app.request.get('_route')) %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,13 +13,19 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li{%  if route == 'home' %} class="active" {% endif %}><a href="{{ path('home') }}">Accueil</a></li>
+                <li{% if route == 'home' %} class="active" {% endif %}><a href="{{ path('home') }}">Accueil</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous/issues">Bug</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous/wiki">Wiki</a></li>
                 <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
-                <li {%  if route == 'commun_contact' %} class="active" {% endif %} ><a href="{{ path('commun_contact')  }}">Contact</a></li>
+                <li {% if route == 'commun_contact' %} class="active" {% endif %} ><a
+                            href="{{ path('commun_contact') }}">Contact</a></li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('admin_homepage') }}">Admin</a></li>
+                {% endif %}
+
                 {% if app.user %}
-                    <li><a href="{{ path('fos_user_security_logout')}}">Déconnexion</a></li>
+                    <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->

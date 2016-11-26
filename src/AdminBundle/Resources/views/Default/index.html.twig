@@ -9,37 +9,45 @@
 {% endblock admin_header %}
 
 {% block body %}
-    <div class="navigation text-center">
-        {{ knp_pagination_render(batch_pagination) }}
-    </div>
-    <table class="table table-hover table-responsive">
-        <thead>
-        <tr>
-            <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateDebut') %}sorted{% endif %}">
-                {{ knp_pagination_sortable(batch_pagination, 'Date de début', 'b.dateDebut') }}
-            </th>
-            <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateFin') %}sorted{% endif %}">
-                {{ knp_pagination_sortable(batch_pagination, 'Date de fin', 'b.dateFin') }}
-            </th>
-            <th class="col-sm-1">Type</th>
-            <th class="col-sm-5">Commentaire</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for batch in batch_pagination %}
+    <div class="col-sm-12">
+        <div class="navigation text-center">
+            {{ knp_pagination_render(batch_pagination) }}
+        </div>
+        <table class="table table-hover table-responsive">
+            <thead>
             <tr>
-                <td>{{ batch.dateDebut|date('d/m/Y H:i:s')}}</td>
-                <td>{{ batch.dateFin|date('d/m/Y H:i:s')}}</td>
-                <td>{{ batch.type }}</td>
-                <td>
-                    {{ batch.commentaire }}
-                </td>
+                <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateDebut') %}sorted{% endif %}">
+                    {{ knp_pagination_sortable(batch_pagination, 'Date de début', 'b.dateDebut') }}
+                </th>
+                <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateFin') %}sorted{% endif %}">
+                    {{ knp_pagination_sortable(batch_pagination, 'Date de fin', 'b.dateFin') }}
+                </th>
+                <th class="col-sm-1">Type</th>
+                <th class="col-sm-1">Durée</th>
+                <th class="col-sm-4">Commentaire</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for batch in batch_pagination %}
+                <tr>
+                    <td>{{ batch.dateDebut|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ batch.dateFin|date('d/m/Y H:i:s') }}</td>
+                    <td>
+                        <span title="{{ batch.type }}" class="glyphicon glyphicon-{{ batch.icone }}" aria-hidden="true"></span>
 
-    <div class="navigation text-center">
-        {{ knp_pagination_render(batch_pagination) }}
+
+                    </td>
+                    <td>{{ batch.duree }}</td>
+                    <td>
+                        {{ batch.commentaire }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(batch_pagination) }}
+        </div>
     </div>
 {% endblock %}

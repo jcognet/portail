@@ -55,6 +55,12 @@
 
         </div>
 
+        {%  if modeDev() %}
+            <div class="alert alert-danger">
+                Mode : Serveur de test
+            </div>
+        {% endif %}
+
         <footer class="footer">
             <div class="container">
                 <p class="text-muted"> Version : {{ version }} - Date dernière version : {{ date_version }} - (c) <a target="_blank" href="https://github.com/jcognet/changesous">Jérôme</a> - 2016</p>

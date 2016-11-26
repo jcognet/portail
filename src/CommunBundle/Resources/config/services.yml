@@ -16,6 +16,12 @@ services:
           class: CommunBundle\Twig\DeviseExtension
           tags:
               - { name: twig.extension }
+    # Extension twig général
+    commun.commun_extension:
+          arguments: ["@request_stack"]
+          class: CommunBundle\Twig\CommunExtension
+          tags:
+              - { name: twig.extension }
     # Service de gestion de batch
     commun.batch:
         class: CommunBundle\Service\BatchService

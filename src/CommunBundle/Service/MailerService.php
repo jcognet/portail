@@ -98,8 +98,8 @@ class MailerService
             ->setTo($emailDestinaire);
 
         // Ajout du corps si nécessaire
-        if (!empty($htmlBody)) {
-            $message->setBody($htmlBody, 'text/html')
+        if (!empty($html)) {
+            $message->setBody($html, 'text/html')
                 ->addPart($texte, 'text/plain');
         } else {
             $message->setBody($html);

@@ -27,7 +27,7 @@
                 {% if app.user %}
                     <li><a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></li>
                 {% else %}
-                    <li><a href="{{ path('login') }}">Connexion</a></li>
+                    <li><a href="{{ path('fos_user_security_login') }}">Connexion</a></li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->

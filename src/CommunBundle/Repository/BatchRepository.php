@@ -19,4 +19,35 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('b')
             ->getQuery();
     }
+
+    /**
+     * Retourne tous les batchs en cours
+     * @return array
+     */
+    public function getBatchEnCours()
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->where('b.dateFin is null')
+            ->addOrderBy('b.dateDebut', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Retourne le dernier batch exécuté
+     * @param $batchType
+     * @return mixed
+     */
+    public function getDernierBatch($batchType)
+    {
+        return $this->createQueryBuilder('b')
+            ->select('b')
+            ->where('b.type=:type ')
+            ->setParameter('type', $batchType)
+            ->setMaxResults(1)
+            ->addOrderBy('b.dateDebut', 'DESC')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

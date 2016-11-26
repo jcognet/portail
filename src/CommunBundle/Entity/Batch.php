@@ -193,17 +193,39 @@ class Batch
         return $this->dateFin;
     }
 
-    /***
-     * Calcule la durée du traitement
+
+    /**
+     * Calcule la durée du traitement.
      * @return string
      */
     public function getDuree()
     {
         if ($this->getDateFin() instanceof \DateTime) {
             $dt = $this->getDateFin()->diff($this->getDateDebut());
-            return $dt->format('%I:%S');
+        } else {
+            $now = new \DateTime();
+            $dt  = $now->diff($this->getDateDebut());
         }
-        return "-";
+        $outDuree = $dt->format('%Im%Ss');
+        if ($dt->h > 0) {
+            $outDuree = $dt->format('%h') . 'h' . $outDuree;
+        }
+        return $outDuree;
+    }
+
+    /**
+     * Indique si le batch est long
+     * @return bool
+     */
+    public function estLong(){
+        if ($this->getDateFin() instanceof \DateTime) {
+            $dt = $this->getDateFin()->diff($this->getDateDebut());
+            return ($dt->format('%I')>5);
+        } else {
+            $now = new \DateTime();
+            $dt  = $now->diff($this->getDateDebut());
+            return ($dt->format('%I')>5);
+        }
     }
 
     /**

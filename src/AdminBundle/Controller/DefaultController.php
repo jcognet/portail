@@ -17,9 +17,17 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $paginator = $this->get('knp_paginator');
+        // Batch en cours
+        $listeBatchEnCours = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getBatchEnCours();
+
+        // Dernier batch lancé
+        $dernierBatchDevise = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getDernierBatch(Batch::TYPE_IMPORT_DEVISE);
+        $dernierBatchAlerte = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getDernierBatch(Batch::TYPE_ALERTE_ENVOYEE);
+        // Nombre d'utilisateur
+        $nbUserActif = $this->getDoctrine()->getRepository('UserBundle:User')->getNombreUserActifs();
 
         // Dernier batchs lancés
+        $paginator       = $this->get('knp_paginator');
         $batchPagination = $paginator->paginate(
             $this->getDoctrine()->getRepository('CommunBundle:Batch')->getQueryListBatch(),
             $request->query->getInt('page', 1),
@@ -27,7 +35,11 @@ class DefaultController extends Controller
         );
         return $this->render('AdminBundle:Default:index.html.twig',
             array(
-                'batch_pagination' => $batchPagination
+                'dernier_batch_devise' => $dernierBatchDevise,
+                'dernier_batch_alerte' => $dernierBatchAlerte,
+                'batch_pagination'     => $batchPagination,
+                'liste_batch_en_cours' => $listeBatchEnCours,
+                'nb_user_actifs'       => $nbUserActif
             ));
     }
 }

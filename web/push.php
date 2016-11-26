@@ -15,4 +15,6 @@ $post_data = file_get_contents('php://input');
 $signature = hash_hmac('sha1', $post_data, $secret);
 var_dump($signature);
 var_dump($_SERVER[ 'HTTP_X_HUB_SIGNATURE' ]);
+var_dump($post_data);
+var_dump(json_decode( $post_data));
 ?>

@@ -10,7 +10,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    version: 0.3.4
+    version: 0.3.5
     date_version: 25/11/2016
 
 framework:

@@ -36,9 +36,13 @@ class CommunExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * Retourne si le site est en mode dev
+     * @return bool
+     */
     public function modeDev()
     {
-        return is_int(strpos($this->rs->getCurrentRequest()->getRequestUri(), 'dev.changesous.com'));
+        return is_int(strpos($this->rs->getCurrentRequest()->getUri(), 'dev.changesous.com'));
     }
 
 }

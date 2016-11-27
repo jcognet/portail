@@ -17,6 +17,7 @@ class BatchRepository extends \Doctrine\ORM\EntityRepository
     public function getQueryListBatch()
     {
         return $this->createQueryBuilder('b')
+            ->addOrderBy('b.dateDebut', 'DESC')
             ->getQuery();
     }
 

@@ -1,11 +1,12 @@
 # Récupération de la branche et controle de surface
 BRANCHE=$1
 echo "Branche de travail : $BRANCHE"
-if ["$BRANCHE"!="dev" && "$BRANCHE"!="master"]
+if [ "$BRANCHE" != "dev" ] && [ "$BRANCHE" != "master" ]
 then
     echo "Branche non valide"
     exit
 fi
+
 # Récupération du répertoire de travail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR

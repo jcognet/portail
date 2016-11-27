@@ -31,7 +31,7 @@ class FichierMailCommand extends ContainerAwareCommand
             $message = \Swift_Message::newInstance($input->getArgument('sujet') . "(" . $now->format('d/m/Y H:i') . ")")
                 ->setFrom($this->getContainer()->getParameter('mailer_from'))
                 ->setTo($mailerTo)
-                ->setBody(file_get_contents($input->getArgument('fichier')), 'text/html', 'utf-8');
+                ->setBody(nl2br(file_get_contents($input->getArgument('fichier'))), 'text/html', 'utf-8');
 
             $this->getContainer()->get('mailer')->send($message);
         }

@@ -39,7 +39,7 @@ class BackupCommand extends ContainerAwareCommand
         //TODO : gérer le port
         $command = "mysqldump -h " . $dbHost . " -u " . $dbUser . " ";
         if (strlen($dbPassword) > 0) {
-            $command .= "-p " . $dbPassword . " ";
+            $command .= "-p" . $dbPassword . " ";
         }
         $command .= $dbName . " > " . $repertoire . $fileName;
         //echo $command;

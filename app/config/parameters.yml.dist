@@ -33,6 +33,10 @@ parameters:
     router.request_context.scheme: https
     sentry_dsn: "url_entry"
 
+
+    backup_directory: '../backup/' #à partir de kernel.root_dir
+    backup_duration: 7 # Nombre de jours de sauvegarde
+
 swiftmailer:
     transport: transport
     host:      host

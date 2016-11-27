@@ -1,10 +1,19 @@
+# Récupération de la branche et controle de surface
+BRANCHE=$1
+echo "Branche de travail : $BRANCHE"
+if ["$BRANCHE"!="dev" && "$BRANCHE"!="master"]
+then
+    echo "Branche non valide"
+    exit
+fi
+# Récupération du répertoire de travail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 cd $DIR
 cd ..
-echo "Pull de la branche master"
-# Branche master
-git checkout master
+echo "Pull de la branche $BRANCHE"
+# Changement de branche
+git checkout $BRANCHE
 # Pull
 git pull
 echo "Mise à jour de la base de données"

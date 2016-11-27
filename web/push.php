@@ -1,4 +1,5 @@
 <?php
+// Clé github de synchor
 require_once("../../github_key.php");
 $now = new \DateTime();
 echo $now->format('d/m/Y H:i:s') . "\n\n";

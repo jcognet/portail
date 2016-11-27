@@ -4,3 +4,6 @@ DATE=$(date +"%Y_%_m_%d_%H_%M_%S")
 ./mep.sh dev > ../backup/"$DATE"_mep.txt
 value=`cat ../backup/"$DATE"_mep.txt`
 echo "$value"
+# Envoi du mail
+cd ..
+bin/console mail:fichier "Mise en production -- dév" backup/"$DATE"_mep.txt

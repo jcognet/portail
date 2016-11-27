@@ -30,13 +30,13 @@ class SendAlertCommand extends ContainerAwareCommand
                                "***************"));
 
         $batch  = $this->getContainer()->get('commun.batch')->lanceBatch(Batch::TYPE_ALERTE_ENVOYEE);
-        $erreur = $alerteService = $this->getContainer()->get('commun.alert');
+        $alerteService = $this->getContainer()->get('commun.alert');
+        $alerteService->setOutput($output);
+        $erreur = $alerteService->previentUtilisateurs();
         // Si aucune erreur => chaine de caractère vide
         if (count($erreur) == 0) {
             $erreur = "";
         }
-        $alerteService->setOutput($output);
-        $alerteService->previentUtilisateurs();
         $this->getContainer()->get('commun.batch')->arreteBatch($batch, $erreur);
 
         $output->writeln('<comment>Fini !</comment>');

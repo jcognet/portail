@@ -76,6 +76,9 @@ class BatchService
      */
     public function arreteBatch(Batch $batch, $commentaire = "")
     {
+        if (is_array($commentaire)) {
+            $commentaire = implode("\n", $commentaire);
+        }
         if (strlen($commentaire) > 0) {
             $this->ajouteCommentaire($batch, $commentaire);
         }

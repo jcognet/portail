@@ -2,3 +2,6 @@ services:
 #    admin.example:
 #        class: AdminBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+  admin.back_up:
+    class: AdminBundle\Service\BackupService
+    arguments: ["%kernel.root_dir%", "%backup_directory%", "%backup_duration%"]

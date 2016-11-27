@@ -6,14 +6,13 @@ then
     echo "Branche non valide"
     exit
 fi
-
 # Récupération du répertoire de travail
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 cd $DIR
 cd ..
 echo "Back up de la base de données"
-bin/console admin:backup
+bin/console admin:backup:create
 echo "Pull de la branche $BRANCHE"
 # Changement de branche
 git checkout $BRANCHE

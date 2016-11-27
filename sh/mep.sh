@@ -11,6 +11,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 cd $DIR
 cd ..
+echo "Back up de la base de données"
+bin/console admin:backup
 echo "Pull de la branche $BRANCHE"
 # Changement de branche
 git checkout $BRANCHE

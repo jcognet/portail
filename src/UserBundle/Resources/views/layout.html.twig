@@ -21,6 +21,9 @@
                 <li {% if app.request.attributes.get('_route') == 'fos_user_registration_register' %}class="active"{% endif %}>
                     <a href="{{ path('fos_user_registration_register') }}">Enregistrement</a>
                 </li>
+                <li {% if app.request.attributes.get('_route') == 'fos_user_resetting_request' %}class="active"{% endif %}>
+                    <a href="{{ path('fos_user_resetting_request') }}">Mot de passe perdu</a>
+                </li>
             {% endif %}
         </ul>
     </div>

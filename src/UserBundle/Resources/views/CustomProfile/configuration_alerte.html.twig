@@ -1,0 +1,20 @@
+{% extends 'UserBundle::base.html.twig' %}
+{% set divIdDevise = "divDevise" %}
+
+ {% block header %}
+     Changesous : Gestion des alertes
+ {% endblock header %}
+
+
+{% block body %}
+
+<div class="col-xs-12">
+    <h2>Configuration des alertes</h2>
+    {{ form_start(form) }}
+    {{ form_row(form.sendMailForAlert, {'label': "Recevoir les alertes par mail quand une devise appartient à l'interval seuil."}) }}
+    {{ form_row(form.joursAvantRelance, {'label': "Nombre de jours entre chaque relance"}) }}
+    {{ form_row(form.jourProchaineAlerte , {'label': "Jour de réception de la prochaine alerte."})}}
+    {{ form_row(form.btnSauve , {'label': "Sauver les préférences."})}}
+    {{ form_end(form) }}
+</div>
+{% endblock %}

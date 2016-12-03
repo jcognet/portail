@@ -1,3 +1,8 @@
 user_homepage:
     path:     /
     defaults: { _controller: UserBundle:Default:index }
+
+# Gère les alertes des utilisateurs
+user_profile_alerte:
+    path:     /profile/config/alert
+    defaults: { _controller: UserBundle:CustomProfile:configurationAlerte }

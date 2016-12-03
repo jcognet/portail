@@ -131,7 +131,6 @@ class DefaultController extends Controller
                 );
             } else {
                 $data = $form->getData();
-                $data['corps'] = nl2br($data['corps']);
                 $this->get('commun.mailer')->envoieEmail(
                     'CommunBundle:Email:contact.html.twig',
                     $data,

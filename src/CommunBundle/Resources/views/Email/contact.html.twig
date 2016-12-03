@@ -1,7 +1,7 @@
 {% extends 'CommunBundle:Email:base.html.twig' %}
 
 {% block html %}
-    {{ corps }}
+    {{ corp|nl2br }}
 {% endblock %}
 
 {% block content_title %}

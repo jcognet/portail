@@ -44,6 +44,7 @@ twig:
     globals:
       version: "%version%"
       date_version: "%date_version%"
+      recaptcha_public_key: "%recaptcha_public_key%"
     form_themes:
       - 'bootstrap_3_layout.html.twig'
 # Doctrine Configuration

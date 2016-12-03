@@ -6,6 +6,7 @@ use CommunBundle\Entity\Devise;
 use CommunBundle\Entity\SuiviDevise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
+use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -119,16 +120,30 @@ class DefaultController extends Controller
         // Gestion du post
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $this->get('commun.mailer')->envoieEmail(
-                'CommunBundle:Email:contact.html.twig',
-                $data,
-                $this->getParameter('destinataire_mail')
-            );
-            $this->addFlash(
-                'notice',
-                'Le email est bien parti'
-            );
+
+            $recaptcha = new ReCaptcha($this->getParameter('recaptcha_secret_key'));
+            $resp      = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
+
+            if (!$resp->isSuccess()) {
+                $this->addFlash(
+                    'danger',
+                    'Le captcha a rencontré une erreur : ' . $resp->error . '. Merci de recommencer.'
+                );
+            } else {
+                $data = $form->getData();
+                $data['corps'] = nl2br($data['corps']);
+                $this->get('commun.mailer')->envoieEmail(
+                    'CommunBundle:Email:contact.html.twig',
+                    $data,
+                    $this->getParameter('destinataire_mail')
+                );
+                $this->addFlash(
+                    'notice',
+                    'Le email est bien parti'
+                );
+            }
+
+
         }
 
 
@@ -142,7 +157,8 @@ class DefaultController extends Controller
      * @param Devise $devise
      * @return JsonResponse
      */
-    public function getCoursAjaxAction(Request $request, Devise $devise)
+    public
+    function getCoursAjaxAction(Request $request, Devise $devise)
     {
         $data = array(
             'label'       => $devise->getLabel(),
@@ -175,7 +191,8 @@ class DefaultController extends Controller
      * @param Devise $devise
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function renderCoursAjaxAction(Request $request, Devise $devise)
+    public
+    function renderCoursAjaxAction(Request $request, Devise $devise)
     {
         $data = array(
             'label'       => $devise->getLabel(),
@@ -252,7 +269,8 @@ class DefaultController extends Controller
      * @param $seuil
      * @return JsonResponse
      */
-    public function sauveDeviseAjaxAction(Request $request, Devise $devise, $seuilMax, $seuil)
+    public
+    function sauveDeviseAjaxAction(Request $request, Devise $devise, $seuilMax, $seuil)
     {
         // Initilisation des variables
         $jsonResponse = new JsonResponse();
@@ -300,7 +318,8 @@ class DefaultController extends Controller
      * @param User $user
      * @return Response
      */
-    public function retourAction(Request $request, $hash, User $user)
+    public
+    function retourAction(Request $request, $hash, User $user)
     {
         // Connexion de l'utilisateur
         if ($this->get('user.service')->verifieHachage($user, urldecode($hash))) {
@@ -316,7 +335,8 @@ class DefaultController extends Controller
      * @param User $user
      * @return Response
      */
-    private function connecteUtilisateur(Request $request, User $user)
+    private
+    function connecteUtilisateur(Request $request, User $user)
     {
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token); //now the user is logged in

@@ -16,15 +16,16 @@ class SuiviDeviseRepository extends \Doctrine\ORM\EntityRepository
      */
     public function findSuiviARelancer()
     {
-        // TODO : prendre en compte l'enregistrement utilisateur sur le datetinterval
         $dateMin = new \DateTime();
         $dateMin->sub(new \DateInterval('P1D'));
         return $this->createQueryBuilder('sd')
             ->join('sd.user', 'user')
             ->join('sd.devise', 'devise')
             ->select('sd, user, devise')
-            ->where('sd.dateAlerte is NULL or sd.dateAlerte < :date')
+            ->where('(sd.dateAlerte is NULL or sd.dateAlerte < :date) AND (user.jourProchaineAlerte is NULL or user.jourProchaineAlerte  <:date) ')
             ->setParameter('date', $dateMin)
+            ->andWhere('user.sendMailForAlert = :alerte_mail')
+            ->setParameter('alerte_mail', true)
             ->getQuery()
             ->getResult();
 

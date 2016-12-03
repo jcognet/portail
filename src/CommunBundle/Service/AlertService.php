@@ -48,6 +48,7 @@ class AlertService
         $now          = new \DateTime();
         foreach ($this->em->getRepository('CommunBundle:SuiviDevise')->findSuiviARelancer() as $suivi) {
             try {
+                // Eet-ce que la devise êst dans les valeurs de seuil ?
                 $envoieMail = (
                     ($suivi->getDevise()->getCoursJour() >= $suivi->getSeuilMin() && ($suivi->getSeuilMax() <= 0 || is_null($suivi->getSeuilMax()))) ||
                     ($suivi->getDevise()->getCoursJour() <= $suivi->getSeuilMax() && ($suivi->getSeuilMin() <= 0 || is_null($suivi->getSeuilMin()))) ||
@@ -62,9 +63,20 @@ class AlertService
                     ), $suivi->getUser());
                     // Mise à jour des données
                     $suivi->setDateAlerte($now);
+                    // On n'oublie pas l'utilisateur
+                    if ($suivi->getUser()->getJoursAvantRelance() > 0) {
+                        $prochainEnvoie = clone($suivi->getUser()->getJourProchaineAlerte());
+                        $prochainEnvoie->add(new \DateInterval('P' . $suivi->getUser()->getJoursAvantRelance() . 'D'))
+                            ->setTime(0, 0, 0);
+                        $suivi->getUser()->setJourProchaineAlerte($prochainEnvoie);
+                        $this->em->persist($suivi->getUser());
+                    } elseif (!is_null($suivi->getUser()->getJourProchaineAlerte())) {
+                        $suivi->getUser()->setJourProchaineAlerte(null);
+                        $this->em->persist($suivi->getUser());
+                    }
                     $this->em->persist($suivi);
-                    $this->em->flush(); // Flush pour relancer l'erreur en cas de problème
-                    $this->ecrit("Fin de l'alerte utilisateur avec id : " . $suivi->getId());
+                    $this->em->flush(); // Flush pour relancer l'alerte en cas de problème
+                    $this->ecrit("Fin de l'alerte utilisateur avec id : " . $suivi->getUser()->getId() . " - email : " . $suivi->getUser()->getEmail());
                 }
             } catch (\Exception $ex) {
                 $listeErreurs[] = $ex;

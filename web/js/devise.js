@@ -167,6 +167,9 @@ function enregistreSuiviDevise(input){
   if(input.hasClass('input_seuil_max')){
     seuilMax = true
   }
+  if(seuil.length ==0){
+      seuil = 0;
+  }
   url = Routing.generate('commun_devise_sauve_ajax', {'id':deviseId, 'seuilMax':seuilMax, 'seuil':seuil});
   setAjaxWorking(divId);
   $.ajax({

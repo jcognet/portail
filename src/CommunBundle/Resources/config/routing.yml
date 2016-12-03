@@ -13,7 +13,7 @@ commun_devise_get_ajax:
     path:     /devise/json/{id}
     defaults: { _controller: CommunBundle:Default:getCoursAjax }
     requirements:
-        page: '\d+'
+        id: '\d+'
     options:
        expose: true
 
@@ -21,7 +21,7 @@ commun_devise_affiche_ajax:
     path:     /devise/affiche/{id}
     defaults: { _controller: CommunBundle:Default:renderCoursAjax }
     requirements:
-        page: '\d+'
+        id: '\d+'
     options:
        expose: true
 
@@ -29,7 +29,7 @@ commun_devise_calcul_ajax:
     path:     /devise/calcul/{id}/{valeurEuros}/{valeurAutre}
     defaults: { _controller: CommunBundle:Default:calculDeviseAjax }
     requirements:
-        page: '\d+'
+        id: '\d+'
     options:
        expose: true
 
@@ -37,12 +37,10 @@ commun_devise_sauve_ajax:
     path:     /devise/sauve/{id}/{seuilMax}/{seuil}
     defaults: { _controller: CommunBundle:Default:sauveDeviseAjax }
     requirements:
-        page: '\d+'
+        id: '\d+'
     options:
        expose: true
 
 commun_reconnexion:
     path:     /retour/{hash}/{id}
     defaults: { _controller: CommunBundle:Default:retour}
-    requirements:
-        page: '\d+'

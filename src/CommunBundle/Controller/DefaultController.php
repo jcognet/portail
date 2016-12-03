@@ -261,7 +261,7 @@ class DefaultController extends Controller
         $seuil        = str_replace(',', '.', $seuil);
         $seuil        = floatval($seuil);
         // Protection de la page
-        if (!$user instanceof User || $seuil <= 0) {
+        if (!$user instanceof User ) {
             $valeurRetour = false;
             $jsonResponse->setData(array('success' => $valeurRetour));
             return $jsonResponse;

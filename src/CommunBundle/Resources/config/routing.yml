@@ -8,7 +8,7 @@ commun_contact:
     path:     /contact
     defaults: { _controller: CommunBundle:Default:contact}
 
-
+# Récupère les devises en AJAX
 commun_devise_get_ajax:
     path:     /devise/json/{id}
     defaults: { _controller: CommunBundle:Default:getCoursAjax }
@@ -16,7 +16,7 @@ commun_devise_get_ajax:
         id: '\d+'
     options:
        expose: true
-
+# Affiche un bloc HTML en AJAX
 commun_devise_affiche_ajax:
     path:     /devise/affiche/{id}
     defaults: { _controller: CommunBundle:Default:renderCoursAjax }
@@ -24,7 +24,7 @@ commun_devise_affiche_ajax:
         id: '\d+'
     options:
        expose: true
-
+# Calcul des sommes en AJAX
 commun_devise_calcul_ajax:
     path:     /devise/calcul/{id}/{valeurEuros}/{valeurAutre}
     defaults: { _controller: CommunBundle:Default:calculDeviseAjax }
@@ -32,7 +32,7 @@ commun_devise_calcul_ajax:
         id: '\d+'
     options:
        expose: true
-
+# Enregistre des devises
 commun_devise_sauve_ajax:
     path:     /devise/sauve/{id}/{seuilMax}/{seuil}
     defaults: { _controller: CommunBundle:Default:sauveDeviseAjax }
@@ -40,7 +40,7 @@ commun_devise_sauve_ajax:
         id: '\d+'
     options:
        expose: true
-
+# Reconnexion au site
 commun_reconnexion:
     path:     /retour/{hash}/{id}
     defaults: { _controller: CommunBundle:Default:retour}

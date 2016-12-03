@@ -114,7 +114,7 @@ class DefaultController extends Controller
             ))
             ->add('sujet', TextType::class)
             ->add('corps', TextareaType::class)
-            ->add('save', SubmitType::class)
+            ->add('save', SubmitType::class, array('label' => 'Envoyer le mail'))
             ->getForm();
         // Gestion du post
         $form->handleRequest($request);
@@ -261,7 +261,7 @@ class DefaultController extends Controller
         $seuil        = str_replace(',', '.', $seuil);
         $seuil        = floatval($seuil);
         // Protection de la page
-        if (!$user instanceof User ) {
+        if (!$user instanceof User) {
             $valeurRetour = false;
             $jsonResponse->setData(array('success' => $valeurRetour));
             return $jsonResponse;

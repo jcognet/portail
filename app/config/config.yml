@@ -11,7 +11,7 @@ imports:
 parameters:
     locale: fr
     version: 0.3.5
-    date_version: 27/11/2016
+    date_version: 03/12/2016
 
 framework:
     #esi:             ~

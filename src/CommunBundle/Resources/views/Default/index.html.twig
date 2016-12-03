@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="liste_devise_suivie col-sm-4">
-        <h3>Vos devises suivies</h3>
+        <h3>Connexion</h3>
         {% if app.user %}
             Bonjour <a href="{{ path('fos_user_profile_edit') }}">{{ app.user.email }}</a><br/>
             {% if liste_devises_suivies|length >0 %}

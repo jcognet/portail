@@ -2,26 +2,31 @@
 
 
 <form id="frmConnexion" action="{{ path('fos_user_security_check') }}" method="post">
-    {% if error is defined and error is not empty%}
+    {% if error is defined and error is not empty %}
         <div class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    <div class="form-group">
+        <label class="control-label required" for="username">Email :</label>
+        <input type="text" id="username" name="_username" value=""  class="form-control"/>
+    </div>
 
-    <label for="username">Email :</label>
-    <input type="text" id="username" name="_username" value="" />
+    <div class="form-group">
+        <label class="control-label required" for="password">Mot de passe :</label>
+        <input type="password" id="password" name="_password"  class="form-control"/>
+    </div>
 
-    <label for="password">Mot de passe :</label>
-    <input type="password" id="password" name="_password" />
-
-    <label for="remember_me">Se souvenir de moi</label>
-    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+    <div class="form-group">
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+        <label class="control-label required" for="remember_me">Se souvenir de moi</label>
+    </div>
 
 
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate') }}"
     >
 
-    <input type="hidden" name="_target_path" value="commun_homepage" />
-    <input type="hidden" name="hidDevise" id="hidDevise" value="" />
+    <input type="hidden" name="_target_path" value="commun_homepage"/>
+    <input type="hidden" name="hidDevise" id="hidDevise" value=""/>
 
     <button id="btnConnexion" type="submit" class="btn-default btn">Se connecter</button>
     <a href="{{ path('fos_user_resetting_request') }}">Mot de passe perdu</a>

@@ -25,11 +25,33 @@ class User extends \FOS\UserBundle\Model\User
     protected $id;
 
     /**
-     * @var SuiviDevise
+     * @var SuiviDevise[]
      *
      * @ORM\OneToMany(targetEntity="CommunBundle\Entity\SuiviDevise", mappedBy="user")
      */
     private $listeDevises;
+
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="send_mail_for_alert", type="boolean")
+     */
+    private $sendMailForAlert = true;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="jour_avant_relance", type="smallint")
+     */
+    private $joursAvantRelance = 0;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="jours_prochaine_alerte", type="datetime", nullable=true)
+     */
+    private $jourProchaineAlerte = null;
 
 
     /**
@@ -41,7 +63,6 @@ class User extends \FOS\UserBundle\Model\User
     {
         return $this->id;
     }
-
 
 
     /**
@@ -76,5 +97,77 @@ class User extends \FOS\UserBundle\Model\User
     public function getListeDevises()
     {
         return $this->listeDevises;
+    }
+
+    /**
+     * Set sendMailForAlert
+     *
+     * @param boolean $sendMailForAlert
+     *
+     * @return User
+     */
+    public function setSendMailForAlert($sendMailForAlert)
+    {
+        $this->sendMailForAlert = $sendMailForAlert;
+
+        return $this;
+    }
+
+    /**
+     * Get sendMailForAlert
+     *
+     * @return boolean
+     */
+    public function getSendMailForAlert()
+    {
+        return $this->sendMailForAlert;
+    }
+
+    /**
+     * Set joursAvantRelance
+     *
+     * @param integer $joursAvantRelance
+     *
+     * @return User
+     */
+    public function setJoursAvantRelance($joursAvantRelance)
+    {
+        $this->joursAvantRelance = $joursAvantRelance;
+
+        return $this;
+    }
+
+    /**
+     * Get joursAvantRelance
+     *
+     * @return integer
+     */
+    public function getJoursAvantRelance()
+    {
+        return $this->joursAvantRelance;
+    }
+
+    /**
+     * Set jourProchaineAlerte
+     *
+     * @param \DateTime $jourProchaineAlerte
+     *
+     * @return User
+     */
+    public function setJourProchaineAlerte($jourProchaineAlerte)
+    {
+        $this->jourProchaineAlerte = $jourProchaineAlerte;
+
+        return $this;
+    }
+
+    /**
+     * Get jourProchaineAlerte
+     *
+     * @return \DateTime
+     */
+    public function getJourProchaineAlerte()
+    {
+        return $this->jourProchaineAlerte;
     }
 }

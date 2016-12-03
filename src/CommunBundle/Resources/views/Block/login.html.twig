@@ -1,36 +1,50 @@
-<h4>Connexion</h4>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#connexion" aria-controls="connexion" role="tab" data-toggle="tab">Connexion</a></li>
+    <li role="presentation"><a href="#enregistrement" aria-controls="enregistrement" role="tab" data-toggle="tab">Enregistrement</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="connexion">
+        <h4>Connexion</h4>
+
+        <form id="frmConnexion" action="{{ path('fos_user_security_check') }}" method="post">
+            {% if error is defined and error is not empty %}
+                <div class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <div class="form-group">
+                <label class="control-label required" for="username">Email :</label>
+                <input type="text" id="username" name="_username" value="" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label required" for="password">Mot de passe :</label>
+                <input type="password" id="password" name="_password" class="form-control"/>
+            </div>
+
+            <div class="form-group">
+                <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
+                <label class="control-label required" for="remember_me">Se souvenir de moi</label>
+            </div>
 
 
-<form id="frmConnexion" action="{{ path('fos_user_security_check') }}" method="post">
-    {% if error is defined and error is not empty %}
-        <div class="alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-    <div class="form-group">
-        <label class="control-label required" for="username">Email :</label>
-        <input type="text" id="username" name="_username" value=""  class="form-control"/>
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            <input type="hidden" name="_target_path" value="commun_homepage"/>
+            <input type="hidden" name="hidDevise" id="hidDevise" value=""/>
+
+            <button id="btnConnexion" type="submit" class="btn-default btn">Se connecter</button>
+            <a href="{{ path('fos_user_resetting_request') }}">Mot de passe perdu</a>
+        </form>
     </div>
-
-    <div class="form-group">
-        <label class="control-label required" for="password">Mot de passe :</label>
-        <input type="password" id="password" name="_password"  class="form-control"/>
+    <div role="tabpanel" class="tab-pane" id="enregistrement">
+        <h4>Enregistrement</h4>
+        {{ form(form_enregistement) }}
     </div>
-
-    <div class="form-group">
-        <input type="checkbox" id="remember_me" name="_remember_me" value="on"/>
-        <label class="control-label required" for="remember_me">Se souvenir de moi</label>
-    </div>
+</div>
 
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
 
-    <input type="hidden" name="_target_path" value="commun_homepage"/>
-    <input type="hidden" name="hidDevise" id="hidDevise" value=""/>
-
-    <button id="btnConnexion" type="submit" class="btn-default btn">Se connecter</button>
-    <a href="{{ path('fos_user_resetting_request') }}">Mot de passe perdu</a>
-</form>
-
-<h4>Enregistrement</h4>
-{{ form(form_enregistement) }}

@@ -42,6 +42,7 @@
         <h3>Connexion</h3>
         {% if app.user %}
             Bonjour <a href="{{ path('fos_user_profile_edit') }}">{{ app.user.email }}</a><br/>
+
             {% if liste_devises_suivies|length >0 %}
                 <table class="table table-striped">
                     <tr>
@@ -97,6 +98,7 @@
             <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
         {% else %}
             {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
+
         {% endif %}
     </div>
     <div class="liste_news col-sm-4 hidden-xs">

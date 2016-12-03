@@ -48,9 +48,12 @@ class AlertService
         $now          = new \DateTime();
         foreach ($this->em->getRepository('CommunBundle:SuiviDevise')->findSuiviARelancer() as $suivi) {
             try {
-                if ($suivi->getDevise()->getCoursJour() >= $suivi->getSeuilMin()
-                    || $suivi->getDevise()->getCoursJour() <= $suivi->getSeuilMax()
-                ) {
+                $envoieMail = (
+                    ($suivi->getDevise()->getCoursJour() >= $suivi->getSeuilMin() && ($suivi->getSeuilMax() <= 0 || is_null($suivi->getSeuilMax()))) ||
+                    ($suivi->getDevise()->getCoursJour() <= $suivi->getSeuilMax() && ($suivi->getSeuilMin() <= 0 || is_null($suivi->getSeuilMin()))) ||
+                    ($suivi->getDevise()->getCoursJour() >= $suivi->getSeuilMin() && $suivi->getDevise()->getCoursJour() <= $suivi->getSeuilMax())
+                );
+                if ($envoieMail) {
                     // Envoi du mail
                     $this->ms->envoieEmail('CommunBundle:Email:alert.html.twig', array(
                         'suivi'  => $suivi,

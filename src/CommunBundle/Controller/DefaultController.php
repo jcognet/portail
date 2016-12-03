@@ -121,10 +121,15 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $retour    = $request->request->get('g-recaptcha-response');
             $recaptcha = new ReCaptcha($this->getParameter('recaptcha_secret_key'));
-            $resp      = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-
-            if (!$resp->isSuccess()) {
+            $resp      = $recaptcha->verify($retour, $request->getClientIp());
+            if (strlen($retour) == 0) {
+                $this->addFlash(
+                    'danger',
+                    'Le captcha a rencontré une erreur. Merci de recommencer.'
+                );
+            } elseif (!$resp->isSuccess()) {
                 $this->addFlash(
                     'danger',
                     'Le captcha a rencontré une erreur : ' . $resp->error . '. Merci de recommencer.'
@@ -141,7 +146,6 @@ class DefaultController extends Controller
                     'Le email est bien parti'
                 );
             }
-
 
         }
 

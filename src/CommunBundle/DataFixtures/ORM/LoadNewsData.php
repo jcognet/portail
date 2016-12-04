@@ -53,6 +53,26 @@ Fin réel : Mardi 8 Novembre<br/>
             ');
         $manager->persist($newsVersion2);
 
+        $newsVersion3 = new News();
+        $newsVersion3->setDateCreation(new \DateTime('2016-11-20'))
+            ->setDateMiseEnLigne(new \DateTime('2016-11-20'))
+            ->setTitre('Run 3 : Visuel des données (Version 0.3)')
+            ->setCorps('
+            <ul>
+            <li>Mise en place du modèle objet</li>
+<li>Affichage des données</li>
+<li>Enregistrement des préférences en base</li>
+<li>Système d’alerte</li>
+</ul>
+<br/>
+Début : Mercredi  09 Novembre<br/>
+<br/>
+Fin estimé : Dimanche 11 Décembre<br/>
+<br/>
+Fin réel : Dimanche 20 Novembre<br/>
+            ');
+        $manager->persist($newsVersion3);
+
         $manager->flush();
     }
 

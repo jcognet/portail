@@ -3,7 +3,7 @@
     <div id="{{ divId }}">
     </div>
     <div class="liste_moyenne">
-        <table>
+        <table id="{{ divId }}_tableCalcul" class="table_calcul">
             <tr>
                 <td>
                     Dernier cours enregistré ({{ devise.jour|date('d/m/Y') }}) :
@@ -120,7 +120,7 @@
                     {% endif %}
                 </td>
             </tr>
-            <tr id="{{ divId }}_trCalcul" class="tr_calcul">
+            <tr>
                 <td>
                     Calculs
                 </td>

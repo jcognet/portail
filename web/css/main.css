@@ -1,28 +1,34 @@
-.ajax{
+.ajax {
     opacity: 0.5;
 }
-#divDevise{
+
+#divDevise {
     min-height: 100px;
 }
-.liste_moyenne table{
+
+.liste_moyenne table {
     width: 100%;
 }
-.input_calcul_devise, .input_seuil_devise{
-    width:60px;
+
+.input_calcul_devise, .input_seuil_devise {
+    width: 60px;
 }
-#loader_ajax{
+
+#loader_ajax {
     visibility: hidden;
 }
-.loader{
+
+.loader {
     position: absolute;
-    z-index:4;
+    z-index: 400;
     opacity: 1;
 }
-.news, #sltDevise, .block_devise, #divDevise{
+
+.news, #sltDevise, .block_devise, #divDevise {
     position: relative;
     z-index: 1;
 }
 
-.sorted a{
-color:red;
+.sorted a {
+    color: red;
 }

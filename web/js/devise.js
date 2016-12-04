@@ -114,7 +114,7 @@ function calculeSomme(input){
   var divId = '';
   var inputResultat = '';
   // Gestion du dom
-  divId = input.parents('.tr_calcul').attr('id');
+  divId = input.parents('.table_calcul').attr('id');
   // Récupération des données
   if(input.hasClass('input_devise_euro')){
     valeurEuros = input.val();

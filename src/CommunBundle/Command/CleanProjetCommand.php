@@ -26,12 +26,16 @@ class CleanProjetCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Suppression de la base de données
-        $commandDrop    = $this->getApplication()->find('doctrine:database:drop');
-        $argumentsDrop  = array(
-            '--force' => true,
-        );
-        $inputDrop      = new ArrayInput($argumentsDrop);
-        $returnCodeDrop = $commandDrop->run($inputDrop, $output);
+        try {
+            $commandDrop    = $this->getApplication()->find('doctrine:database:drop');
+            $argumentsDrop  = array(
+                '--force' => true,
+            );
+            $inputDrop      = new ArrayInput($argumentsDrop);
+            $returnCodeDrop = $commandDrop->run($inputDrop, $output);
+        }catch (\Exception $exception){
+
+        }
         // Création
         $commandCreate    = $this->getApplication()->find('doctrine:database:create');
         $argumentsCreate  = array();

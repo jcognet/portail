@@ -1,0 +1,6 @@
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: changesous_phpunit
+    database_user: root
+    database_password: null

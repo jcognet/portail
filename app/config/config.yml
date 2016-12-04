@@ -10,8 +10,8 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    version: 0.3.7
-    date_version: 04/12/2016 (tard le 03)
+    version: 0.4.0
+    date_version: 04/12/2016
 
 framework:
     #esi:             ~

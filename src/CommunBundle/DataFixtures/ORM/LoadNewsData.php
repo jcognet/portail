@@ -73,6 +73,28 @@ Fin réel : Dimanche 20 Novembre<br/>
             ');
         $manager->persist($newsVersion3);
 
+        $newsVersion4 = new News();
+        $newsVersion4->setDateCreation(new \DateTime('2016-12-04'))
+            ->setDateMiseEnLigne(new \DateTime('2016-12-04'))
+            ->setTitre('Run 4 : Mise en production (Version 0.4)')
+            ->setCorps("
+            <ul>
+            <li>Mise en place de l'hébergement avec une branche master et un serveur de développement</li>
+<li>Le serveur de développement est mis en production dès que la branche dev est poussée</li>
+<li>Script de mise en production avec backup des données</li>
+<li>Mise en place d'une partie adminitration avec des batchs</li>
+<li>Captcha</li>
+<li>Modification de l'UI</li>
+</ul>
+<br/>
+Début : Lundi 21 Novembre<br/>
+<br/>
+Fin estimé : Dimanche 11 Décembre<br/>
+<br/>
+Fin réel : Dimanche 4 Décembre<br/>
+            ");
+        $manager->persist($newsVersion4);
+
         $manager->flush();
     }
 

@@ -67,17 +67,17 @@
                             <td>{{ devise_suivie.devise.label }}</td>
                             <td>
                                 1 €
-                                = {{ affichePrix(devise_suivie.devise.coursJour) }} {{ devise_suivie.devise.symbole }}
+                                = {{ affiche_prix(devise_suivie.devise.coursJour) }} {{ devise_suivie.devise.symbole }}
                             </td>
                             <td>
-                                {{ affichePrix(devise_suivie.seuilMin ) }}
+                                {{ affiche_prix(devise_suivie.seuilMin ) }}
                                 {{ devise_suivie.devise.raccourciOuLabel }}
                                 {% if devise_suivie.devise.coursJour >=devise_suivie.seuilMin %}
                                     <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>
                                 {% endif %}
                             </td>
                             <td>
-                                {{ affichePrix(devise_suivie.seuilMax) }}
+                                {{ affiche_prix(devise_suivie.seuilMax) }}
                                 {{ devise_suivie.devise.raccourciOuLabel }}
                                 {% if devise_suivie.devise.coursJour <=devise_suivie.seuilMax %}
                                     <span class="glyphicon glyphicon-ok alert-success" aria-hidden="true"></span>

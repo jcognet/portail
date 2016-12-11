@@ -6,9 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeviseControllerTest extends WebTestCase
 {
+    /**
+     * Test concernant l'accès aux pages
+     */
     public function testAccesPage()
     {
-        $client = static::createClient();
+        $client  = static::createClient();
         $crawler = $client->request('GET', '/');
         $client->followRedirects();
 
@@ -40,12 +43,88 @@ class DeviseControllerTest extends WebTestCase
             1,
             $crawler->selectLink('Github')->count()
         );
-        // Tenative d'accès à des pages interdites => redirection vers la page de login
-        $crawler = $client->request('GET', '/admin');
-        $this->assertGreaterThan(
-            0,
-            strpos($crawler->getBaseHref(), "login")
+        // Tentative d'accès à des pages interdites => redirection vers la page de login
+        $listePageAdmin = array('/admin', '/profile/edit', '/profile', '/user/profile/config/alert');
+        foreach ($listePageAdmin as $page) {
+            $this->assertEquals(
+                200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+                $client->getResponse()->getStatusCode(),
+                "La page " . $page . " est accessible."
+            );
+            // Vérification : est-ce que la page est protégée ?
+            $crawler = $client->request('GET', $page);
+            $this->assertGreaterThan(
+                0,
+                strpos($crawler->getBaseHref(), "login")
+            );
+        }
+
+        // Tentative de connexion aux pages du site
+        $listePage = array('/commun/contact', '/commun/devise/json/1',
+                           '/commun/devise/affiche/1', '/login', '/logout', '/register',
+                           '/register/check-email', '/resetting/request', '/resetting/check-email'
+        );
+        foreach ($listePage as $page) {
+            $crawler = $client->request('GET', $page);
+            $this->assertEquals(
+                200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+                $client->getResponse()->getStatusCode(),
+                "La page " . $page . " est accessible."
+            );
+        }
+    }
+
+    /**
+     * Test sur les devises en valeur
+     */
+    public function testDevise()
+    {
+        $client  = static::createClient();
+        $crawler = $client->request('GET', '/');
+        $client->followRedirects();
+
+        $this->assertEquals(
+            1,
+            $crawler->filter('#sltDevise')->count()
         );
 
+        $crawler = $client->request('GET', '/commun/devise/json/1');
+        $this->assertEquals(
+            200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+            $client->getResponse()->getStatusCode()
+        );
+
+        $this->assertTrue(
+            $client->getResponse()->headers->contains(
+                'Content-Type',
+                'application/json'
+            ),
+            "Le retour n'est pas du JSON."
+        );
+        // Champ présent 1 fois
+        $champsPresent = array('label', 'symbole', 'cours', 'moyenne_30', 'moyenne_60', 'moyenne_90', 'moyenne_120');
+        $crawler       = $client->getCrawler();
+        foreach ($champsPresent as $champ) {
+            $this->assertTrue(substr_count($client->getResponse()->getContent(), $champ) == 1, $champ . " n'est oas présent.");
+        }
+        // Champ présent 30 fois
+        $champsPresent30 = array('date', 'taux');
+        foreach ($champsPresent30 as $champ) {
+            $this->assertTrue(substr_count($client->getResponse()->getContent(), $champ) == 22, $champ . " n'est oas présent 30 fois.");
+        }
+    }
+
+    /**
+     * Gestion de l'affichage
+     */
+    public function testAfficheDevise()
+    {
+        $client  = static::createClient();
+        $crawler = $client->request('GET', '/commun/devise/affiche/1');
+        $client->followRedirects();
+        $this->assertEquals(
+            200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+            $client->getResponse()->getStatusCode()
+        );
     }
 }

@@ -30,6 +30,11 @@ class DeviseControllerTest extends WebTestCase
             0,
             $crawler->filter('html:contains("select")')->count()
         );
+        // Mode de blabla sur le mode de test
+        $this->assertEquals(
+            0,
+            $crawler->filter('html:contains(" Mode : Serveur de test")')->count()
+        );
         // Lien bouton admin
         $this->assertEquals(
             0,
@@ -125,6 +130,36 @@ class DeviseControllerTest extends WebTestCase
         $this->assertEquals(
             200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
             $client->getResponse()->getStatusCode()
+        );
+    }
+
+    /**
+     * Calcule les taux
+     */
+    public function testCalculeTaux()
+    {
+        $client  = static::createClient();
+        $crawler = $client->request('GET', '/commun/devise/calcul/1/1000/0');
+        $client->followRedirects();
+        $this->assertEquals(
+            200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+            $client->getResponse()->getStatusCode()
+        );
+        $this->assertTrue(
+            $client->getResponse()->getContent() == '"121 200"',
+            'Mauvaise valeur pour convertir en yen (attendue : ' . $client->getResponse()->getContent() . ', obtenue : ' . $client->getResponse()->getContent() . ')'
+        );
+
+        $crawler = $client->request('GET', '/commun/devise/calcul/1/0/121200');
+        $client->followRedirects();
+        $this->assertEquals(
+            200, // or Symfony\Component\HttpFoundation\Response::HTTP_OK
+            $client->getResponse()->getStatusCode()
+        );
+        $this->assertEquals(
+            '"1 000"',
+            $client->getResponse()->getContent(),
+            'Mauvaise valeur pour convertir en euro (attendue : ' . $client->getResponse()->getContent() . ', obtenue : ' . $client->getResponse()->getContent() . ')'
         );
     }
 }

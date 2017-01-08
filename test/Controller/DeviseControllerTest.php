@@ -115,7 +115,7 @@ class DeviseControllerTest extends WebTestCase
         // Champ présent 30 fois
         $champsPresent30 = array('date', 'taux');
         foreach ($champsPresent30 as $champ) {
-            $this->assertTrue(substr_count($client->getResponse()->getContent(), $champ) == 22, $champ . " n'est oas présent 30 fois.");
+            $this->assertTrue(substr_count($client->getResponse()->getContent(), $champ) == 30, $champ . " n'est oas présent 30 fois.");
         }
     }
 

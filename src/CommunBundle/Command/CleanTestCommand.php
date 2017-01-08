@@ -36,7 +36,7 @@ class CleanTestCommand extends ContainerAwareCommand
             );
             $inputDrop      = new ArrayInput($argumentsDrop);
             $returnCodeDrop = $commandDrop->run($inputDrop, $output);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
         }
         // Création
@@ -60,8 +60,31 @@ class CleanTestCommand extends ContainerAwareCommand
         // Exécution
         $outputCommand = array();
         $outputCode    = array();
-        $output->writeln('Lancement de la commande');
+        $output->writeln('Lancement de la commande pour imporer les données');
         exec($command, $outputCommand, $outputCode);
+        // Déclage des dates pour que les données correspondent à aujourd'hui
+        // Liste des jours de suivi
+        $em         = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $listeSuivi = $em->getRepository('CommunBundle:CoursJournee')->findBy(array(), array('date' => 'DESC'));
+        $date = new \DateTime();
+        $date->setTime(0, 0, 0);
+        // On init le jour précédent
+        $premierCours = reset($listeSuivi);
+        $jourPrecedent = $premierCours->getDate();
+        foreach ($listeSuivi as $coursJournee) {
+            $jourCourant = clone($coursJournee->getDate());
+            // On retire un jour si changement de jour pour les devises
+            if ($coursJournee->getDate()->format('d-m-Y') != $jourPrecedent->format('d-m-Y')) {
+                // Attention, au changement de date, on clone puis on retire un jour
+                $date = clone($date);
+                $date->sub(new \DateInterval('P1D'));
+            }
+            $coursJournee->setDate($date);
+            $em->persist($coursJournee);
+            $jourPrecedent = $jourCourant;
+        }
+        $em->flush();
+        $output->writeln('Fini !');
     }
 
 

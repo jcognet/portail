@@ -160,8 +160,7 @@ class DefaultController extends Controller
      * @param Devise $devise
      * @return JsonResponse
      */
-    public
-    function getCoursAjaxAction(Request $request, Devise $devise)
+    public function getCoursAjaxAction(Request $request, Devise $devise)
     {
         $data = array(
             'label'       => $devise->getLabel(),

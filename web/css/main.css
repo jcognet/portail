@@ -32,3 +32,6 @@
 .sorted a {
     color: red;
 }
+.div_news_lien {
+    cursor: pointer; cursor: hand;
+}

@@ -1,6 +1,7 @@
 <?php
 
 namespace CommunBundle\Repository;
+use CommunBundle\Entity\News;
 
 /**
  * NewsRepository
@@ -24,5 +25,59 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
             ->setMaxResults($maxNews)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Récupère la dernière news
+     * @return mixed
+     */
+    public function getDerniere(){
+        return $this->createQueryBuilder('n')
+            ->select('n')
+            ->where('n.dateMiseEnLigne<:date')
+            ->setParameter('date', new \DateTime())
+            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
+    /**
+     * Retourne la news suivante
+     * @param News|null $news
+     * @return mixed|null
+     */
+    public function getSuivante(News $news = null){
+        if(true === is_null($news))
+            return null;
+
+        return $this->createQueryBuilder('n')
+            ->select('n')
+            ->where('n.dateMiseEnLigne>:date')
+            ->setParameter('date', $news->getDateMiseEnLigne() )
+            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * Retourne la news précédente
+     * @param News|null $news
+     * @return mixed|null
+     */
+    public function getPrecedente(News $news = null){
+        if(true === is_null($news))
+            return null;
+
+        return $this->createQueryBuilder('n')
+            ->select('n')
+            ->where('n.dateMiseEnLigne<:date')
+            ->setParameter('date', $news->getDateMiseEnLigne() )
+            ->addOrderBy('n.dateMiseEnLigne', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

@@ -103,14 +103,9 @@
     </div>
     <div class="liste_news col-sm-4 hidden-xs">
         <h2>Dernières actualités</h2>
-        {% for news in liste_news %}
-            <div class="news">
-                <h3 class="titre">{{ news.titre }}</h3>
-                <div class="corps">
-                    {{ news.corps|raw }}
-                </div>
-            </div>
-        {% endfor %}
+        <div id="block_news">
+            {{ render(controller('CommunBundle:Default:chargeNews', {'request': app.request} )) }}
+        </div>
     </div>
 {% endblock %}
 
@@ -119,5 +114,6 @@
         var divIdDevise = '{{ divIdDevise }}';
     </script>
     <script src="{{ asset('js/devise.js') }}"></script>
+    <script src="{{ asset('js/news.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
 {% endblock %}

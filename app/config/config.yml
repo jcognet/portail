@@ -85,6 +85,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: UserBundle\Entity\User
+    from_email:
+      address: '%mailer_from%'
+      sender_name: '%mailer_from%'
 
 knp_paginator:
     page_range:                 5          # default page range used in pagination control

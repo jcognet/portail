@@ -1,0 +1,18 @@
+<div class="news">
+    <h3 class="titre">{{ news.titre }}</h3>
+    <div class="corps">
+        {{ news.corps|raw }}
+    </div>
+    <div class="navigation">
+        {% if newsSuivante is not null %}
+            <div id="news_precedente" class="div_news_lien" data-news-id="{{ newsSuivante.id }}">
+                << {{ newsSuivante.titre }}
+            </div>
+            {% endif %}
+            {% if newsPrecedente is not null %}
+            <div id="news_suivante" class="div_news_lien" data-news-id="{{ newsPrecedente.id }}">
+                {{ newsPrecedente.titre }} >>
+            </div>
+        {% endif %}
+    </div>
+</div>

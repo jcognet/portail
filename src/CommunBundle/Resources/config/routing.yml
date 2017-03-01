@@ -44,3 +44,11 @@ commun_devise_sauve_ajax:
 commun_reconnexion:
     path:     /retour/{hash}/{id}
     defaults: { _controller: CommunBundle:Default:retour}
+# Récupère les devises en AJAX
+commun_news_charge_ajax:
+    path:     /news/{id}
+    defaults: { _controller: CommunBundle:Default:chargeNews, id: '' }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true

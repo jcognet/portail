@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "50c7e260cf4a5c65396440c410715e15",
-    "content-hash": "4d5e74a0d913c8730668c2718909376b",
+    "hash": "ba6fda1e665d44c5b939efdc04c19fe6",
+    "content-hash": "f8973a959fbf397011d81b492063afb5",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -840,12 +840,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "227f9e1c41d1cd6aff77ebb5bcc784ce4ddfaa7c"
+                "reference": "0d70c918e79ad4108f2d78741cae645408c27f6d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/227f9e1c41d1cd6aff77ebb5bcc784ce4ddfaa7c",
-                "reference": "227f9e1c41d1cd6aff77ebb5bcc784ce4ddfaa7c",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/0d70c918e79ad4108f2d78741cae645408c27f6d",
+                "reference": "0d70c918e79ad4108f2d78741cae645408c27f6d",
                 "shasum": ""
             },
             "require": {
@@ -909,7 +909,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2017-03-01 08:00:41"
+            "time": "2017-03-01 13:37:05"
         },
         {
             "name": "google/recaptcha",
@@ -2201,16 +2201,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.1.10",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "96e7dede3ddc9e3b3392f5cc93e26eca77545a89"
+                "reference": "141569be5b33a7cf0d141fb88422649fe11b0c47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/96e7dede3ddc9e3b3392f5cc93e26eca77545a89",
-                "reference": "96e7dede3ddc9e3b3392f5cc93e26eca77545a89",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/141569be5b33a7cf0d141fb88422649fe11b0c47",
+                "reference": "141569be5b33a7cf0d141fb88422649fe11b0c47",
                 "shasum": ""
             },
             "require": {
@@ -2278,6 +2278,7 @@
                 "symfony/validator": "self.version",
                 "symfony/var-dumper": "self.version",
                 "symfony/web-profiler-bundle": "self.version",
+                "symfony/workflow": "self.version",
                 "symfony/yaml": "self.version"
             },
             "require-dev": {
@@ -2287,7 +2288,7 @@
                 "doctrine/dbal": "~2.4",
                 "doctrine/doctrine-bundle": "~1.4",
                 "doctrine/orm": "~2.4,>=2.4.5",
-                "egulias/email-validator": "~1.2,>=1.2.1",
+                "egulias/email-validator": "~1.2,>=1.2.8|~2.0",
                 "monolog/monolog": "~1.11",
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
                 "phpdocumentor/reflection-docblock": "^3.0",
@@ -2300,7 +2301,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -2339,7 +2340,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2017-01-28 02:53:38"
+            "time": "2017-02-17 00:00:43"
         },
         {
             "name": "twig/twig",

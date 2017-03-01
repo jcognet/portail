@@ -3,6 +3,7 @@
 namespace CommunBundle\Controller;
 
 use CommunBundle\Entity\Devise;
+use CommunBundle\Entity\News;
 use CommunBundle\Entity\SuiviDevise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
@@ -32,8 +33,6 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Récupération des news
-        $listeNews = $this->getDoctrine()->getRepository('CommunBundle:News')->getListe($this->getParameter('nombre_news'));
         // Liste des devises
         $listeDevise        = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
         $listeDeviseSuivies = array();
@@ -43,7 +42,6 @@ class DefaultController extends Controller
         }
         return $this->render('CommunBundle:Default:index.html.twig',
             array(
-                'liste_news'            => $listeNews,
                 'liste_devise'          => $listeDevise,
                 'liste_devises_suivies' => $listeDeviseSuivies
             )
@@ -193,8 +191,7 @@ class DefaultController extends Controller
      * @param Devise $devise
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public
-    function renderCoursAjaxAction(Request $request, Devise $devise)
+    public function renderCoursAjaxAction(Request $request, Devise $devise)
     {
         $data = array(
             'label'       => $devise->getLabel(),
@@ -246,8 +243,7 @@ class DefaultController extends Controller
      * @param $valeurAutre
      * @return JsonResponse
      */
-    public
-    function calculDeviseAjaxAction(Request $request, Devise $devise, $valeurEuros, $valeurAutre)
+    public function calculDeviseAjaxAction(Request $request, Devise $devise, $valeurEuros, $valeurAutre)
     {
         //TODO : protéger sur les valeurs $valeurEuros et $valeurAutre, que se passe-t-il si chaîne de caractères ou float ?
         // Calcul
@@ -271,8 +267,7 @@ class DefaultController extends Controller
      * @param $seuil
      * @return JsonResponse
      */
-    public
-    function sauveDeviseAjaxAction(Request $request, Devise $devise, $seuilMax, $seuil)
+    public function sauveDeviseAjaxAction(Request $request, Devise $devise, $seuilMax, $seuil)
     {
         // Initilisation des variables
         $jsonResponse = new JsonResponse();
@@ -320,8 +315,7 @@ class DefaultController extends Controller
      * @param User $user
      * @return Response
      */
-    public
-    function retourAction(Request $request, $hash, User $user)
+    public function retourAction(Request $request, $hash, User $user)
     {
         // Connexion de l'utilisateur
         if ($this->get('user.service')->verifieHachage($user, urldecode($hash))) {
@@ -337,8 +331,7 @@ class DefaultController extends Controller
      * @param User $user
      * @return Response
      */
-    private
-    function connecteUtilisateur(Request $request, User $user)
+    private function connecteUtilisateur(Request $request, User $user)
     {
         $token = new UsernamePasswordToken($user, $user->getPassword(), "main", $user->getRoles());
         $this->get("security.token_storage")->setToken($token); //now the user is logged in
@@ -347,5 +340,27 @@ class DefaultController extends Controller
         $event = new InteractiveLoginEvent($request, $token);
         $this->get("event_dispatcher")->dispatch("security.interactive_login", $event);
         return $this->render('CommunBundle:Block:redirect.html.twig');
+    }
+
+    /**
+     * Charger une news
+     * @param Request $request
+     * @param News|null $news
+     * @return Response
+     */
+    public function chargeNewsAction(Request $request, News $news = null)
+    {
+        // Récupération de la dernière news
+        if (true === is_null($news)) {
+            $news = $this->getDoctrine()->getRepository('CommunBundle:News')->getDerniere();
+        }
+        $newsSuivante   = $this->getDoctrine()->getRepository('CommunBundle:News')->getSuivante($news);
+        $newsPrecedente = $this->getDoctrine()->getRepository('CommunBundle:News')->getPrecedente($news);
+
+        return $this->render('CommunBundle:Block:news.html.twig', array(
+            'news'           => $news,
+            'newsSuivante'   => $newsSuivante,
+            'newsPrecedente' => $newsPrecedente,
+        ));
     }
 }

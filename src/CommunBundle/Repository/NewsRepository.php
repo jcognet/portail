@@ -80,4 +80,17 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * Liste toutes les news
+     * @return mixed
+     */
+    public function getQueryListe(){
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.dateMiseEnLigne<= :now')
+            ->setParameter('now', new \DateTime())
+            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->getQuery()
+            ;
+    }
 }

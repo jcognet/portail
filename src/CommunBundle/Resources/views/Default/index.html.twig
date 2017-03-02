@@ -97,14 +97,14 @@
             <a href="{{ path('fos_user_change_password') }}">Changer de mot de passe </a><br/>
             <a href="{{ path('fos_user_security_logout') }}">Se déconnecter</a>
         {% else %}
-            {{ render(controller('CommunBundle:Default:registerOuLogin', {'request': app.request} )) }}
+            {{ render(controller('CommunBundle:User:registerOuLogin', {'request': app.request} )) }}
 
         {% endif %}
     </div>
     <div class="liste_news col-sm-4 hidden-xs">
-        <h2>Dernières actualités</h2>
+        <h2>Dernière actualité</h2>
         <div id="block_news">
-            {{ render(controller('CommunBundle:Default:chargeNews', {'request': app.request} )) }}
+            {{ render(controller('CommunBundle:News:chargeNews', {'request': app.request} )) }}
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,4 @@
+# Reconnexion au site
+commun_reconnexion:
+    path:     /retour/{hash}/{id}
+    defaults: { _controller: CommunBundle:User:retour}

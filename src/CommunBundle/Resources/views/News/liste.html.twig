@@ -1,0 +1,42 @@
+{% extends '@Commun/base.html.twig' %}
+    {% block header %}
+        Page de contact
+    {% endblock %}
+{% block body %}
+    <div class="col-sm-12">
+        <h2>Liste des actualités</h2>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(liste_news_paginator) }}
+        </div>
+        <table class="table table-striped table-responsive" id="table_news">
+            <thead>
+            <tr>
+                <th class="col-sm-3 {% if liste_news_paginator.isSorted('n.dateMiseEnLigne') %}sorted{% endif %}">
+                    {{ knp_pagination_sortable(liste_news_paginator, 'Date de mise en ligne', 'n.dateMiseEnLigne') }}
+                </th>
+                <th class="col-sm-1">Titre</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for news in liste_news_paginator %}
+                <tr data-news-id="{{ news.id }}">
+                    <td>{{ news.dateMiseEnLigne|date('d/m/Y') }}</td>
+                    <td>
+                        {{ news.titre }}
+                        <div class="hidden" id="news_{{ news.id }}"></div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(liste_news_paginator) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/news_liste.js') }}"></script>
+{% endblock %}

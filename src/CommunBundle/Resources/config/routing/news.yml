@@ -1,0 +1,12 @@
+#Charge les news en Ajax
+commun_news_charge_ajax:
+    path:     /news/{id}
+    defaults: { _controller: CommunBundle:News:chargeNews, id: '' }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true
+
+commun_news_liste:
+    path:     /news/liste
+    defaults: { _controller: CommunBundle:News:liste}

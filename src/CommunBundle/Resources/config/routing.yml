@@ -2,53 +2,11 @@
 commun_homepage:
     path:     /
     defaults: { _controller: CommunBundle:Default:index }
-
-# Page de contact
-commun_contact:
-    path:     /contact
-    defaults: { _controller: CommunBundle:Default:contact}
-
-# Récupère les devises en AJAX
-commun_devise_get_ajax:
-    path:     /devise/json/{id}
-    defaults: { _controller: CommunBundle:Default:getCoursAjax }
-    requirements:
-        id: '\d+'
-    options:
-       expose: true
-# Affiche un bloc HTML en AJAX
-commun_devise_affiche_ajax:
-    path:     /devise/affiche/{id}
-    defaults: { _controller: CommunBundle:Default:renderCoursAjax }
-    requirements:
-        id: '\d+'
-    options:
-       expose: true
-# Calcul des sommes en AJAX
-commun_devise_calcul_ajax:
-    path:     /devise/calcul/{id}/{valeurEuros}/{valeurAutre}
-    defaults: { _controller: CommunBundle:Default:calculDeviseAjax }
-    requirements:
-        id: '\d+'
-    options:
-       expose: true
-# Enregistre des devises
-commun_devise_sauve_ajax:
-    path:     /devise/sauve/{id}/{seuilMax}/{seuil}
-    defaults: { _controller: CommunBundle:Default:sauveDeviseAjax }
-    requirements:
-        id: '\d+'
-    options:
-       expose: true
-# Reconnexion au site
-commun_reconnexion:
-    path:     /retour/{hash}/{id}
-    defaults: { _controller: CommunBundle:Default:retour}
-# Récupère les devises en AJAX
-commun_news_charge_ajax:
-    path:     /news/{id}
-    defaults: { _controller: CommunBundle:Default:chargeNews, id: '' }
-    requirements:
-        id: '\d+'
-    options:
-       expose: true
+default:
+    resource: '@CommunBundle/Resources/config/routing/default.yml'
+devise:
+    resource: '@CommunBundle/Resources/config/routing/devise.yml'
+news:
+    resource: '@CommunBundle/Resources/config/routing/news.yml'
+user:
+    resource: '@CommunBundle/Resources/config/routing/user.yml'

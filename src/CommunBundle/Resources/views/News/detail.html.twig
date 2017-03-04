@@ -1,0 +1,33 @@
+<div class="news">
+    <h3 class="titre">{{ news.titre }} <small>({{ news.dateMiseEnLigne|date('d/m/Y') }})</small></h3>
+    <div class="corps">
+        {{ news.corps|raw }}
+    </div>
+    <div class="navigation">
+        <div class="container-fluid">
+            <div id="news_precedente"
+                 class="div_news_lien  col-sm-5" {% if newsPrecedente is not null %} data-news-id="{{ newsPrecedente.id }}" {% endif %}>
+                {% if newsPrecedente is not null %}
+                    <span class="glyphicon glyphicon-backward"></span>
+                    {{ newsPrecedente.titre }}
+                {% endif %}
+            </div>
+            <div class="col-sm-2">
+                <a href="{{ path('commun_news_liste') }}">
+                    <span class="glyphicon glyphicon-th-list"></span>
+                    Liste des news
+                </a>
+            </div>
+            <div id="news_suivante"
+                 class="div_news_lien col-sm-5" {% if newsSuivante is not null %} data-news-id="{{ newsSuivante.id }}" {% endif %}>
+                {% if newsSuivante is not null %}
+                    {{ newsSuivante.titre }}
+                    <span class="glyphicon glyphicon-forward"></span>
+                {% endif %}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

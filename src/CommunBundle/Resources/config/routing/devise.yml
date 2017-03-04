@@ -1,0 +1,34 @@
+# Enregistre des devises
+commun_devise_sauve_ajax:
+    path:     /devise/sauve/{id}/{seuilMax}/{seuil}
+    defaults: { _controller: CommunBundle:Devise:sauveDeviseAjax }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true
+
+# Calcul des sommes en AJAX
+commun_devise_calcul_ajax:
+    path:     /devise/calcul/{id}/{valeurEuros}/{valeurAutre}
+    defaults: { _controller: CommunBundle:Devise:calculDeviseAjax }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true
+
+# Récupère les devises en AJAX
+commun_devise_get_ajax:
+    path:     /devise/json/{id}
+    defaults: { _controller: CommunBundle:Devise:getCoursAjax }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true
+# Affiche un bloc HTML en AJAX
+commun_devise_affiche_ajax:
+    path:     /devise/affiche/{id}
+    defaults: { _controller: CommunBundle:Devise:renderCoursAjax }
+    requirements:
+        id: '\d+'
+    options:
+       expose: true

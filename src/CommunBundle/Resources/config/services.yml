@@ -1,28 +1,3 @@
-services:
-    # Service de mail
-    commun.mailer:
-        class: CommunBundle\Service\MailerService
-        arguments: ["@twig", "@mailer", "%mailer_from%", "@router", "@user.service"]
-    # Service de devise
-    commun.devise:
-        class: CommunBundle\Service\DeviseService
-        arguments: ["@doctrine.orm.entity_manager", "%url_devise_webservice%"]
-    # Service concernant les alertes utilisateurs
-    commun.alert:
-        class: CommunBundle\Service\AlertService
-        arguments: ["@doctrine.orm.entity_manager", "@commun.mailer"]
-    # Extension twig concernant les devises
-    commun.devise_extension:
-          class: CommunBundle\Twig\DeviseExtension
-          tags:
-              - { name: twig.extension }
-    # Extension twig général
-    commun.commun_extension:
-          arguments: ["@request_stack"]
-          class: CommunBundle\Twig\CommunExtension
-          tags:
-              - { name: twig.extension }
-    # Service de gestion de batch
-    commun.batch:
-        class: CommunBundle\Service\BatchService
-        arguments: ["@doctrine.orm.entity_manager"]
+imports:
+    - { resource: services/service.yml }
+    - { resource: services/twig.yml }

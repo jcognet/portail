@@ -1,0 +1,41 @@
+* 		text=auto
+
+# =============================================================
+# text files, should ALWAYS be checked out with LF line-endings
+# =============================================================
+.*		eol=lf
+*.css	eol=lf
+*.htm	eol=lf diff=html
+*.html	eol=lf diff=html
+*.ini	eol=lf
+*.js	eol=lf
+*.md	eol=lf
+*.php	eol=lf diff=php
+*.phtml	eol=lf
+*.sass	eol=lf
+*.scss	eol=lf
+*.sql	eol=lf
+*.tmpl	eol=lf
+*.txt	eol=lf
+*.TXT	eol=lf
+*.xml	eol=lf
+*.xsl	eol=lf
+
+# ======================================
+# binary files, should be left untouched
+# ======================================
+*.bmp	-text
+*.gif	-text
+*.jpg	-text
+*.jpeg	-text
+*.png	-text
+*.PNG	-text
+*.pdf	-text
+*.ppt	-text
+*.swf	-text
+*.tgz	-text
+*.z		-text
+
+# ======================================
+# exclude files from git archive
+# ======================================

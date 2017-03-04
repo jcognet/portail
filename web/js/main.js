@@ -1,5 +1,5 @@
 $(document).ready(function () {
-
+    changeSort();
 });
 
 function setAjaxWorking(divId) {
@@ -14,4 +14,13 @@ function setAjaxWorking(divId) {
 function unsetAjaxWorking(divId) {
     $("#" + divId).removeClass('ajax');
     $("#loader_ajax_" + divId).remove();
+}
+
+function changeSort(){
+    $('.sorted .asc').each(function(){
+        $(this).append('<span class="glyphicon glyphicon-arrow-down"></span>');
+    });
+    $('.sorted .desc').each(function(){
+        $(this).append('<span class="glyphicon glyphicon-arrow-up"></span>');
+    });
 }

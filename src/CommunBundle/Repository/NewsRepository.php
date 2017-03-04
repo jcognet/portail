@@ -56,7 +56,7 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
             ->select('n')
             ->where('n.dateMiseEnLigne>:date')
             ->setParameter('date', $news->getDateMiseEnLigne() )
-            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->addOrderBy('n.dateMiseEnLigne', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
@@ -75,7 +75,7 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
             ->select('n')
             ->where('n.dateMiseEnLigne<:date')
             ->setParameter('date', $news->getDateMiseEnLigne() )
-            ->addOrderBy('n.dateMiseEnLigne', 'ASC')
+            ->addOrderBy('n.dateMiseEnLigne', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

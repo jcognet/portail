@@ -8,9 +8,11 @@
 
 namespace CommunBundle\Twig;
 
-
-use CommunBundle\Entity\Devise;
-
+/**
+ * Gère les devises
+ * Class DeviseExtension
+ * @package CommunBundle\Twig
+ */
 class DeviseExtension extends \Twig_Extension
 {
 

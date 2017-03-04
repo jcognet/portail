@@ -2,7 +2,6 @@
 
 namespace CommunBundle\DataFixtures\ORM;
 
-use CommunBundle\Entity\Devise;
 use CommunBundle\Entity\News;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

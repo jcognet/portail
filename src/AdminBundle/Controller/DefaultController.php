@@ -4,7 +4,6 @@ namespace AdminBundle\Controller;
 
 use CommunBundle\Entity\Batch;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller

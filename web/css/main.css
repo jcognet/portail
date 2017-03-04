@@ -32,6 +32,6 @@
 .sorted a {
     color: red;
 }
-.div_news_lien {
+.div_news_lien, #table_news tr {
     cursor: pointer; cursor: hand;
 }

@@ -23,7 +23,7 @@
                     <td>{{ news.dateMiseEnLigne|date('d/m/Y') }}</td>
                     <td>
                         {{ news.titre }}
-                        <div class="hidden" id="news_{{ news.id }}"></div>
+                        <div class="news_content" id="news_content_{{ news.id }}">{{ news.corps|raw }}</div>
                     </td>
                 </tr>
             {% endfor %}

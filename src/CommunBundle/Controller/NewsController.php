@@ -39,7 +39,7 @@ class NewsController extends Controller
      */
     public function listeAction(Request $request)
     {
-        // Dernier batchs lancés
+        // Dernières news affichées
         $paginator          = $this->get('knp_paginator');
         $listeNewsPaginator = $paginator->paginate(
             $this->getDoctrine()->getRepository('CommunBundle:News')->getQueryListe(),

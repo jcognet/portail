@@ -1,4 +1,6 @@
+{% import "macro/general.html.twig" as generalMacro %}
 {% extends 'AdminBundle::base.html.twig' %}
+
 
 {% block title_header %}
     Tableau de bord
@@ -127,10 +129,10 @@
         <table class="table table-striped table-responsive">
             <thead>
             <tr>
-                <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateDebut') %}sorted{% endif %}">
+                <th class="col-sm-3 {{ generalMacro.gereTri(batch_pagination, 'b.dateDebut') }}">
                     {{ knp_pagination_sortable(batch_pagination, 'Date de début', 'b.dateDebut') }}
                 </th>
-                <th class="col-sm-3 {% if batch_pagination.isSorted('b.dateFin') %}sorted{% endif %}">
+                <th class="col-sm-3 {{ generalMacro.gereTri(batch_pagination, 'b.dateFin') }}">
                     {{ knp_pagination_sortable(batch_pagination, 'Date de fin', 'b.dateFin') }}
                 </th>
                 <th class="col-sm-1">Type</th>

@@ -32,6 +32,12 @@
 .sorted a {
     color: red;
 }
+.sorted a.asc {
+    color: green;
+}
+.sorted a.desc {
+    color: yellow;
+}
 .div_news_lien, #table_news tr {
     cursor: pointer; cursor: hand;
 }

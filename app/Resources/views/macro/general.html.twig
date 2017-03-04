@@ -1,0 +1,9 @@
+{% macro gereTri(pagination, champ) %}
+    {% set cssTri = '' %}
+    {% if pagination is defined %}
+        {% if  pagination.isSorted(champ) %}
+            {% set cssTri = 'sorted ' %}
+        {% endif %}
+    {% endif %}
+    {{ cssTri }}
+{% endmacro %}

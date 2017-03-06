@@ -32,13 +32,17 @@ class DefaultController extends Controller
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 10)
         );
+
+        // News dans le futur
+        $liste_news_futur = $this->getDoctrine()->getRepository('CommunBundle:News')->getListeNewsFutur();
         return $this->render('AdminBundle:Default:index.html.twig',
             array(
                 'dernier_batch_devise' => $dernierBatchDevise,
                 'dernier_batch_alerte' => $dernierBatchAlerte,
                 'batch_pagination'     => $batchPagination,
                 'liste_batch_en_cours' => $listeBatchEnCours,
-                'nb_user_actifs'       => $nbUserActif
+                'nb_user_actifs'       => $nbUserActif,
+                'liste_news_futur'     => $liste_news_futur
             ));
     }
 }

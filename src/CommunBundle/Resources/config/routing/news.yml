@@ -6,7 +6,19 @@ commun_news_charge_ajax:
         id: '\d+'
     options:
        expose: true
-
+#Liste des news
 commun_news_liste:
     path:     /news/liste
     defaults: { _controller: CommunBundle:News:liste}
+# Enregistre une news
+commun_news_enregistre:
+    path:     /news/enregistre/{id}
+    defaults: { _controller: CommunBundle:News:enregistreNews, id: null}
+    requirements:
+        id: '\d+'
+# Supprime une news
+commun_news_supprimer:
+    path:     /news/delete/{id}
+    defaults: { _controller: CommunBundle:News:deleteNews, id: null}
+    requirements:
+        id: '\d+'

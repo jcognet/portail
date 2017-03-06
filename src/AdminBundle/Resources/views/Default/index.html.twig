@@ -163,4 +163,41 @@
             {{ knp_pagination_render(batch_pagination) }}
         </div>
     </div>
+
+    {% if liste_news_futur|length>0 %}
+        <div class="col-sm-12">
+            <h2>Liste des actualités dans le futur</h2>
+            <table class="table table-striped table-responsive">
+                <thead>
+                <tr>
+                    <th class="col-sm-3">
+                        Date de publication
+                    </th>
+                    <th class="col-sm-1">Titre</th>
+                    <th class="col-sm-1"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for news in liste_news_futur %}
+                    <tr>
+                        <td>{{ news.titre }}</td>
+                        <td>{{ news.dateMiseEnLigne|date('d/m/Y H:i:s') }}</td>
+                        <td class="col-sm-1 action">
+                            <a href="{{ path('commun_news_enregistre', {'id': news.id}) }}"
+                               title="Modifier une actualité">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a class="lnk_suppression" href="{{ path('commun_news_supprimer', {'id': news.id}) }}"
+                               title="Supprimer une actualité">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    {% endif %}
+
 {% endblock %}

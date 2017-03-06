@@ -99,3 +99,11 @@ knp_paginator:
     template:
         pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig     # sliding pagination controls template
         sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig                         # sort link template
+
+ivory_ck_editor:
+    default_config: ck_changesous_defaut
+    configs:
+        ck_changesous_defaut:
+            forcePasteAsPlainText:      true
+            toolbar:                    [['Format'],['FontSize'],['Bold','Italic','Underline','TextColor'],['NumberedList','BulletedList','Outdent','Indent'],['Link','Unlink'],['Cut','Copy','Paste','PasteText','PasteFromWord'],['Source']]
+            format_tags:                'div'

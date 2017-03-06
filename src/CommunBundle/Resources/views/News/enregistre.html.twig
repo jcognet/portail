@@ -1,0 +1,14 @@
+{% extends '@Commun/base.html.twig' %}
+    {% block header %}
+        Enregistrement d'une news
+    {% endblock %}
+{% block body %}
+    <div class="col-xs-12">
+        {{ form_start(form) }}
+        {{ form_row(form.titre) }}
+        {{ form_row(form.dateMiseEnLigne) }}
+        {{ form_row(form.corps) }}
+        {{ form_row(form.save) }}
+        {{ form_end (form)}}
+    </div>
+{% endblock %}

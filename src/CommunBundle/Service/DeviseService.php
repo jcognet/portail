@@ -112,13 +112,13 @@ class DeviseService
     }
 
 
-
     /**
      * Met à jours toutes les devises de l'application
      * @return bool
      */
-    public function updateCoursTouteDevise(){
-        foreach($this->em->getRepository('CommunBundle:Devise')->findAll() as $devise){
+    public function updateCoursTouteDevise()
+    {
+        foreach ($this->em->getRepository('CommunBundle:Devise')->findAll() as $devise) {
             $this->updateCoursJoursDevise($devise);
         }
         return true;
@@ -129,19 +129,41 @@ class DeviseService
      * @param array|null $listeDevise liste des devises à traiter
      * @param \DateTime|null $date jour à récupérer
      * @return array de la forme code devise => $taux / euros
+     * @throws \Exception
      */
     private function recupereCours(array $listeDevise = null, \DateTime $date = null)
     {
         $urlRequete = $this->url;
         // Ajout de la date et de la devise
         $urlRequete .= $date->format('Y-m-d') . '?symbols=' . implode(',', $listeDevise);
-        $res = json_decode(file_get_contents($urlRequete));
-        if (!is_null($res)) {
-            $listeTaux = array();
-            foreach ($res->rates as $devise => $taux) {
-                $listeTaux[$devise] = $taux;
+        $resource = curl_init();
+        // Prépararation à un appel curl
+        curl_setopt($resource, CURLOPT_URL, $urlRequete);
+        curl_setopt($resource,  CURLOPT_HEADER, false);
+        curl_setopt($resource, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($resource, CURLOPT_SSL_VERIFYPEER, false);
+        // On y va !
+        $serialized = curl_exec($resource);
+        try {
+            if (false !== $serialized ) {
+                $listeTaux = array();
+                $res = json_decode($serialized, true);
+                if (false === is_null($res)) {
+                    foreach ($res['rates'] as $devise => $taux) {
+                        $listeTaux[$devise] = $taux;
+                    }
+                }
+                curl_close($resource);
+                return $listeTaux;
+
             }
+        } catch (\Exception $e) {
+            echo curl_error ( $resource);
+            curl_close($resource);
+            throw $e;
         }
-        return $listeTaux;
+        curl_close($resource);
+        throw new \Exception("Impossible de se connecter au webservice de devise pour l'url : " . $urlRequete);
+
     }
 }

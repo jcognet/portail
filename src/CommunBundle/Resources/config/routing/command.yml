@@ -1,0 +1,12 @@
+# Récupère les cours d'une journée
+cours_get:
+    path:     /coursGet
+    defaults: { _controller: CommunBundle:Command:coursGet }
+# Récupère les cours d'une période
+cours_get_periode:
+    path:     /coursGetPeriode
+    defaults: { _controller: CommunBundle:Command:coursGetPeriode }
+# Envoie les alertes
+alert_send:
+    path:     /alertSend
+    defaults: { _controller: CommunBundle:Command:alertSend }

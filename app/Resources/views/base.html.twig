@@ -25,8 +25,10 @@
 
         <!-- Begin page content -->
         <div class="container-fluid">
-            {% embed '::menu_header.html.twig' %}
-            {% endembed %}
+            {% block menu %}
+                {% embed '::menu_header.html.twig' %}
+                {% endembed %}
+            {% endblock %}
 
 
             <div class="page-header">

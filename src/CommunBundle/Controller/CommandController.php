@@ -37,8 +37,8 @@ class CommandController extends Controller
 
     public function alertSendAction()
     {
-        return $this->render('CommunBundle:Command:alert_send.html.twig', array(// ...
-        ));
+        return $this->executeCommand('alert:send');
+
     }
 
     /**

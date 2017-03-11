@@ -1,7 +1,7 @@
 # Récupère les cours d'une journée
 cours_get:
-    path:     /coursGet
-    defaults: { _controller: CommunBundle:Command:coursGet }
+    path:     /coursGet/{id}/{date}
+    defaults: { _controller: CommunBundle:Command:coursGet, id: null, date: null }
 # Récupère les cours d'une période
 cours_get_periode:
     path:     /coursGetPeriode

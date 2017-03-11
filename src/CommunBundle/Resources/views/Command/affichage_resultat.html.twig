@@ -1,0 +1,13 @@
+{% extends '@Commun/base.html.twig' %}
+    {% block header %}
+        Résultat de la commande : {{ command }}
+    {% endblock %}
+    {% block menu %}
+    {% endblock %}
+{% block body %}
+    <div class="col-xs-12">
+        <pre>
+{{ output|trim }}
+        </pre>
+    </div>
+{% endblock %}

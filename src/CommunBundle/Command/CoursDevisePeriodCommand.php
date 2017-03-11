@@ -48,7 +48,6 @@ class CoursDevisePeriodCommand extends ContainerAwareCommand
         foreach($listeDate as $date) {
             $output->writeln('<info> Calcul de la devise pour '.$date->format('d/m/Y').'</info>');
             $this->getContainer()->get('commun.devise')->recupereEtSauveCours($input->getOption('devise'), $date);
-            sleep(2);
         }
         $this->getContainer()->get('commun.devise')->updateCoursTouteDevise();
     }

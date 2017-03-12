@@ -7,4 +7,4 @@ value=`cat ../backup/"$DATE"_mep.txt`
 echo "$value"
 # Envoi du mail
 cd ..
-bin/console mail:fichier "Mise en production -- dév" backup/"$DATE"_mep.txt
+/usr/local/php7.0/bin/php bin/console mail:fichier "Mise en production -- dév" backup/"$DATE"_mep.txt

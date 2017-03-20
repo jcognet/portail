@@ -1,0 +1,5 @@
+services:
+    # Service concernant les alertes utilisateurs
+    book.google_get_book_service:
+        class: BookBundle\Service\GoogleGetBookService
+        arguments: ["@doctrine.orm.entity_manager", "%google_books_api%"]

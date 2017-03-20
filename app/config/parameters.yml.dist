@@ -36,8 +36,11 @@ parameters:
 
     backup_directory: '../backup/' #à partir de kernel.root_dir
     backup_duration: 7 # Nombre de jours de sauvegarde
+    # Recaptcha clé
     recaptcha_public_key: 6LdxyQ0UAAAAAPWQ8fNsJbKGjsaTwUWRYpe0ZSPc
     recaptcha_secret_key: cle_secrete
+    # Clé google API Books
+    google_books_api: ''
 
 swiftmailer:
     transport: transport

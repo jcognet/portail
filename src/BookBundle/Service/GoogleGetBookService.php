@@ -56,7 +56,7 @@ class GoogleGetBookService
             return false;
         // TODO : enregistrer retour livre en base (inconnus)
         // Ca y est, on peu créer le livre
-        $this->convertitGoogleBooksEntite($book);
+        $this->analyseRetourGoogle($book);
     }
 
     /**
@@ -129,30 +129,57 @@ class GoogleGetBookService
         $this->em->flush();
     }
 
-    public function convertitGoogleBooksEntite($retourGoogle)
+    public function analyseRetourGoogle($retourGoogle)
     {
         //TODO : what happens si autre monnaie ?
-        //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ?
+        //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ? Ou création table synonyme
         //TODO : ISBN
+        //TODO : ISBN 10 & ISBN 13 + unicité
+        //TODO : gestion volumeSeries
+        //TODO : lien avec images
+        //TODO : lien avec catégories
         // Récupération du livre courant
         $book = current($retourGoogle->items);
+        $livre = $this->convertitGoogleLivre($book);
+        $listeAuteurs =  $this->convertitGoogleAuteurs($book, $livre);
+        $editeur = $this->convertitGoogleEditeur($book, $livre);
+        $this->em->persist($livre);
+        $this->em->flush();
+    }
+
+    /***
+     * Convertit un retour google en livre
+     * @param $livreGoogle
+     * @return BaseLivre
+     */
+    protected function convertitGoogleLivre($livreGoogle){
         // Création du livre
         $livre = new BaseLivre();
-        $livre->setGoogleId($book->id)
+        $livre->setGoogleId($livreGoogle->id)
             ->setDateCreation(new \DateTime())
-            ->setGoogleLink($book->selfLink)
+            ->setGoogleLink($livreGoogle->selfLink)
             # volumeInfo
-            ->setTitre($book->volumeInfo->title)
-            ->setDatePublication(new \DateTime($book->volumeInfo->publishedDate))
-            ->setDescription($book->volumeInfo->description)
-            ->setNombrePages($book->volumeInfo->pageCount)
-            ->setPays($book->volumeInfo->language)
+            ->setTitre($livreGoogle->volumeInfo->title)
+            ->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate))
+            ->setDescription($livreGoogle->volumeInfo->description)
+            ->setNombrePages($livreGoogle->volumeInfo->pageCount)
+            ->setPays($livreGoogle->volumeInfo->language)
             # saleInfo
-            ->setPrix($book->saleInfo->retailPrice->amount);
+            ->setPrix($livreGoogle->saleInfo->retailPrice->amount);
+        return $livre;
+    }
 
+    /**
+     * Convertit un retour google en auteurs et le livre à un livre
+     * @param $livreGoogle
+     * @param BaseLivre $livre
+     * @return Auteur[)
+     */
+    protected function convertitGoogleAuteurs($livreGoogle, BaseLivre $livre){
+        $listeAuteurs = array();
         // Gestion des auteurs
-        if (true === is_array($book->volumeInfo->authors)) {
-            foreach ($book->volumeInfo->authors as $googleAuteur) {
+        if (true === is_array($livreGoogle->volumeInfo->authors)) {
+            foreach ($livreGoogle->volumeInfo->authors as $googleAuteur) {
                 // Création de l'auteur s'il n'existe pas
                 if (true === is_null($auteur = $this->em->getRepository('BookBundle:Auteur')->findOneByReferenceGoogle($googleAuteur))) {
                     $auteur = new Auteur();
@@ -163,25 +190,31 @@ class GoogleGetBookService
                 }
                 // Ajout de l'auteur
                 $livre->addAuteur($auteur);
+                $listeAuteurs[] = $auteur;
             }
         }
+        return $listeAuteurs ;
+    }
+
+    /**
+     * Convertit un retour google en editeur et le livre à un livre
+     * @param $livreGoogle
+     * @param BaseLivre $livre
+     * @return Editeur|null
+     */
+    protected function convertitGoogleEditeur($livreGoogle, BaseLivre $livre){
+        $editeur = null;
+        $googleEditeur = $livreGoogle->volumeInfo->publisher;
         // Gestion de l'éditeur
-        $googleEditeur = $book->volumeInfo->publisher;
-        // Création de l'auteur s'il n'existe pas
         if (true === is_null($editeur = $this->em->getRepository('BookBundle:Editeur')->findOneByReferenceGoogle($googleEditeur))) {
             $editeur = new Editeur();
             $editeur->setDateCreation(new \DateTime())
                 ->setReferenceGoogle($googleEditeur)
                 ->setNom($googleEditeur)
-                ;
+            ;
             $this->em->persist($editeur);
         }
-        $livre->setEditeur($editeur);
-        //TODO : lien avec images
-        //TODO : lien avec catégories
-        $this->em->persist($livre);
-        $this->em->flush();
-
+        return $editeur;
     }
 }
 

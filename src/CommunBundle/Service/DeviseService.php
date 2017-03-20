@@ -65,7 +65,7 @@ class DeviseService
         foreach ($this->recupereCours($listeDevise, $date) as $codeDevise => $taux) {
             // Création ou récupération en base
             $devise = $this->em->getRepository('CommunBundle:Devise')->findOneByCodeWebservice($codeDevise);
-            if (is_null($cours = $this->em->getRepository('CommunBundle:CoursJournee')->findOneBy(
+            if (true === is_null($cours = $this->em->getRepository('CommunBundle:CoursJournee')->findOneBy(
                 array(
                     'date'   => $date,
                     'devise' => $devise

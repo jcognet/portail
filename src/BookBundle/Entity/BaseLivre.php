@@ -2,6 +2,7 @@
 
 namespace BookBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -118,6 +119,20 @@ class BaseLivre
      * @ORM\Column(name="prix", type="float", nullable=true)
      */
     private $prix;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Auteur", inversedBy="livres")
+     */
+    private $auteurs;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToOne(targetEntity="Editeur", inversedBy="livres")
+     */
+    private $editeur;
 
 
     /**
@@ -464,5 +479,74 @@ class BaseLivre
     public function getDateCreation()
     {
         return $this->dateCreation;
+    }
+
+
+    /**
+     * Add auteur
+     *
+     * @param \BookBundle\Entity\Auteur $auteur
+     *
+     * @return BaseLivre
+     */
+    public function addAuteur(\BookBundle\Entity\Auteur $auteur)
+    {
+        $this->auteurs[] = $auteur;
+
+        return $this;
+    }
+
+    /**
+     * Remove auteur
+     *
+     * @param \BookBundle\Entity\Auteur $auteur
+     */
+    public function removeAuteur(\BookBundle\Entity\Auteur $auteur)
+    {
+        $this->auteurs->removeElement($auteur);
+    }
+
+    /**
+     * Get auteurs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAuteurs()
+    {
+        return $this->auteurs;
+    }
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->auteurs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * Set editeur
+     *
+     * @param \BookBundle\Entity\Editeur $editeur
+     *
+     * @return BaseLivre
+     */
+    public function setEditeur(\BookBundle\Entity\Editeur $editeur = null)
+    {
+        $this->editeur = $editeur;
+
+        return $this;
+    }
+
+    /**
+     * Get editeur
+     *
+     * @return \BookBundle\Entity\Editeur
+     */
+    public function getEditeur()
+    {
+        return $this->editeur;
     }
 }

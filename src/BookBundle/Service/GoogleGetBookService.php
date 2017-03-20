@@ -2,7 +2,9 @@
 
 namespace BookBundle\Service;
 
+use BookBundle\Entity\Auteur;
 use BookBundle\Entity\BaseLivre;
+use BookBundle\Entity\Editeur;
 use BookBundle\Entity\LivreLogWerservice;
 use Doctrine\ORM\EntityManager;
 use CommunBundle\Traits\OutputTrait;
@@ -42,10 +44,9 @@ class GoogleGetBookService
 
     public function rechercheLivreParISBN($isbn)
     {
-        //TODO : protection sur l'isbn
+        //TODO : protection sur l'isbn (unicité en base + protection)
         // Préparation du log
-        $log = $this->creeLog($isbn);
-        // TODO : enregistrer retour livre en base (2 cas : trouvés et inconnus)
+        $log      = $this->creeLog($isbn);
         $bookJSon = $this->appelleGoogle($isbn);
         $book     = json_decode($bookJSon);
         // Fin enregistrement du log
@@ -53,8 +54,8 @@ class GoogleGetBookService
         // Si plus de livre, on arrête le traitement car il y a plusieurs livres avec le même isbn
         if (1 != $book->totalItems)
             return false;
+        // TODO : enregistrer retour livre en base (inconnus)
         // Ca y est, on peu créer le livre
-        //TODO : protège sur unicité isbn
         $this->convertitGoogleBooksEntite($book);
     }
 
@@ -128,22 +129,54 @@ class GoogleGetBookService
         $this->em->flush();
     }
 
-    public function convertitGoogleBooksEntite($retourGoogle){
+    public function convertitGoogleBooksEntite($retourGoogle)
+    {
+        //TODO : what happens si autre monnaie ?
+        //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ?
+        //TODO : ISBN
+        // Récupération du livre courant
         $book = current($retourGoogle->items);
+        // Création du livre
         $livre = new BaseLivre();
         $livre->setGoogleId($book->id)
-            ->setDate
+            ->setDateCreation(new \DateTime())
             ->setGoogleLink($book->selfLink)
             # volumeInfo
             ->setTitre($book->volumeInfo->title)
             ->setDatePublication(new \DateTime($book->volumeInfo->publishedDate))
             ->setDescription($book->volumeInfo->description)
             ->setNombrePages($book->volumeInfo->pageCount)
+            ->setPays($book->volumeInfo->language)
             # saleInfo
-            ->setNombrePages($book->saleInfo->retailPrice->amount)
-            ;
-        //TODO : lien avec auteur
-        //TODO : lien avec éditeur
+            ->setPrix($book->saleInfo->retailPrice->amount);
+
+        // Gestion des auteurs
+        if (true === is_array($book->volumeInfo->authors)) {
+            foreach ($book->volumeInfo->authors as $googleAuteur) {
+                // Création de l'auteur s'il n'existe pas
+                if (true === is_null($auteur = $this->em->getRepository('BookBundle:Auteur')->findOneByReferenceGoogle($googleAuteur))) {
+                    $auteur = new Auteur();
+                    $auteur->setDateCreation(new \DateTime())
+                        ->setReferenceGoogle($googleAuteur)
+                        ->setNomComplet($googleAuteur);
+                    $this->em->persist($auteur);
+                }
+                // Ajout de l'auteur
+                $livre->addAuteur($auteur);
+            }
+        }
+        // Gestion de l'éditeur
+        $googleEditeur = $book->volumeInfo->publisher;
+        // Création de l'auteur s'il n'existe pas
+        if (true === is_null($editeur = $this->em->getRepository('BookBundle:Editeur')->findOneByReferenceGoogle($googleEditeur))) {
+            $editeur = new Editeur();
+            $editeur->setDateCreation(new \DateTime())
+                ->setReferenceGoogle($googleEditeur)
+                ->setNom($googleEditeur)
+                ;
+            $this->em->persist($editeur);
+        }
+        $livre->setEditeur($editeur);
         //TODO : lien avec images
         //TODO : lien avec catégories
         $this->em->persist($livre);

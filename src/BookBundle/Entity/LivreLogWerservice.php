@@ -187,4 +187,3 @@ class LivreLogWerservice
         return $this->url;
     }
 }
-

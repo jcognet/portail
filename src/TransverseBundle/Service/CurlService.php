@@ -40,7 +40,7 @@ class CurlService
             throw $e;
         }
         curl_close($resource);
-        throw new \Exception("Impossible de se connecter au webservice de devise pour l'url : " . $url);
+        throw new \Exception("Impossible de se connecter au webservice de l'url : " . $url);
     }
 
 

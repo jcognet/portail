@@ -63,7 +63,6 @@ class CurlService
         $fileName =  FileTools::nettoieNomFichier(basename($pathDestination));
         // Destination finale
         $destination = $repertoire.DIRECTORY_SEPARATOR.$fileName;
-        var_dump($destination);
         // Appel CURL
         $resource = curl_init($url);
         $image    = fopen($destination, 'wb');

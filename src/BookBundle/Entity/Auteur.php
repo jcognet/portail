@@ -96,7 +96,7 @@ class Auteur
      * @Gedmo\Slug(fields={"referenceGoogle"})
      * @ORM\Column(length=128, unique=true)
      */
-    private $slug = "";
+    private $slug = null;
 
 
     /**

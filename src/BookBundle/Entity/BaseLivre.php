@@ -136,10 +136,10 @@ class BaseLivre
     private $editeur;
 
     /**
-     * @Gedmo\Slug(fields={"referenceGoogle"})
+     * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(length=128, unique=true)
      */
-    private $slug = "";
+    private $slug = null;
 
 
     /**
@@ -502,6 +502,7 @@ class BaseLivre
 
         return $this;
     }
+
 
     /**
      * Remove auteur

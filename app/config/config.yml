@@ -112,3 +112,7 @@ ivory_ck_editor:
             toolbar:                    [['Format'],['FontSize'],['Bold','Italic','Underline','TextColor'],['NumberedList','BulletedList','Outdent','Indent'],['Link','Unlink'],['Cut','Copy','Paste','PasteText','PasteFromWord'],['Source']]
             format_tags:                'div'
 
+stof_doctrine_extensions:
+    orm:
+        default:
+            sluggable:   true

@@ -161,7 +161,8 @@ class GoogleGetBookService
     {
         //TODO : what happens si autre monnaie ?
         //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ? Ou création table synonyme
-        //TODO : gestion volumeSeries
+        //TODO : mettre en place des synonymes pour les catégories
+        //TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
         // Récupération du livre courant
         $book = current($retourGoogle->items);
         // Création du livre à partir du contenu de google

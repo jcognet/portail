@@ -149,6 +149,8 @@ class GoogleGetBookService
         $book = current($retourGoogle->items);
         // Création du livre à partir du contenu de google
         $livre = $this->convertitGoogleLivre($book);
+        $this->em->persist($livre);
+        $this->em->flush(); // On flush maintenant pour pouvoir avoir le slug de suite
         // Création de la liste des auteurs
         $listeAuteurs = $this->convertitGoogleAuteurs($book, $livre);
         $this->ecrit("Nombre d'auteurs : " . count($listeAuteurs));
@@ -161,7 +163,6 @@ class GoogleGetBookService
         // Gestion des images
         $image = $this->convertitImage($book, $livre);
         // Enregistrement en base
-        $this->em->persist($livre);
         $this->em->flush();
         return $livre;
     }
@@ -173,11 +174,14 @@ class GoogleGetBookService
      */
     protected function convertitGoogleLivre($livreGoogle)
     {
-        // Création du livre
-        $livre = new BaseLivre();
-        $livre->setGoogleId($livreGoogle->id)
-            ->setDateCreation(new \DateTime())
-            ->setGoogleLink($livreGoogle->selfLink);
+        // Création du livre si nécessaire
+        if (true === is_null($livre = $this->em->getRepository('BookBundle:BaseLivre')->findOneByGoogleId($livreGoogle->id))) {
+            $livre = new BaseLivre();
+            $livre->setGoogleId($livreGoogle->id)
+                ->setDateCreation(new \DateTime());
+        }
+        // On met à jour le lien
+        $livre->setGoogleLink($livreGoogle->selfLink);
         if (true === property_exists($livreGoogle, 'volumeInfo')) {
             # volumeInfo
             $livre->setTitre($livreGoogle->volumeInfo->title)
@@ -203,6 +207,9 @@ class GoogleGetBookService
     protected function convertitGoogleAuteurs($livreGoogle, BaseLivre $livre)
     {
         $listeAuteurs = array();
+        // Suppression de tous les auteurs
+        foreach($livre->getAuteurs() as $auteur)
+            $livre->removeAuteur($auteur);
         // Gestion des auteurs
         if (true === property_exists($livreGoogle, 'volumeInfo')
             && true === property_exists($livreGoogle->volumeInfo, 'authors')
@@ -261,7 +268,6 @@ class GoogleGetBookService
         // Récupération du contenu du selfLink qui propose + d'image
         $selfLinkContent = $this->getContentSelfLink($livreGoogle);
         $urlImage        = null;
-        var_dump($selfLinkContent);
         if (true === property_exists($selfLinkContent, "volumeInfo")
             && true === property_exists($selfLinkContent->volumeInfo, "imageLinks")
         ) {
@@ -282,8 +288,9 @@ class GoogleGetBookService
             return null;
         }
         // On télécharge l'image
-        $this->ecrit("Url image : " . $urlImage);
-        $this->curlService->telechargeImage($urlImage, $this->pathUpload  . $livre->getTitre() . '.jpg');
+        $pathEnregistrement = $this->pathUpload . $livre->getSlug() . '.jpg';
+        $this->ecrit("Enregistrement de image : " . $urlImage . " en " . $pathEnregistrement);
+        $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
     }
 
     /**

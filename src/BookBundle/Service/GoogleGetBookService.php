@@ -27,6 +27,26 @@ class GoogleGetBookService
      */
     const IMAGE_SIZE_LISTE = array("medium", "small", "large", "thumbnail");
 
+    /**
+     * Constante google avec la clé permettant de retrouver ISBN_13
+     */
+    const GOOGLE_TYPE_ISBN_13 = "ISBN_13";
+
+    /**
+     * Id de la valeur ISBN_13
+     */
+    const GOOGLE_TYPE_ISBN_13_IDENTIFIER = "identifier";
+
+    /**
+     *  Constante google avec la clé permettant de retrouver ISBN_10
+     */
+    const GOOGLE_TYPE_ISBN_10 = "ISBN_10";
+
+    /**
+     * Id de la valeur ISBN_10
+     */
+    const GOOGLE_TYPE_ISBN_10_IDENTIFIER = "identifier";
+
     use  OutputTrait;
 
     /**
@@ -69,7 +89,6 @@ class GoogleGetBookService
      */
     public function rechercheLivreParISBN($isbn)
     {
-        //TODO : protection sur l'isbn (unicité en base + protection)
         // Préparation du log
         $log  = $this->creeLog($isbn);
         $book = $this->appelleGoogleApi($isbn);
@@ -189,12 +208,28 @@ class GoogleGetBookService
                 ->setDescription($livreGoogle->volumeInfo->description)
                 ->setNombrePages($livreGoogle->volumeInfo->pageCount)
                 ->setPays($livreGoogle->volumeInfo->language);
+            // Mise à jour de l'isbn
+            if (true === property_exists($livreGoogle->volumeInfo, 'industryIdentifiers')) {
+                foreach ($livreGoogle->volumeInfo->industryIdentifiers as $iid) {
+                    $type = $iid->type;
+                    if (self::GOOGLE_TYPE_ISBN_10 == $type) {
+                        $prop = self::GOOGLE_TYPE_ISBN_10_IDENTIFIER;
+                        $livre->setIsbn10($iid->$prop);
+                    }
+                    elseif (self::GOOGLE_TYPE_ISBN_13 == $type) {
+                        $prop = self::GOOGLE_TYPE_ISBN_13_IDENTIFIER;
+                        $livre->setIsbn13($iid->$prop);
+                    }
+                }
+            }
         }
+        // Mise à jour du prix
         if (true === property_exists($livreGoogle, 'saleInfo')) {
             if (true === property_exists($livreGoogle->saleInfo, 'retailPrice')) {
                 $livre->setPrix($livreGoogle->saleInfo->retailPrice->amount);
             }
         }
+
         return $livre;
     }
 
@@ -208,7 +243,7 @@ class GoogleGetBookService
     {
         $listeAuteurs = array();
         // Suppression de tous les auteurs
-        foreach($livre->getAuteurs() as $auteur)
+        foreach ($livre->getAuteurs() as $auteur)
             $livre->removeAuteur($auteur);
         // Gestion des auteurs
         if (true === property_exists($livreGoogle, 'volumeInfo')
@@ -272,8 +307,7 @@ class GoogleGetBookService
             && true === property_exists($selfLinkContent->volumeInfo, "imageLinks")
         ) {
             $listeImages = $selfLinkContent->volumeInfo->imageLinks;
-            // On parcour la liste des listes proposées. On utilise la première trouvée
-
+            // On parcourt la liste des listes proposées. On utilise la première trouvée
             foreach (self::IMAGE_SIZE_LISTE as $size) {
                 if (true === property_exists($listeImages, $size)) {
                     $prop     = $size;
@@ -289,8 +323,10 @@ class GoogleGetBookService
         }
         // On télécharge l'image
         $pathEnregistrement = $this->pathUpload . $livre->getSlug() . '.jpg';
-        $this->ecrit("Enregistrement de image : " . $urlImage . " en " . $pathEnregistrement);
+        $this->ecrit("Enregistrement de image : " . $urlImage);
+        $this->ecrit("Destination image : " . $pathEnregistrement);
         $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
+        //TODO : redimensionner ?
     }
 
     /**

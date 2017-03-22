@@ -1,5 +1,5 @@
 <?php
-namespace CommunBundle\Traits;
+namespace TransverseBundle\Traits;
 
 /**
  * Class servant à écrire dans les commandes

@@ -2,9 +2,9 @@
 
 namespace AdminBundle\Service;
 
-use CommunBundle\Traits\OutputTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use TransverseBundle\Traits\OutputTrait;
 
 /**
  * Class BackupService

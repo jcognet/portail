@@ -3,6 +3,7 @@
 namespace BookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Auteur
@@ -90,6 +91,12 @@ class Auteur
      * @ORM\ManyToMany(targetEntity="BaseLivre", mappedBy="auteurs")
      */
     private $livres;
+
+    /**
+     * @Gedmo\Slug(fields={"referenceGoogle"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug = "";
 
 
     /**
@@ -357,5 +364,29 @@ class Auteur
     public function getLivres()
     {
         return $this->livres;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Auteur
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

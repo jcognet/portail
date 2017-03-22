@@ -23,6 +23,8 @@ class AppKernel extends Kernel
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new BookBundle\BookBundle(),
+            new TransverseBundle\TransverseBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         ];
         if (in_array($this->getEnvironment(), ['prod'], true)) {
             $bundles[] = new Sentry\SentryBundle\SentryBundle(); // log sentry qui centralise les erreurs clients

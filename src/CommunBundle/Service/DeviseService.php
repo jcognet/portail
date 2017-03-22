@@ -5,6 +5,7 @@ namespace CommunBundle\Service;
 use CommunBundle\Entity\CoursJournee;
 use CommunBundle\Entity\Devise;
 use Doctrine\ORM\EntityManager;
+use TransverseBundle\Service\CurlService;
 
 /**
  * Service qui gère les devises
@@ -28,10 +29,17 @@ class DeviseService
      */
     private $url = "";
 
-    public function __construct(EntityManager $em, $url)
+    /**
+     * Curl service
+     * @var null|CurlService
+     */
+    protected $curlService = null;
+
+    public function __construct(EntityManager $em, $url, CurlService $curlService)
     {
         $this->em  = $em;
         $this->url = $url;
+        $this->curlService = $curlService;
     }
 
 
@@ -133,37 +141,14 @@ class DeviseService
      */
     private function recupereCours(array $listeDevise = null, \DateTime $date = null)
     {
+
         $urlRequete = $this->url;
         // Ajout de la date et de la devise
         $urlRequete .= $date->format('Y-m-d') . '?symbols=' . implode(',', $listeDevise);
-        $resource = curl_init();
-        // Prépararation à un appel curl
-        curl_setopt($resource, CURLOPT_URL, $urlRequete);
-        curl_setopt($resource,  CURLOPT_HEADER, false);
-        curl_setopt($resource, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($resource, CURLOPT_SSL_VERIFYPEER, false);
-        // On y va !
-        $serialized = curl_exec($resource);
-        try {
-            if (false !== $serialized ) {
-                $listeTaux = array();
-                $res = json_decode($serialized, true);
-                if (false === is_null($res)) {
-                    foreach ($res['rates'] as $devise => $taux) {
-                        $listeTaux[$devise] = $taux;
-                    }
-                }
-                curl_close($resource);
-                return $listeTaux;
-
-            }
-        } catch (\Exception $e) {
-            echo curl_error ( $resource);
-            curl_close($resource);
-            throw $e;
+        $res = $this->curlService->appelleCurl($urlRequete);
+        foreach ($res->rates as $devise => $taux) {
+            $listeTaux[$devise] = $taux;
         }
-        curl_close($resource);
-        throw new \Exception("Impossible de se connecter au webservice de devise pour l'url : " . $urlRequete);
-
+        return $listeTaux;
     }
 }

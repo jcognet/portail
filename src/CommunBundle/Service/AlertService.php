@@ -3,7 +3,7 @@
 namespace CommunBundle\Service;
 
 use Doctrine\ORM\EntityManager;
-use CommunBundle\Traits\OutputTrait;
+use TransverseBundle\Traits\OutputTrait;
 
 /**
  * Class AlertService

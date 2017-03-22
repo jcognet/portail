@@ -31,8 +31,10 @@ class GoogleGetBookCommand extends ContainerAwareCommand
                                $now->format('d/m/Y à H:i:s'),
                                'ISBN : ' . $isbn,
                                "***************"));
-        $res = $this->getContainer()->get('book.google_get_book_service')->rechercheLivreParISBN($isbn);
-        $output->writeln('Retour : '.$res);
+        $livreService = $this->getContainer()->get('book.google_get_book_service');
+        $livreService->setOutput($output);
+        $res = $livreService->rechercheLivreParISBN($isbn);
+        $output->writeln('Retour livre avec ID :  '.$res->getId().'-Titre : '.$res->getTitre() );
     }
 
 

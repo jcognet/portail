@@ -41,6 +41,10 @@ parameters:
     recaptcha_secret_key: cle_secrete
     # Clé google API Books
     google_books_api: ''
+    # Path physique upload image, finir avec /
+    path_physique_upload: '%kernel.root_dir%/../web/'
+    # Path relatif à partir de web, finir avec /
+    path_relatif_upload_image: 'uploads/livres/'
 
 swiftmailer:
     transport: transport

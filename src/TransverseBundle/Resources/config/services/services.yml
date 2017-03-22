@@ -1,0 +1,4 @@
+services:
+    # Service gérant les appels CURL
+    transverse.curl:
+        class: TransverseBundle\Service\CurlService

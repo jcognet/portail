@@ -10,7 +10,7 @@ services:
     # Service de devise
     commun.devise:
         class: CommunBundle\Service\DeviseService
-        arguments: ["@doctrine.orm.entity_manager", "%url_devise_webservice%"]
+        arguments: ["@doctrine.orm.entity_manager", "%url_devise_webservice%", "@transverse.curl"]
     # Service concernant les alertes utilisateurs
     commun.alert:
         class: CommunBundle\Service\AlertService

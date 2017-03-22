@@ -4,6 +4,7 @@ namespace BookBundle\Service;
 
 use BookBundle\Entity\Auteur;
 use BookBundle\Entity\BaseLivre;
+use BookBundle\Entity\Categorie;
 use BookBundle\Entity\Editeur;
 use BookBundle\Entity\LivreLogWerservice;
 use Doctrine\ORM\EntityManager;
@@ -96,7 +97,6 @@ class GoogleGetBookService
         $this->finLog($log, $book);
         // Si plus de livre, on arrête le traitement car il y a plusieurs livres avec le même isbn
         $this->ecrit("Nombre de livres : " . $book->totalItems);
-        // TODO : enregistrer retour livre en base (inconnus)
         // Ca y est, on peu créer le livre
         return $this->analyseRetourGoogle($book);
     }
@@ -161,9 +161,7 @@ class GoogleGetBookService
     {
         //TODO : what happens si autre monnaie ?
         //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ? Ou création table synonyme
-        //TODO : ISBN 10 & ISBN 13 + unicité
         //TODO : gestion volumeSeries
-        //TODO : lien avec catégories
         // Récupération du livre courant
         $book = current($retourGoogle->items);
         // Création du livre à partir du contenu de google
@@ -181,6 +179,11 @@ class GoogleGetBookService
         $this->ecrit("Editeur : " . $editeur->getReferenceGoogle() . " - id : " . $editeur->getId());
         // Gestion des images
         $image = $this->convertitImage($book, $livre);
+        // Gestion des catégories
+        $listeCategories = $this->convertitCategories($book, $livre);
+        foreach ($listeCategories as $categorie) {
+            $this->ecrit("Catégorie : " . $categorie->getReferenceGoogle() . " - id : " . $categorie->getId());
+        }
         // Enregistrement en base
         $this->em->flush();
         return $livre;
@@ -293,10 +296,10 @@ class GoogleGetBookService
     }
 
     /**
-     *
+     * Convertit une image
      * @param $livreGoogle
      * @param BaseLivre $livre
-     * @return null
+     * @return bool|null|\Symfony\Component\HttpFoundation\File\File
      */
     protected function convertitImage($livreGoogle, BaseLivre $livre)
     {
@@ -325,8 +328,44 @@ class GoogleGetBookService
         $pathEnregistrement = $this->pathUpload . $livre->getSlug() . '.jpg';
         $this->ecrit("Enregistrement de image : " . $urlImage);
         $this->ecrit("Destination image : " . $pathEnregistrement);
-        $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
         //TODO : redimensionner ?
+        return $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
+
+    }
+
+    /**
+     * Convertit les catégories
+     * @param $livreGoogle
+     * @param BaseLivre $livre
+     * @return Categorie[]
+     */
+    protected function convertitCategories($livreGoogle, BaseLivre $livre){
+        $listeCategories = array();
+        // Récupération du contenu du selfLink qui propose + de catégories
+        $selfLinkContent = $this->getContentSelfLink($livreGoogle);
+        // Suppression de tous les auteurs
+        foreach ($livre->getCategories() as $categorie)
+            $livre->removeCategorie($categorie);
+        // Gestion des catégories
+        if (true === property_exists($selfLinkContent, 'volumeInfo')
+        && true === property_exists($selfLinkContent->volumeInfo, 'categories')
+        )
+         {
+            foreach ($selfLinkContent->volumeInfo->categories as $categorieGoogle) {
+                // Création de la catégorie s'il n'existe pas
+                if (true === is_null($categori = $this->em->getRepository('BookBundle:Categorie')->findOneByReferenceGoogle($categorieGoogle))) {
+                    $categorie = new Categorie();
+                    $categorie->setReferenceGoogle($categorieGoogle)
+                        ->setLabel($categorieGoogle)
+                    ;
+                    $this->em->persist($categorie);
+                }
+                // Ajout de l'auteur
+                $livre->addCategorie($categorie);
+                $listeCategories[] = $categorie;
+            }
+        }
+        return $listeCategories;
     }
 
     /**
@@ -337,7 +376,7 @@ class GoogleGetBookService
     protected function getContentSelfLink($livreGoogle)
     {
         static $contentSelfLink = ""; // Petit mécanisme de cache
-        if (0 === strlen($contentSelfLink)) {
+        if (false === is_object($contentSelfLink)) {
             $selfLink        = $livreGoogle->selfLink;
             $contentSelfLink = $this->appelleCurl($selfLink);
         }

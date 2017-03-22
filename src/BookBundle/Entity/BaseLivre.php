@@ -136,6 +136,13 @@ class BaseLivre
     private $editeur;
 
     /**
+     * @var ArrayCollection
+     *
+     * @ORM\ManyToMany(targetEntity="Categorie")
+     */
+    private $categories;
+
+    /**
      * @Gedmo\Slug(fields={"titre"})
      * @ORM\Column(length=128, unique=true)
      */
@@ -580,5 +587,63 @@ class BaseLivre
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add Categorie
+     *
+     * @param \BookBundle\Entity\Categorie $Categorie
+     *
+     * @return BaseLivre
+     */
+    public function addCategorie(\BookBundle\Entity\Categorie $Categorie)
+    {
+        $this->categories[] = $Categorie;
+
+        return $this;
+    }
+
+    /**
+     * Remove Categorie
+     *
+     * @param \BookBundle\Entity\Categorie $Categorie
+     */
+    public function removeCategorie(\BookBundle\Entity\Categorie $Categorie)
+    {
+        $this->categories->removeElement($Categorie);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \BookBundle\Entity\Categorie $category
+     *
+     * @return BaseLivre
+     */
+    public function addCategory(\BookBundle\Entity\Categorie $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \BookBundle\Entity\Categorie $category
+     */
+    public function removeCategory(\BookBundle\Entity\Categorie $category)
+    {
+        $this->categories->removeElement($category);
     }
 }

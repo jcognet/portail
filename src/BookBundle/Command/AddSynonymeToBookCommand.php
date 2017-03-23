@@ -10,31 +10,67 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Commande permettant de récupérer les informations d'un livre
+ * Commande permettant d'ajouter un synonyme à un livre
  * Class CoursDeviseCommand
  */
-class GoogleGetBookCommand extends ContainerAwareCommand
+class AddSynonymeToBookCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('book:google:get-by-isbn')
-            ->setDescription('Fait appel à Google pour récupérer les informations d\'un livre.')
-            ->addArgument('isbn', null, InputArgument::REQUIRED, 'ISBN de livre à chercher', null);
+            ->setName('book:add:synonyme')
+            ->setDescription('Ajouter un synonyme à un libre.')
+            ->addArgument('type', null, InputArgument::REQUIRED, "Type d'objet à traiter", null)
+            ->addArgument('livreId', null, InputArgument::REQUIRED, 'Id du livre à traiter', null)
+            ->addArgument('synonyme', null, InputArgument::REQUIRED, 'Synonyme à ajouter', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $isbn = $input->getArgument('isbn');
-        $now  = new \DateTime();
-        $output->writeln(array("Début de la commande de récupération du livre",
+        // Traitement des arguments
+        $livreId       = $input->getArgument('livreId');
+        $synonymeLabel = $input->getArgument('synonyme');
+        $type          = $input->getArgument('type');
+        // Affichage du début du travail
+        $now = new \DateTime();
+        $output->writeln(array("Début de la commande d'ajouter un synonyme",
                                $now->format('d/m/Y à H:i:s'),
-                               'ISBN : ' . $isbn,
+                               'ID du livre : ' . $livreId,
+                               'Synonyme à ajouter : ' . $synonymeLabel,
                                "***************"));
-        $livreService = $this->getContainer()->get('book.google_get_book_service');
-        $livreService->setOutput($output);
-        $res = $livreService->rechercheLivreParISBN($isbn);
-        $output->writeln('Retour livre avec ID :  '.$res->getId().'-Titre : '.$res->getTitre() );
+        $em         = $this->getContainer()->get('doctrine.orm.entity_manager');
+        $entityType = null;
+        switch (strtolower($type)) {
+            case "auteur":
+                $entityType = "Auteur";
+                break;
+            case "livre":
+                $entityType = "BaseLivre";
+                break;
+            case "categorie":
+                $entityType = "Categorie";
+                break;
+            case "editeur":
+                $entityType = "Editeur";
+                break;
+            default:
+                throw new \Exception("Type inconnu : " . $type);
+        }
+        // Récupération de l'objet
+        $objet = $em->getRepository('BookBundle:' . $entityType)->find($livreId);
+        if (true === is_null($livreId)) {
+            throw new \Exception('Livre inconnu : ' . $livreId);
+        }
+        // Ajout du synonyme
+        $synonyme = $em->getRepository('BookBundle:Synonyme')->persist($objet, $synonymeLabel);
+        $output->writeln('Retour du persist ' . $synonyme->getMot() . " avec ID : " . $synonyme->getId());
+        $em->flush();
+        // Récupération de tous les synonymes
+        $listeSynonymes = $em->getRepository('BookBundle:Synonyme')->findTousSynonyme($objet);
+        $output->writeln('Liste des synonymes');
+        foreach ($listeSynonymes as $s)
+            $output->writeln($s->getMot() . " avec ID : " . $s->getId());
+        // Recherche d'un objet à partir de son synonyme
     }
 
 

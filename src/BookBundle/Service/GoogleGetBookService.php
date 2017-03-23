@@ -161,7 +161,6 @@ class GoogleGetBookService
     {
         //TODO : what happens si autre monnaie ?
         //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ? Ou création table synonyme
-        //TODO : mettre en place des synonymes pour les catégories
         //TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
         // Récupération du livre courant
         $book = current($retourGoogle->items);
@@ -219,8 +218,7 @@ class GoogleGetBookService
                     if (self::GOOGLE_TYPE_ISBN_10 == $type) {
                         $prop = self::GOOGLE_TYPE_ISBN_10_IDENTIFIER;
                         $livre->setIsbn10($iid->$prop);
-                    }
-                    elseif (self::GOOGLE_TYPE_ISBN_13 == $type) {
+                    } elseif (self::GOOGLE_TYPE_ISBN_13 == $type) {
                         $prop = self::GOOGLE_TYPE_ISBN_13_IDENTIFIER;
                         $livre->setIsbn13($iid->$prop);
                     }
@@ -257,11 +255,16 @@ class GoogleGetBookService
             foreach ($livreGoogle->volumeInfo->authors as $googleAuteur) {
                 // Création de l'auteur s'il n'existe pas
                 if (true === is_null($auteur = $this->em->getRepository('BookBundle:Auteur')->findOneByReferenceGoogle($googleAuteur))) {
-                    $auteur = new Auteur();
-                    $auteur->setDateCreation(new \DateTime())
-                        ->setReferenceGoogle($googleAuteur)
-                        ->setNomComplet($googleAuteur);
-                    $this->em->persist($auteur);
+                    $auteur = new Auteur(); // Création maintenant pour l'utiliser dans le synonyme repo
+                    // Vérification dans les synonymes
+                    $auteur = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($auteur), $googleAuteur);
+                    if (true === is_null($auteur)) {
+                        // Création si nécessaire
+                        $auteur->setDateCreation(new \DateTime())
+                            ->setReferenceGoogle($googleAuteur)
+                            ->setNomComplet($googleAuteur);
+                        $this->em->persist($auteur);
+                    }
                 }
                 // Ajout de l'auteur
                 $livre->addAuteur($auteur);
@@ -286,11 +289,15 @@ class GoogleGetBookService
             $googleEditeur = $livreGoogle->volumeInfo->publisher;
             // Gestion de l'éditeur
             if (true === is_null($editeur = $this->em->getRepository('BookBundle:Editeur')->findOneByReferenceGoogle($googleEditeur))) {
-                $editeur = new Editeur();
-                $editeur->setDateCreation(new \DateTime())
-                    ->setReferenceGoogle($googleEditeur)
-                    ->setNom($googleEditeur);
-                $this->em->persist($editeur);
+                $editeur = new Editeur();// Création maintenant pour l'utiliser dans le synonyme repo
+                // Vérification dans les synonymes
+                $editeur = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($editeur), $googleEditeur);
+                if (true === is_null($editeur)) {
+                    $editeur->setDateCreation(new \DateTime())
+                        ->setReferenceGoogle($googleEditeur)
+                        ->setNom($googleEditeur);
+                    $this->em->persist($editeur);
+                }
             }
         }
         return $editeur;
@@ -340,7 +347,8 @@ class GoogleGetBookService
      * @param BaseLivre $livre
      * @return Categorie[]
      */
-    protected function convertitCategories($livreGoogle, BaseLivre $livre){
+    protected function convertitCategories($livreGoogle, BaseLivre $livre)
+    {
         $listeCategories = array();
         // Récupération du contenu du selfLink qui propose + de catégories
         $selfLinkContent = $this->getContentSelfLink($livreGoogle);
@@ -349,17 +357,18 @@ class GoogleGetBookService
             $livre->removeCategorie($categorie);
         // Gestion des catégories
         if (true === property_exists($selfLinkContent, 'volumeInfo')
-        && true === property_exists($selfLinkContent->volumeInfo, 'categories')
-        )
-         {
+            && true === property_exists($selfLinkContent->volumeInfo, 'categories')
+        ) {
             foreach ($selfLinkContent->volumeInfo->categories as $categorieGoogle) {
                 // Création de la catégorie s'il n'existe pas
                 if (true === is_null($categori = $this->em->getRepository('BookBundle:Categorie')->findOneByReferenceGoogle($categorieGoogle))) {
                     $categorie = new Categorie();
-                    $categorie->setReferenceGoogle($categorieGoogle)
-                        ->setLabel($categorieGoogle)
-                    ;
-                    $this->em->persist($categorie);
+                    $categorie = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($categorie), $categorieGoogle);
+                    if (true === is_null($categorie)) {
+                        $categorie->setReferenceGoogle($categorieGoogle)
+                            ->setLabel($categorieGoogle);
+                        $this->em->persist($categorie);
+                    }
                 }
                 // Ajout de l'auteur
                 $livre->addCategorie($categorie);

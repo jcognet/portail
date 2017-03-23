@@ -2,6 +2,7 @@
 
 namespace BookBundle\Entity;
 
+use BookBundle\Traits\SynonymeTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,6 +15,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class BaseLivre
 {
+    use SynonymeTrait;
+
     /**
      * @var int
      *

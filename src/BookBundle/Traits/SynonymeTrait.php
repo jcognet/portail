@@ -1,56 +1,65 @@
 <?php
-namespace TransverseBundle\Traits;
+namespace BookBundle\Traits;
+
+use BookBundle\Entity\Synonyme;
 
 /**
- * Class servant à écrire dans les commandes
- * Class OutputTrait
+ * Class servant à gérer les synonymes
+ * Class SynonymeTrait
  */
-trait OutputTrait
+trait SynonymeTrait
 {
-    /**
-     * @var null|\Symfony\Component\Console\Output\OutputInterface
-     */
-    private $output = null;
 
     /**
-     * Set l'output
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return $this
+     * Liste des synonymes
+     * @var Synonyme[]
      */
-    public function setOutput(\Symfony\Component\Console\Output\OutputInterface $output)
+    protected $listeSynonymes = array();
+
+    /**
+     * Add synonyme
+     *
+     * @param \BookBundle\Entity\Synonyme $synonyme
+     *
+     * @return Editeur
+     */
+    public function addSynonyme(\BookBundle\Entity\Synonyme $synonyme)
     {
-        $this->output = $output;
+        $this->listeSynonymes[] = $synonyme;
+
         return $this;
     }
 
     /**
-     * Ecrit un message de succès
-     * @param $texte
+     * Remove Synonyme
+     *
+     * @param \BookBundle\Entity\Synonyme $synonyme
      */
-    public function ecritSucces($texte)
+    public function removeSynonyme(\BookBundle\Entity\Synonyme $synonyme)
     {
-        if(!is_null($this->output))
-            $this->output->writeln('<info>'.$texte.'</info>');
+        $listeSynonyme = array();
+        foreach ($this->listeSynonymes as $s) {
+            $ajoutSynonyme = true;
+            if ($s->getId() != $synonyme->getId()) {
+                $listeSynonyme[] = $s;
+            }
+        }
+        $this->listeSynonymes = $listeSynonyme;
     }
 
     /**
-     * Ecrit un message d'erreur
-     * @param $texte
+     * @return Synonyme[]
      */
-    public function ecritErreur($texte)
+    public function getListeSynonymes()
     {
-        if(!is_null($this->output))
-            $this->output->writeln('<error>'.$texte.'</error>');
+        return $this->listeSynonymes;
     }
 
     /**
-     * Ecrit tout court
-     * @param $texte
+     * @return Synonyme[]
      */
-    public function ecrit($texte)
+    public function getSynonymes()
     {
-        if(!is_null($this->output))
-            $this->output->writeln($texte);
+        return $this->listeSynonymes;
     }
 }

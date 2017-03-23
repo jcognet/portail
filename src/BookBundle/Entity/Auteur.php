@@ -2,6 +2,7 @@
 
 namespace BookBundle\Entity;
 
+use BookBundle\Traits\SynonymeTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -13,6 +14,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Auteur
 {
+    use SynonymeTrait;
+
     /**
      * @var int
      *

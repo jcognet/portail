@@ -36,4 +36,3 @@ echo "Gestion des Assets"
 # Cache
 echo "Cache"
 /usr/local/php7.0/bin/php bin/console cache:clear --env=$ENV
-chmod 777 -R .

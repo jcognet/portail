@@ -74,6 +74,12 @@ class GoogleGetBookService
      */
     protected $pathUpload = '';
 
+    /**
+     * Entité de log d'appel au webservice google
+     * @var LivreLogWerservice
+     */
+    protected $log = null;
+
 
     public function __construct(EntityManager $em, $googleApiBook, CurlService $curlService, $pathUpload)
     {
@@ -91,10 +97,8 @@ class GoogleGetBookService
     public function rechercheLivreParISBN($isbn)
     {
         // Préparation du log
-        $log  = $this->creeLog($isbn);
+        $this->creeLog($isbn);
         $book = $this->appelleGoogleApi($isbn);
-        // Fin enregistrement du log
-        $this->finLog($log, $book);
         // Si plus de livre, on arrête le traitement car il y a plusieurs livres avec le même isbn
         $this->ecrit("Nombre de livres : " . $book->totalItems);
         // Ca y est, on peu créer le livre
@@ -136,19 +140,21 @@ class GoogleGetBookService
             ->setUrl($this->getGoogleApiUrl($isbn));
         $this->em->persist($log);
         $this->em->flush();
+        $this->log = $log;
         return $log;
     }
 
     /**
      * Enregiste la fin d'un log
-     * @param LivreLogWerservice $log
      * @param $resultat
+     * @param $resultatSelfLink
      */
-    protected function finLog(LivreLogWerservice $log, $resultat)
+    protected function finLog($resultat, $resultatSelfLink)
     {
-        $log->setDateFin(new \DateTime())
-            ->setResultat(serialize($resultat));
-        $this->em->persist($log);
+        $this->log->setDateFin(new \DateTime())
+            ->setResultat(serialize($resultat))
+            ->setResultatSelfContent(serialize($resultatSelfLink));
+        $this->em->persist($this->log);
         $this->em->flush();
     }
 
@@ -160,13 +166,14 @@ class GoogleGetBookService
     public function analyseRetourGoogle($retourGoogle)
     {
         // TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
-        // TODO : dimension quand elles existent
-        // TODO : se baser sur la fin de détail (et non sur le retour google)
-        // TODO : se baser sur le language pour le pays https://www.googleapis.com/books/v1/volumes/AcrCuAAACAAJ
+        // TODO : pour le self link, imposer un pays pour le max d'élément ? https://www.googleapis.com/books/v1/volumes/AcrCuAAACAAJ
         // TODO : what happens si autre monnaie ?
         // Changer le pays ? https://productforums.google.com/forum/#!topic/books-api/mitOSAavojo
         // Récupération du livre courant
-        $book = current($retourGoogle->items);
+        $bookPremier = current($retourGoogle->items);
+        $book = $this->getContentSelfLink($bookPremier);
+        // Fin enregistrement du log
+        $this->finLog($book, $bookPremier);
         // Création du livre à partir du contenu de google
         $livre = $this->convertitGoogleLivre($book);
         $this->em->persist($livre);
@@ -214,6 +221,12 @@ class GoogleGetBookService
                 ->setDescription($livreGoogle->volumeInfo->description)
                 ->setNombrePages($livreGoogle->volumeInfo->pageCount)
                 ->setPays($livreGoogle->volumeInfo->language);
+            # Dimension
+            if (true === property_exists($livreGoogle->volumeInfo, 'dimensions')) {
+                $livre->setHauteur($livreGoogle->volumeInfo->dimensions->height)
+                    ->setLargeur($livreGoogle->volumeInfo->dimensions->width)
+                    ->setEpaisseur($livreGoogle->volumeInfo->dimensions->thickness);
+            }
             // Mise à jour de l'isbn
             if (true === property_exists($livreGoogle->volumeInfo, 'industryIdentifiers')) {
                 foreach ($livreGoogle->volumeInfo->industryIdentifiers as $iid) {
@@ -317,12 +330,11 @@ class GoogleGetBookService
     protected function convertitImage($livreGoogle, BaseLivre $livre)
     {
         // Récupération du contenu du selfLink qui propose + d'image
-        $selfLinkContent = $this->getContentSelfLink($livreGoogle);
         $urlImage        = null;
-        if (true === property_exists($selfLinkContent, "volumeInfo")
-            && true === property_exists($selfLinkContent->volumeInfo, "imageLinks")
+        if (true === property_exists($livreGoogle, "volumeInfo")
+            && true === property_exists($livreGoogle->volumeInfo, "imageLinks")
         ) {
-            $listeImages = $selfLinkContent->volumeInfo->imageLinks;
+            $listeImages = $livreGoogle->volumeInfo->imageLinks;
             // On parcourt la liste des listes proposées. On utilise la première trouvée
             foreach (self::IMAGE_SIZE_LISTE as $size) {
                 if (true === property_exists($listeImages, $size)) {
@@ -356,15 +368,14 @@ class GoogleGetBookService
     {
         $listeCategories = array();
         // Récupération du contenu du selfLink qui propose + de catégories
-        $selfLinkContent = $this->getContentSelfLink($livreGoogle);
         // Suppression de tous les auteurs
         foreach ($livre->getCategories() as $categorie)
             $livre->removeCategorie($categorie);
         // Gestion des catégories
-        if (true === property_exists($selfLinkContent, 'volumeInfo')
-            && true === property_exists($selfLinkContent->volumeInfo, 'categories')
+        if (true === property_exists($livreGoogle, 'volumeInfo')
+            && true === property_exists($livreGoogle->volumeInfo, 'categories')
         ) {
-            foreach ($selfLinkContent->volumeInfo->categories as $categorieGoogle) {
+            foreach ($livreGoogle->volumeInfo->categories as $categorieGoogle) {
                 // Création de la catégorie s'il n'existe pas
                 if (true === is_null($categori = $this->em->getRepository('BookBundle:Categorie')->findOneByReferenceGoogle($categorieGoogle))) {
                     $categorie = new Categorie();

@@ -90,23 +90,23 @@ class BaseLivre
     private $nombrePages;
 
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="hauteur", type="float", nullable=true)
+     * @ORM\Column(name="hauteur", type="string", length=20, nullable=true)
      */
     private $hauteur;
 
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="largeur", type="float", nullable=true)
+     * @ORM\Column(name="largeur", type="string", length=20, nullable=true)
      */
     private $largeur;
 
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="epaisseur", type="float", nullable=true)
+     * @ORM\Column(name="epaisseur", type="string", length=20, nullable=true)
      */
     private $epaisseur;
 
@@ -132,7 +132,7 @@ class BaseLivre
     private $auteurs;
 
     /**
-     * @var ArrayCollection
+     * @var Editeur
      *
      * @ORM\ManyToOne(targetEntity="Editeur", inversedBy="livres")
      */
@@ -309,7 +309,7 @@ class BaseLivre
     /**
      * Set hauteur
      *
-     * @param float $hauteur
+     * @param string $hauteur
      *
      * @return BaseLivre
      */
@@ -323,7 +323,7 @@ class BaseLivre
     /**
      * Get hauteur
      *
-     * @return float
+     * @return string
      */
     public function getHauteur()
     {
@@ -333,7 +333,7 @@ class BaseLivre
     /**
      * Set largeur
      *
-     * @param float $largeur
+     * @param string $largeur
      *
      * @return BaseLivre
      */
@@ -347,7 +347,7 @@ class BaseLivre
     /**
      * Get largeur
      *
-     * @return float
+     * @return string
      */
     public function getLargeur()
     {
@@ -357,7 +357,7 @@ class BaseLivre
     /**
      * Set epaisseur
      *
-     * @param float $epaisseur
+     * @param string $epaisseur
      *
      * @return BaseLivre
      */
@@ -371,7 +371,7 @@ class BaseLivre
     /**
      * Get epaisseur
      *
-     * @return float
+     * @return string
      */
     public function getEpaisseur()
     {
@@ -540,7 +540,8 @@ class BaseLivre
      */
     public function __construct()
     {
-        $this->auteurs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->auteurs    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 

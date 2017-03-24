@@ -52,6 +52,13 @@ class LivreLogWerservice
     /**
      * @var string
      *
+     * @ORM\Column(name="resultat_web_service", type="text", nullable=true)
+     */
+    private $resultatSelfContent;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="url", type="string", length=255)
      */
     private $url;
@@ -185,5 +192,29 @@ class LivreLogWerservice
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Set resultatSelfContent
+     *
+     * @param string $resultatSelfContent
+     *
+     * @return LivreLogWerservice
+     */
+    public function setResultatSelfContent($resultatSelfContent)
+    {
+        $this->resultatSelfContent = $resultatSelfContent;
+
+        return $this;
+    }
+
+    /**
+     * Get resultatSelfContent
+     *
+     * @return string
+     */
+    public function getResultatSelfContent()
+    {
+        return $this->resultatSelfContent;
     }
 }

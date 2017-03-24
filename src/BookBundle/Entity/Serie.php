@@ -94,4 +94,3 @@ class Serie
         return $this->nom;
     }
 }
-

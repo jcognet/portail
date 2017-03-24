@@ -159,9 +159,12 @@ class GoogleGetBookService
      */
     public function analyseRetourGoogle($retourGoogle)
     {
-        //TODO : what happens si autre monnaie ?
-        //TODO : est-ce que la référence de google est unique pour un éditeur & auteur ? Ou création table synonyme
-        //TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
+        // TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
+        // TODO : dimension quand elles existent
+        // TODO : se baser sur la fin de détail (et non sur le retour google)
+        // TODO : se baser sur le language pour le pays https://www.googleapis.com/books/v1/volumes/AcrCuAAACAAJ
+        // TODO : what happens si autre monnaie ?
+        // Changer le pays ? https://productforums.google.com/forum/#!topic/books-api/mitOSAavojo
         // Récupération du livre courant
         $book = current($retourGoogle->items);
         // Création du livre à partir du contenu de google
@@ -259,6 +262,7 @@ class GoogleGetBookService
                     // Vérification dans les synonymes
                     $auteur = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($auteur), $googleAuteur);
                     if (true === is_null($auteur)) {
+                        $auteur = new Auteur();
                         // Création si nécessaire
                         $auteur->setDateCreation(new \DateTime())
                             ->setReferenceGoogle($googleAuteur)
@@ -293,6 +297,7 @@ class GoogleGetBookService
                 // Vérification dans les synonymes
                 $editeur = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($editeur), $googleEditeur);
                 if (true === is_null($editeur)) {
+                    $editeur = new Editeur();
                     $editeur->setDateCreation(new \DateTime())
                         ->setReferenceGoogle($googleEditeur)
                         ->setNom($googleEditeur);
@@ -365,6 +370,7 @@ class GoogleGetBookService
                     $categorie = new Categorie();
                     $categorie = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($categorie), $categorieGoogle);
                     if (true === is_null($categorie)) {
+                        $categorie = new Categorie();
                         $categorie->setReferenceGoogle($categorieGoogle)
                             ->setLabel($categorieGoogle);
                         $this->em->persist($categorie);

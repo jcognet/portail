@@ -24,9 +24,9 @@ class Serie
     /**
      * @var string
      *
-     * @ORM\Column(name="googleReference", type="string", length=255)
+     * @ORM\Column(name="referenceGoogle", type="string", length=255, unique=true)
      */
-    private $googleReference;
+    private $referenceGoogle;
 
     /**
      * @var string
@@ -34,6 +34,14 @@ class Serie
      * @ORM\Column(name="nom", type="string", length=255)
      */
     private $nom;
+
+
+    /**
+     * @var Serie
+     *
+     * @ORM\OneToMany(targetEntity="BaseLivre", mappedBy="serie")
+     */
+    private $livres;
 
 
     /**
@@ -46,29 +54,6 @@ class Serie
         return $this->id;
     }
 
-    /**
-     * Set googleReference
-     *
-     * @param string $googleReference
-     *
-     * @return Serie
-     */
-    public function setGoogleReference($googleReference)
-    {
-        $this->googleReference = $googleReference;
-
-        return $this;
-    }
-
-    /**
-     * Get googleReference
-     *
-     * @return string
-     */
-    public function getGoogleReference()
-    {
-        return $this->googleReference;
-    }
 
     /**
      * Set nom
@@ -92,5 +77,70 @@ class Serie
     public function getNom()
     {
         return $this->nom;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->livres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add livre
+     *
+     * @param \BookBundle\Entity\BaseLivre $livre
+     *
+     * @return Serie
+     */
+    public function addLivre(\BookBundle\Entity\BaseLivre $livre)
+    {
+        $this->livres[] = $livre;
+
+        return $this;
+    }
+
+    /**
+     * Remove livre
+     *
+     * @param \BookBundle\Entity\BaseLivre $livre
+     */
+    public function removeLivre(\BookBundle\Entity\BaseLivre $livre)
+    {
+        $this->livres->removeElement($livre);
+    }
+
+    /**
+     * Get livres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLivres()
+    {
+        return $this->livres;
+    }
+
+    /**
+     * Set referenceGoogle
+     *
+     * @param string $referenceGoogle
+     *
+     * @return Serie
+     */
+    public function setReferenceGoogle($referenceGoogle)
+    {
+        $this->referenceGoogle = $referenceGoogle;
+
+        return $this;
+    }
+
+    /**
+     * Get referenceGoogle
+     *
+     * @return string
+     */
+    public function getReferenceGoogle()
+    {
+        return $this->referenceGoogle;
     }
 }

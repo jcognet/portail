@@ -2,11 +2,15 @@
 
 namespace BookBundle\Service;
 
+// TODO : Changer le pays ? https://productforums.google.com/forum/#!topic/books-api/mitOSAavojo pour gérer la monnaie ?
+// TODO : redimenssion les images ?
+
 use BookBundle\Entity\Auteur;
 use BookBundle\Entity\BaseLivre;
 use BookBundle\Entity\Categorie;
 use BookBundle\Entity\Editeur;
 use BookBundle\Entity\LivreLogWerservice;
+use BookBundle\Entity\Serie;
 use Doctrine\ORM\EntityManager;
 use TransverseBundle\Service\CurlService;
 use TransverseBundle\Traits\OutputTrait;
@@ -165,13 +169,9 @@ class GoogleGetBookService
      */
     public function analyseRetourGoogle($retourGoogle)
     {
-        // TODO : gestion volumeSeries (ajout d'une entité série pour prendre + d'éléments par la suite)
-        // TODO : pour le self link, imposer un pays pour le max d'élément ? https://www.googleapis.com/books/v1/volumes/AcrCuAAACAAJ
-        // TODO : what happens si autre monnaie ?
-        // Changer le pays ? https://productforums.google.com/forum/#!topic/books-api/mitOSAavojo
         // Récupération du livre courant
         $bookPremier = current($retourGoogle->items);
-        $book = $this->getContentSelfLink($bookPremier);
+        $book        = $this->getContentSelfLink($bookPremier);
         // Fin enregistrement du log
         $this->finLog($book, $bookPremier);
         // Création du livre à partir du contenu de google
@@ -194,7 +194,10 @@ class GoogleGetBookService
         foreach ($listeCategories as $categorie) {
             $this->ecrit("Catégorie : " . $categorie->getReferenceGoogle() . " - id : " . $categorie->getId());
         }
-        // Enregistrement en base
+        $serie = $this->convertitSeries($book, $livre);
+        if(false === is_null($serie))
+            $this->ecrit("Série : " . $serie->getReferenceGoogle() . " - id : " . $serie->getId());
+        // Enregistrement en basee
         $this->em->flush();
         return $livre;
     }
@@ -330,7 +333,7 @@ class GoogleGetBookService
     protected function convertitImage($livreGoogle, BaseLivre $livre)
     {
         // Récupération du contenu du selfLink qui propose + d'image
-        $urlImage        = null;
+        $urlImage = null;
         if (true === property_exists($livreGoogle, "volumeInfo")
             && true === property_exists($livreGoogle->volumeInfo, "imageLinks")
         ) {
@@ -353,7 +356,6 @@ class GoogleGetBookService
         $pathEnregistrement = $this->pathUpload . $livre->getSlug() . '.jpg';
         $this->ecrit("Enregistrement de image : " . $urlImage);
         $this->ecrit("Destination image : " . $pathEnregistrement);
-        //TODO : redimensionner ?
         return $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
 
     }
@@ -377,7 +379,7 @@ class GoogleGetBookService
         ) {
             foreach ($livreGoogle->volumeInfo->categories as $categorieGoogle) {
                 // Création de la catégorie s'il n'existe pas
-                if (true === is_null($categori = $this->em->getRepository('BookBundle:Categorie')->findOneByReferenceGoogle($categorieGoogle))) {
+                if (true === is_null($categorie = $this->em->getRepository('BookBundle:Categorie')->findOneByReferenceGoogle($categorieGoogle))) {
                     $categorie = new Categorie();
                     $categorie = $this->em->getRepository('BookBundle:Synonyme')->findObjetBySynonyme(get_class($categorie), $categorieGoogle);
                     if (true === is_null($categorie)) {
@@ -393,6 +395,35 @@ class GoogleGetBookService
             }
         }
         return $listeCategories;
+    }
+
+    /**
+     * Convertit la série du livre
+     * @param $livreGoogle
+     * @param BaseLivre $livre
+     * @return Serie|null
+     */
+    public function convertitSeries($livreGoogle, BaseLivre $livre)
+    {
+        $serie = null;
+        if (true === property_exists($livreGoogle, "volumeInfo")
+            &&  true === property_exists($livreGoogle->volumeInfo, 'seriesInfo')) {
+            // Récupération de la référence de google
+            $seriesGoogle         = current($livreGoogle->volumeInfo->seriesInfo->volumeSeries);
+            $serieReferenceGoogle = $seriesGoogle->seriesId;
+            // Requête
+            $serie = $this->em->getRepository('BookBundle:Serie')->findOneByReferenceGoogle($serieReferenceGoogle);
+            if (true === is_null($serie)) {
+                $serie = new Serie();
+                $serie->setReferenceGoogle($serieReferenceGoogle)
+                    ->setNom($livre->getTitre());
+                $this->em->persist($serie);
+            }
+            $serie->addLivre($livre);
+            $livre->setSerie($serie);
+
+        }
+        return $serie;
     }
 
     /**

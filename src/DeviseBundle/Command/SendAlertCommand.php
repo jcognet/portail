@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Command;
+namespace DeviseBundle\Command;
 
 use CommunBundle\Entity\Batch;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
@@ -28,7 +28,7 @@ class SendAlertCommand extends ContainerAwareCommand
                                "***************"));
 
         $batch  = $this->getContainer()->get('commun.batch')->lanceBatch(Batch::TYPE_ALERTE_ENVOYEE);
-        $alerteService = $this->getContainer()->get('commun.alert');
+        $alerteService = $this->getContainer()->get('devise.alert');
         $alerteService->setOutput($output);
         $erreur = $alerteService->previentUtilisateurs();
         // Si aucune erreur => chaine de caractère vide

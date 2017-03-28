@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Entity;
+namespace DeviseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Devise
  *
  * @ORM\Table(name="devise")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\DeviseRepository")
+ * @ORM\Entity(repositoryClass="DeviseBundle\Repository\DeviseRepository")
  */
 class Devise
 {

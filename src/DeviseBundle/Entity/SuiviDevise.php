@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Entity;
+namespace DeviseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use UserBundle\Entity\User;
@@ -9,7 +9,7 @@ use UserBundle\Entity\User;
  * suivi_devise
  *
  * @ORM\Table(name="suivi_devise")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\SuiviDeviseRepository")
+ * @ORM\Entity(repositoryClass="DeviseBundle\Repository\SuiviDeviseRepository")
  */
 class SuiviDevise
 {
@@ -145,11 +145,11 @@ class SuiviDevise
     /**
      * Set devise
      *
-     * @param \CommunBundle\Entity\Devise $devise
+     * @param \DeviseBundle\Entity\Devise $devise
      *
      * @return suiviDevise
      */
-    public function setDevise(\CommunBundle\Entity\Devise $devise = null)
+    public function setDevise(\DeviseBundle\Entity\Devise $devise = null)
     {
         $this->devise = $devise;
 
@@ -159,7 +159,7 @@ class SuiviDevise
     /**
      * Get devise
      *
-     * @return \CommunBundle\Entity\Devise
+     * @return \DeviseBundle\Entity\Devise
      */
     public function getDevise()
     {

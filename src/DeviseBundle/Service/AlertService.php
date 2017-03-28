@@ -1,13 +1,14 @@
 <?php
 
-namespace CommunBundle\Service;
+namespace DeviseBundle\Service;
 
+use CommunBundle\Service\MailerService;
 use Doctrine\ORM\EntityManager;
 use TransverseBundle\Traits\OutputTrait;
 
 /**
  * Class AlertService
- * @package CommunBundle\Service
+ * @package DeviseBundle\Service
  */
 class AlertService
 {
@@ -46,7 +47,7 @@ class AlertService
     {
         $listeErreurs = array();
         $now          = new \DateTime();
-        foreach ($this->em->getRepository('CommunBundle:SuiviDevise')->findSuiviARelancer() as $suivi) {
+        foreach ($this->em->getRepository('DeviseBundle:SuiviDevise')->findSuiviARelancer() as $suivi) {
             try {
                 // Eet-ce que la devise êst dans les valeurs de seuil ?
                 $envoieMail = (

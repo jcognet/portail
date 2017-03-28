@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Jerome
- * Date: 12/11/2016
- * Time: 11:09
- */
 
-namespace CommunBundle\Twig;
+namespace DeviseBundle\Twig;
 
 /**
  * Gère les devises
  * Class DeviseExtension
- * @package CommunBundle\Twig
+ * @package DeviseBundle\Twig
  */
 class DeviseExtension extends \Twig_Extension
 {

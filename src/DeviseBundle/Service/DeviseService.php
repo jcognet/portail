@@ -1,9 +1,9 @@
 <?php
 
-namespace CommunBundle\Service;
+namespace DeviseBundle\Service;
 
-use CommunBundle\Entity\CoursJournee;
-use CommunBundle\Entity\Devise;
+use DeviseBundle\Entity\CoursJournee;
+use DeviseBundle\Entity\Devise;
 use Doctrine\ORM\EntityManager;
 use TransverseBundle\Service\CurlService;
 
@@ -11,7 +11,7 @@ use TransverseBundle\Service\CurlService;
  * Service qui gère les devises
  *
  * Class DeviseService
- * @package  CommunBundle\Service
+ * @package  DeviseBundle\Service
  */
 class DeviseService
 {
@@ -54,7 +54,7 @@ class DeviseService
         // Récupération de toutes les devises si 0 paramètre
         if (is_null($listeDevise) || count($listeDevise) == 0) {
             $listeDevise = array();
-            foreach ($this->em->getRepository('CommunBundle:Devise')->findAll() as $devise) {
+            foreach ($this->em->getRepository('DeviseBundle:Devise')->findAll() as $devise) {
                 $listeDevise[] = $devise->getCode();
             }
         }
@@ -72,8 +72,8 @@ class DeviseService
         $listeCoursJournee = array();
         foreach ($this->recupereCours($listeDevise, $date) as $codeDevise => $taux) {
             // Création ou récupération en base
-            $devise = $this->em->getRepository('CommunBundle:Devise')->findOneByCodeWebservice($codeDevise);
-            if (true === is_null($cours = $this->em->getRepository('CommunBundle:CoursJournee')->findOneBy(
+            $devise = $this->em->getRepository('DeviseBundle:Devise')->findOneByCodeWebservice($codeDevise);
+            if (true === is_null($cours = $this->em->getRepository('DeviseBundle:CoursJournee')->findOneBy(
                 array(
                     'date'   => $date,
                     'devise' => $devise
@@ -85,10 +85,10 @@ class DeviseService
                 ->setDate($date)
                 ->setDevise($devise)
                 ->setCours($taux)
-                ->setMoyenne30Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 30, $devise))
-                ->setMoyenne60Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 60, $devise))
-                ->setMoyenne90Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 90, $devise))
-                ->setMoyenne120Jours($this->em->getRepository('CommunBundle:CoursJournee')->getMoyenneCours($date, 120, $devise));
+                ->setMoyenne30Jours($this->em->getRepository('DeviseBundle:CoursJournee')->getMoyenneCours($date, 30, $devise))
+                ->setMoyenne60Jours($this->em->getRepository('DeviseBundle:CoursJournee')->getMoyenneCours($date, 60, $devise))
+                ->setMoyenne90Jours($this->em->getRepository('DeviseBundle:CoursJournee')->getMoyenneCours($date, 90, $devise))
+                ->setMoyenne120Jours($this->em->getRepository('DeviseBundle:CoursJournee')->getMoyenneCours($date, 120, $devise));
             $this->em->persist($cours);
 
         }
@@ -102,7 +102,7 @@ class DeviseService
      */
     public function updateCoursJoursDevise(Devise $devise)
     {
-        $listeCours      = $this->em->getRepository('CommunBundle:CoursJournee')->findBy(
+        $listeCours      = $this->em->getRepository('DeviseBundle:CoursJournee')->findBy(
             array('devise' => $devise),
             array('date' => 'DESC'),
             1
@@ -126,7 +126,7 @@ class DeviseService
      */
     public function updateCoursTouteDevise()
     {
-        foreach ($this->em->getRepository('CommunBundle:Devise')->findAll() as $devise) {
+        foreach ($this->em->getRepository('DeviseBundle:Devise')->findAll() as $devise) {
             $this->updateCoursJoursDevise($devise);
         }
         return true;

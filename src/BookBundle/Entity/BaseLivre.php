@@ -151,6 +151,14 @@ class BaseLivre
      */
     private $slug = null;
 
+    /**
+     * @var Serie
+     *
+     * @ORM\ManyToOne(targetEntity="Serie", inversedBy="livres")
+     */
+    private $serie;
+
+
 
     /**
      * Get id
@@ -649,5 +657,29 @@ class BaseLivre
     public function removeCategory(\BookBundle\Entity\Categorie $category)
     {
         $this->categories->removeElement($category);
+    }
+
+    /**
+     * Set serie
+     *
+     * @param \BookBundle\Entity\Serie $serie
+     *
+     * @return BaseLivre
+     */
+    public function setSerie(\BookBundle\Entity\Serie $serie = null)
+    {
+        $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * Get serie
+     *
+     * @return \BookBundle\Entity\Serie
+     */
+    public function getSerie()
+    {
+        return $this->serie;
     }
 }

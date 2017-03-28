@@ -1,7 +1,8 @@
 <?php
 
-namespace CommunBundle\Repository;
-use CommunBundle\Entity\Devise;
+namespace DeviseBundle\Repository;
+
+use DeviseBundle\Entity\Devise;
 
 /**
  * CoursJourneeRepository

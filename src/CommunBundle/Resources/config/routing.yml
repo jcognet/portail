@@ -4,12 +4,11 @@ commun_homepage:
     defaults: { _controller: CommunBundle:Default:index }
 default:
     resource: '@CommunBundle/Resources/config/routing/default.yml'
-devise:
-    resource: '@CommunBundle/Resources/config/routing/devise.yml'
 news:
     resource: '@CommunBundle/Resources/config/routing/news.yml'
 user:
     resource: '@CommunBundle/Resources/config/routing/user.yml'
+
 command:
     resource: '@CommunBundle/Resources/config/routing/command.yml'
     prefix: 'command'

@@ -32,7 +32,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // Liste des devises
-        $listeDevise        = $this->getDoctrine()->getRepository('CommunBundle:Devise')->getListe();
+        $listeDevise        = $this->getDoctrine()->getRepository('DeviseBundle:Devise')->getListe();
         $listeDeviseSuivies = array();
         $user               = $this->getUser();
         if ($user instanceof User) {

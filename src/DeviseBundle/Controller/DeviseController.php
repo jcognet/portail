@@ -1,10 +1,10 @@
 <?php
 
-namespace CommunBundle\Controller;
+namespace DeviseBundle\Controller;
 
-use CommunBundle\Entity\Devise;
-use CommunBundle\Entity\News;
-use CommunBundle\Entity\SuiviDevise;
+use DeviseBundle\Entity\Devise;
+use DeviseBundle\Entity\News;
+use DeviseBundle\Entity\SuiviDevise;
 use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use ReCaptcha\ReCaptcha;
@@ -46,7 +46,7 @@ class DeviseController extends Controller
             'cours'       => array()
         );
 
-        $listeCoursJournee = $this->getDoctrine()->getRepository('CommunBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
+        $listeCoursJournee = $this->getDoctrine()->getRepository('DeviseBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
         foreach ($listeCoursJournee as $coursJournees) {
             $data['cours'][] = array(
                 'taux' => $coursJournees->getCours(),
@@ -79,7 +79,7 @@ class DeviseController extends Controller
             'cours'       => array()
         );
 
-        $listeCoursJournee = $this->getDoctrine()->getRepository('CommunBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
+        $listeCoursJournee = $this->getDoctrine()->getRepository('DeviseBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
         foreach ($listeCoursJournee as $coursJournees) {
             $data['cours'][] = array(
                 'taux' => $coursJournees->getCours(),
@@ -90,7 +90,7 @@ class DeviseController extends Controller
         $user        = $this->getUser();
         $suiviDevise = null;
         if (!is_null($user)) {
-            $suiviDevise = $this->getDoctrine()->getManager()->getRepository('CommunBundle:SuiviDevise')->findOneBy(
+            $suiviDevise = $this->getDoctrine()->getManager()->getRepository('DeviseBundle:SuiviDevise')->findOneBy(
                 array(
                     'user'   => $user,
                     'devise' => $devise
@@ -130,7 +130,7 @@ class DeviseController extends Controller
         }
         // Retour
         $jsonResponse = new JsonResponse();
-        $jsonResponse->setData($this->get('commun.devise_extension')->affichePrix($data));
+        $jsonResponse->setData($this->get('devise.devise_extension')->affichePrix($data));
         return $jsonResponse;
     }
 
@@ -158,7 +158,7 @@ class DeviseController extends Controller
         }
         // On enregistre en base
         $em = $this->getDoctrine()->getManager();
-        if (is_null($suiviDevise = $em->getRepository('CommunBundle:SuiviDevise')->findOneBy(
+        if (is_null($suiviDevise = $em->getRepository('DeviseBundle:SuiviDevise')->findOneBy(
             array(
                 'user'   => $user,
                 'devise' => $devise

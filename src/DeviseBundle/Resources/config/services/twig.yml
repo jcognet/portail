@@ -1,12 +1,6 @@
 services:
     # Extension twig concernant les devises
-    commun.devise_extension:
-          class: CommunBundle\Twig\DeviseExtension
-          tags:
-              - { name: twig.extension }
-    # Extension twig général
-    commun.commun_extension:
-          arguments: ["@request_stack"]
-          class: CommunBundle\Twig\CommunExtension
+    devise.devise_extension:
+          class: DeviseBundle\Twig\DeviseExtension
           tags:
               - { name: twig.extension }

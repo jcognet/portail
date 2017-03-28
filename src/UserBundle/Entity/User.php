@@ -28,7 +28,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * @var SuiviDevise[]
      *
-     * @ORM\OneToMany(targetEntity="CommunBundle\Entity\SuiviDevise", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="DeviseBundle\Entity\SuiviDevise", mappedBy="user")
      */
     private $listeDevises;
 

@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new BookBundle\BookBundle(),
             new TransverseBundle\TransverseBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            new DeviseBundle\DeviseBundle(),
         ];
         if (in_array($this->getEnvironment(), ['prod'], true)) {
             $bundles[] = new Sentry\SentryBundle\SentryBundle(); // log sentry qui centralise les erreurs clients

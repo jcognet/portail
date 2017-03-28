@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Entity;
+namespace DeviseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CoursJournee
  *
  * @ORM\Table(name="cours_journee")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\CoursJourneeRepository")
+ * @ORM\Entity(repositoryClass="DeviseBundle\Repository\CoursJourneeRepository")
  */
 class CoursJournee
 {
@@ -205,11 +205,11 @@ class CoursJournee
     /**
      * Set devise
      *
-     * @param \CommunBundle\Entity\Devise $devise
+     * @param \DeviseBundle\Entity\Devise $devise
      *
      * @return CoursJournee
      */
-    public function setDevise(\CommunBundle\Entity\Devise $devise = null)
+    public function setDevise(\DeviseBundle\Entity\Devise $devise = null)
     {
         $this->devise = $devise;
 
@@ -219,7 +219,7 @@ class CoursJournee
     /**
      * Get devise
      *
-     * @return \CommunBundle\Entity\Devise
+     * @return \DeviseBundle\Entity\Devise
      */
     public function getDevise()
     {

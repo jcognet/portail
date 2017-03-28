@@ -1,8 +1,7 @@
 <?php
 
-namespace CommunBundle\Command;
+namespace DeviseBundle\Command;
 
-use CommunBundle\Service\DateService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -44,12 +43,12 @@ class CoursDevisePeriodCommand extends ContainerAwareCommand
 
         $from      = clone $date;
         $from = $from->sub(new \DateInterval('P'.$duree.'D'));
-        $listeDate = DateService::createDateRangeArray($from, $date);
+        $listeDate = \CommunBundle\Service\DateService::createDateRangeArray($from, $date);
         foreach($listeDate as $date) {
             $output->writeln('<info> Calcul de la devise pour '.$date->format('d/m/Y').'</info>');
-            $this->getContainer()->get('commun.devise')->recupereEtSauveCours($input->getOption('devise'), $date);
+            $this->getContainer()->get('devise.devise')->recupereEtSauveCours($input->getOption('devise'), $date);
         }
-        $this->getContainer()->get('commun.devise')->updateCoursTouteDevise();
+        $this->getContainer()->get('devise.devise')->updateCoursTouteDevise();
     }
 
 

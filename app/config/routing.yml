@@ -1,6 +1,10 @@
+devise:
+    resource: "@DeviseBundle/Resources/config/routing.yml"
+    prefix:   /devise
+
 book:
     resource: "@BookBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /livre/
 
 user:
     resource: "@UserBundle/Resources/config/routing.yml"

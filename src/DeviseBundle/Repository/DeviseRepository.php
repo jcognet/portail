@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Repository;
+namespace DeviseBundle\Repository;
 
 /**
  * DeviseRepository

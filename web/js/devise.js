@@ -82,7 +82,7 @@ function afficheChart(json, divChart){
 
 function afficheBlockDevise(blockId, deviseId){
   setAjaxWorking(blockId);
-  url = Routing.generate('commun_devise_affiche_ajax', {'id':deviseId});
+  url = Routing.generate('devise_affiche_ajax', {'id':deviseId});
   $.ajax({
     url : url,
     type : 'GET',
@@ -118,10 +118,10 @@ function calculeSomme(input){
   // Récupération des données
   if(input.hasClass('input_devise_euro')){
     valeurEuros = input.val();
-    inputResultat = input.parents('.tr_calcul').find('.input_devise_autre');
+    inputResultat = input.parents('tr').find('.input_devise_autre');
   }else{
     valeurAutre = input.val();
-    inputResultat = input.parents('.tr_calcul').find('.input_devise_euro');
+    inputResultat = input.parents('tr').find('.input_devise_euro');
   }
   deviseId = input.parents('.block_devise').find('.input_devise_id').val();
   // Aucune valeur => rien à faire
@@ -134,7 +134,7 @@ function calculeSomme(input){
   setAjaxWorking(divId);
   disableInput(inputResultat);
 
-  url = Routing.generate('commun_devise_calcul_ajax', {'id':deviseId, 'valeurEuros':valeurEuros, 'valeurAutre':valeurAutre});
+  url = Routing.generate('devise_calcul_ajax', {'id':deviseId, 'valeurEuros':valeurEuros, 'valeurAutre':valeurAutre});
   $.ajax({
     url : url,
     type : 'GET',
@@ -170,7 +170,7 @@ function enregistreSuiviDevise(input){
   if(seuil.length ==0){
       seuil = 0;
   }
-  url = Routing.generate('commun_devise_sauve_ajax', {'id':deviseId, 'seuilMax':seuilMax, 'seuil':seuil});
+  url = Routing.generate('devise_sauve_ajax', {'id':deviseId, 'seuilMax':seuilMax, 'seuil':seuil});
   setAjaxWorking(divId);
   $.ajax({
     url : url,

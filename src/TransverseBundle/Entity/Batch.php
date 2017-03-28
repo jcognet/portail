@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Entity;
+namespace TransverseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Batch
  *
  * @ORM\Table(name="batch")
- * @ORM\Entity(repositoryClass="CommunBundle\Repository\BatchRepository")
+ * @ORM\Entity(repositoryClass="TransverseBundle\Repository\BatchRepository")
  */
 class Batch
 {

@@ -2,7 +2,7 @@
 
 namespace AdminBundle\Controller;
 
-use CommunBundle\Entity\Batch;
+use TransverseBundle\Entity\Batch;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -17,18 +17,18 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // Batch en cours
-        $listeBatchEnCours = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getBatchEnCours();
+        $listeBatchEnCours = $this->getDoctrine()->getRepository('TransverseBundle:Batch')->getBatchEnCours();
 
         // Dernier batch lancé
-        $dernierBatchDevise = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getDernierBatch(Batch::TYPE_IMPORT_DEVISE);
-        $dernierBatchAlerte = $this->getDoctrine()->getRepository('CommunBundle:Batch')->getDernierBatch(Batch::TYPE_ALERTE_ENVOYEE);
+        $dernierBatchDevise = $this->getDoctrine()->getRepository('TransverseBundle:Batch')->getDernierBatch(Batch::TYPE_IMPORT_DEVISE);
+        $dernierBatchAlerte = $this->getDoctrine()->getRepository('TransverseBundle:Batch')->getDernierBatch(Batch::TYPE_ALERTE_ENVOYEE);
         // Nombre d'utilisateur
         $nbUserActif = $this->getDoctrine()->getRepository('UserBundle:User')->getNombreUserActifs();
 
         // Dernier batchs lancés
         $paginator       = $this->get('knp_paginator');
         $batchPagination = $paginator->paginate(
-            $this->getDoctrine()->getRepository('CommunBundle:Batch')->getQueryListBatch(),
+            $this->getDoctrine()->getRepository('TransverseBundle:Batch')->getQueryListBatch(),
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 10)
         );

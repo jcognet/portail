@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use TransverseBundle\Tools\DateService;
 
 /**
  * Commande permettant de récupérer le cours d'une devise
@@ -43,7 +44,7 @@ class CoursDevisePeriodCommand extends ContainerAwareCommand
 
         $from      = clone $date;
         $from = $from->sub(new \DateInterval('P'.$duree.'D'));
-        $listeDate = \CommunBundle\Service\DateService::createDateRangeArray($from, $date);
+        $listeDate = DateService::createDateRangeArray($from, $date);
         foreach($listeDate as $date) {
             $output->writeln('<info> Calcul de la devise pour '.$date->format('d/m/Y').'</info>');
             $this->getContainer()->get('devise.devise')->recupereEtSauveCours($input->getOption('devise'), $date);

@@ -2,19 +2,16 @@
 {% extends '@Commun/base.html.twig' %}
     {% block header %}
         Liste des actualités
+        {% if is_granted('ROLE_ADMIN') %}
+            <small>
+                <a href="{{ path('commun_news_enregistre') }}" title="Modifier une actualité">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+            </small>
+        {% endif %}
     {% endblock %}
 {% block body %}
     <div class="col-sm-12">
-        <h2>
-            Liste des actualités
-            {% if is_granted('ROLE_ADMIN') %}
-                <small>
-                    <a href="{{ path('commun_news_enregistre') }}" title="Modifier une actualité">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </a>
-                </small>
-            {% endif %}
-        </h2>
         <div class="navigation text-center">
             {{ knp_pagination_render(liste_news_paginator) }}
         </div>

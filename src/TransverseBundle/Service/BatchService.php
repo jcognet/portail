@@ -1,8 +1,8 @@
 <?php
 
-namespace CommunBundle\Service;
+namespace TransverseBundle\Service;
 
-use CommunBundle\Entity\Batch;
+use TransverseBundle\Entity\Batch;
 use Doctrine\ORM\EntityManager;
 
 

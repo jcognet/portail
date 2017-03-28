@@ -2,3 +2,7 @@ services:
     # Service gérant les appels CURL
     transverse.curl:
         class: TransverseBundle\Service\CurlService
+    # Service de gestion de batch
+    transverse.batch:
+        class: TransverseBundle\Service\BatchService
+        arguments: ["@doctrine.orm.entity_manager"]

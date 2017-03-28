@@ -1,8 +1,5 @@
 services:
-    # Service de gestion de batch
-    commun.batch:
-        class: CommunBundle\Service\BatchService
-        arguments: ["@doctrine.orm.entity_manager"]
+
     # Service de mail
     commun.mailer:
         class: CommunBundle\Service\MailerService

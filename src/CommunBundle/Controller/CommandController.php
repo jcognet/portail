@@ -2,7 +2,6 @@
 
 namespace CommunBundle\Controller;
 
-use CommunBundle\Entity\Devise;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;

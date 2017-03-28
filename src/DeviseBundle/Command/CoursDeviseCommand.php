@@ -2,7 +2,7 @@
 
 namespace DeviseBundle\Command;
 
-use CommunBundle\Entity\Batch;
+use TransverseBundle\Entity\Batch;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -42,10 +42,10 @@ class CoursDeviseCommand extends ContainerAwareCommand
             }
         }
 
-        $batch = $this->getContainer()->get('commun.batch')->lanceBatch(Batch::TYPE_IMPORT_DEVISE);
+        $batch = $this->getContainer()->get('transverse.batch')->lanceBatch(Batch::TYPE_IMPORT_DEVISE);
         $this->getContainer()->get('devise.devise')->recupereEtSauveCours($input->getOption('devise'), $date);
         $this->getContainer()->get('devise.devise')->updateCoursTouteDevise();
-        $this->getContainer()->get('commun.batch')->arreteBatch($batch);
+        $this->getContainer()->get('transverse.batch')->arreteBatch($batch);
 
         $output->writeln('<comment>Fini !</comment>');
     }

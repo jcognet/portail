@@ -10,4 +10,14 @@ namespace BookBundle\Repository;
  */
 class BaseLivreRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Retourne une query renvoyant des livres
+     * @return \Doctrine\ORM\Query
+     */
+    public function getQueryListeLivre()
+    {
+        return $this->createQueryBuilder('l')
+            ->addOrderBy('l.dateCreation', 'DESC')
+            ->getQuery();
+    }
 }

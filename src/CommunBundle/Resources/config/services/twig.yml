@@ -1,7 +1,7 @@
 services:
     # Extension twig général
     commun.commun_extension:
-          arguments: ["@request_stack"]
+          arguments: ["@request_stack", "%url_dev%"]
           class: CommunBundle\Twig\CommunExtension
           tags:
               - { name: twig.extension }

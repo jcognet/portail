@@ -1,3 +1,12 @@
+# Homepage de la partie livre
 book_homepage:
     path:     /
-    defaults: { _controller: BookBundle:Default:index }
+    defaults: { _controller: BookBundle:Livre:liste }
+# Liste des livre
+book_liste:
+    path:     /
+    defaults: { _controller: BookBundle:Livre:liste }
+# Edition des livres
+book_edit:
+    path:     /edit
+    defaults: { _controller: BookBundle:Livre:edit }

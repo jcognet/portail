@@ -1,4 +1,3 @@
-{% set route = (app.request.get('_route')) %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -9,16 +8,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('home') }}">Changesous</a>
+            <a class="navbar-brand" href="{{ path('home') }}">Fun-Effect</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li{% if route == 'home' %} class="active" {% endif %}><a href="{{ path('home') }}">Accueil</a></li>
-                <li><a target="_blank" href="https://github.com/jcognet/changesous/issues">Bug</a></li>
-                <li><a target="_blank" href="https://github.com/jcognet/changesous/wiki">Wiki</a></li>
-                <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
-                <li {% if route == 'commun_contact' %} class="active" {% endif %} ><a
-                            href="{{ path('commun_contact') }}">Contact</a></li>
+                <li{% if page_est_actif('home') %} class="active" {% endif %}><a href="{{ path('home') }}">Accueil</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        Fonctionnement <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a target="_blank" href="https://github.com/jcognet/changesous/issues">Bug</a></li>
+                        <li><a target="_blank" href="https://github.com/jcognet/changesous/wiki">Wiki</a></li>
+                        <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
+                    </ul>
+                </li>
+                <li{% if espace_est_actif('book') %} class="active" {% endif %}><a href="{{ path('book_homepage') }}">Alex</a>
+                </li>
+                <li {% if  page_est_actif('commun_contact') %} class="active" {% endif %} ><a
+                        href="{{ path('commun_contact') }}">Contact</a></li>
 
                 {% if is_granted('ROLE_ADMIN') %}
                     <li><a href="{{ path('admin_homepage') }}">Admin</a></li>

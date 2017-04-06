@@ -45,6 +45,9 @@ parameters:
     path_physique_upload: '%kernel.root_dir%/../web/'
     # Path relatif à partir de web, finir avec /
     path_relatif_upload_image: 'uploads/livres/'
+    # URL de dév
+    url_dev:
+        -[dev.fun-effect.com}
 
 swiftmailer:
     transport: transport

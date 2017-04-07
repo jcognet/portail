@@ -10,3 +10,10 @@ book_liste:
 book_edit:
     path:     /edit
     defaults: { _controller: BookBundle:Livre:edit }
+
+# Détail d'un livre en ajax
+book_ajax_edit:
+    path:     /ajax/detail/{id}
+    defaults: { _controller: BookBundle:Livre:ajaxDetail }
+    options:
+        expose: true

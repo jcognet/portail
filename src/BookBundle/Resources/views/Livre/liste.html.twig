@@ -1,8 +1,11 @@
 {% import "macro/general.html.twig" as generalMacro %}
 {% extends "BookBundle::base.html.twig" %}
-
-{% block title %}BookBundle:LivreController:liste{% endblock %}
-
+{% block javascripts %}
+    <script src="{{ asset('js/livre_liste.js') }}"></script>
+{% endblock %}
+{% block title_header %}
+    Livre des livres
+{% endblock %}
 {% block body %}
     <div class="col-sm-6" id="liste_livres">
         <h2>Liste des livres</h2>
@@ -20,15 +23,16 @@
             </thead>
             <tbody>
             {% for livre in liste_livres %}
-                <td>
-                    {{ livre.titre }}
-                </td>
-                <td>
-                    {{ livre.dateCreation|date('d/m/Y')  }}
-                </td>
-                <td>
-                    {{ livre.isbn10 }}
-                </td>
+                <tr data-id="{{ livre.id }}">
+                    <td>
+                        {{ livre.titre }}
+                    </td>
+                    <td>
+                        {{ livre.dateCreation|date('d/m/Y') }}
+                    </td>
+                    <td>
+                        {{ livre.isbn10 }}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

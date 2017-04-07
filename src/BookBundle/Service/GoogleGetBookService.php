@@ -16,8 +16,8 @@ use TransverseBundle\Service\CurlService;
 use TransverseBundle\Traits\OutputTrait;
 
 /**
- * Class AlertService
- * @package CommunBundle\Service
+ * Class GoogleGetBookService
+ * @package BookBundle\Service
  */
 class GoogleGetBookService
 {

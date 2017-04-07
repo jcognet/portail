@@ -2,6 +2,7 @@
 
 namespace BookBundle\Controller;
 
+use BookBundle\Entity\BaseLivre;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,6 +28,18 @@ class LivreController extends Controller
         return $this->render('BookBundle:Livre:edit.html.twig', array(// ...
         ));
     }
-    
+
+    /**
+     * Affiche le détail d'un livre
+     * @param Request $request
+     * @param Livre $livre
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxDetailAction(Request $request, BaseLivre $livre)
+    {
+        return $this->render('BookBundle:Ajax:detail.html.twig', array(
+            'livre' => $livre
+        ));
+    }
 
 }

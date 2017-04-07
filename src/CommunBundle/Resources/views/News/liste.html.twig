@@ -1,5 +1,9 @@
 {% import "macro/general.html.twig" as generalMacro %}
 {% extends '@Commun/base.html.twig' %}
+{% block javascripts %}
+    <script src="{{ asset('js/news_liste.js') }}"></script>
+{% endblock %}
+
     {% block header %}
         Liste des actualités
         {% if is_granted('ROLE_ADMIN') %}
@@ -29,11 +33,11 @@
             </thead>
             <tbody>
             {% for news in liste_news_paginator %}
-                <tr data-news-id="{{ news.id }}" class="{% if news.dateMiseEnLigne> date()  %}warning{% endif %}">
+                <tr data-news-id="{{ news.id }}" class="{% if news.dateMiseEnLigne> date() %}warning{% endif %}">
                     <td>{{ news.dateMiseEnLigne|date('d/m/Y') }}
                         {% if is_granted('ROLE_ADMIN') %}
                             {{ news.dateMiseEnLigne|date('H:s') }}
-                    {% endif %}
+                        {% endif %}
                     </td>
                     <td>
                         {{ news.titre }}
@@ -62,6 +66,3 @@
 
 {% endblock %}
 
-{% block javascripts %}
-    <script src="{{ asset('js/news_liste.js') }}"></script>
-{% endblock %}

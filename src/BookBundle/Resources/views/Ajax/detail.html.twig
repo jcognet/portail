@@ -1,0 +1,134 @@
+<div>
+    <h1>Détail du livre : {{ livre.titre }}
+        <small>
+            <a href="{{ livre.googleLink }}" target="_blank">
+                <img src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_92x36dp.png"
+                     title="Lien vers la page google book du livre {{ livre.titre }}"/>
+            </a>
+        </small>
+    </h1>
+    <table class="table table-striped table-responsive">
+        <tr>
+            <td>
+                Date de publication :
+            </td>
+            <td>
+                {{ livre.datePublication|date('d/m/Y') }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Description :
+            </td>
+            <td>
+                {{ livre.description|e('html') }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                ISBN 10 :
+            </td>
+            <td>
+                {{ livre.isbn10 }}
+                <small>
+                    ({{ livre.isbn13 }})
+                </small>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Nombre de pages annoncés :
+            </td>
+            <td>
+                {{ livre.nombrePages }}
+            </td>
+        </tr>
+        {% if livre.hauteur|length>0 %}
+            <tr>
+                <td>
+                    Hauteur :
+                </td>
+                <td>
+                    {{ livre.hauteur }}
+                </td>
+            </tr>
+        {% endif %}
+        {% if livre.largeur|length>0 %}
+            <tr>
+                <td>
+                    Largeur :
+                </td>
+                <td>
+                    {{ livre.largeur }}
+                </td>
+            </tr>
+        {% endif %}
+        {% if livre.epaisseur|length>0 %}
+            <tr>
+                <td>
+                    Epaisseur :
+                </td>
+                <td>
+                    {{ livre.epaisseur }}
+                </td>
+            </tr>
+        {% endif %}
+        <tr>
+            <td>
+                Pays :
+            </td>
+            <td>
+                {{ livre.pays }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Prix :
+            </td>
+            <td>
+                {{ livre.prix }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Slug :
+            </td>
+            <td>
+                {{ livre.slug }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Auteurs :
+            </td>
+            <td>
+                {{ dump(livre.auteurs) }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Editeur :
+            </td>
+            <td>
+                {{ dump(livre.editeur) }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Catégorie :
+            </td>
+            <td>
+                {{ dump(livre.categories) }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Série :
+            </td>
+            <td>
+                {{ dump(livre.serie) }}
+            </td>
+        </tr>
+    </table>
+</div>

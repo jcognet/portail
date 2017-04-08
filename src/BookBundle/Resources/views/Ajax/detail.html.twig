@@ -1,3 +1,4 @@
+{% import "@Book/Macro/livre.html.twig" as livreMacro %}
 <div>
     <h1>Détail du livre : {{ livre.titre }}
         <small>
@@ -9,10 +10,10 @@
     </h1>
     <table class="table table-striped table-responsive">
         <tr>
-            <td>
+            <td class="col-sm-1">
                 Date de publication :
             </td>
-            <td>
+            <td class="col-sm-1">
                 {{ livre.datePublication|date('d/m/Y') }}
             </td>
         </tr>
@@ -21,12 +22,18 @@
                 Description :
             </td>
             <td>
+                <div class="pull-right" style="max-width: 200px">
+                    {{ livreMacro.getUrlImage(livre, "pull-right") }}
+
+                </div>
                 {{ livre.description|e('html') }}
+
+
             </td>
         </tr>
         <tr>
             <td>
-                ISBN 10 :
+                ISBN :
             </td>
             <td>
                 {{ livre.isbn10 }}

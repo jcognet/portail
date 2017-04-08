@@ -1,0 +1,8 @@
+{% macro getUrlImage(livre) %}
+    {% set urlImage = get_url_image(livre) %}
+    {% if urlImage is not null %}
+        <a href="{{ asset( urlImage) }}" target="_blank" title="Image taille 1 du livre {{ livre.titre }} ">
+            <img class="img-rounded img-responsive" src="{{ asset( urlImage) }}" alt="Image de couverture du livre : {{ livre.titre }}"/>
+        </a>
+    {% endif %}
+{% endmacro %}

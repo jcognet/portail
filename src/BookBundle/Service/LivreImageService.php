@@ -48,7 +48,7 @@ class LivreImageService
 
     /**
      * Récupère l'url d'une image d'un livre
-     * @param Livre $livre
+     * @param BaseLivre $livre
      * @return null|string
      */
     public function getUrlImage(BaseLivre $livre){
@@ -63,7 +63,7 @@ class LivreImageService
 
     /**
      * Enregistre l'url d'une image pour un livre
-     * @param Livre $livre
+     * @param BaseLivre $livre
      * @param $urlImage
      * @return bool|\Symfony\Component\HttpFoundation\File\File
      */

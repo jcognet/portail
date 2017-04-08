@@ -1,0 +1,7 @@
+services:
+    # Extension sur les livres
+    livre.extension:
+          arguments: ["@livre.image"]
+          class: BookBundle\Twig\LivreExtension
+          tags:
+              - { name: twig.extension }

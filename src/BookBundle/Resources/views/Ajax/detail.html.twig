@@ -1,27 +1,20 @@
 {% import "@Book/Macro/livre.html.twig" as livreMacro %}
 <div>
-    <h1>Détail du livre : {{ livre.titre }}
+    <h2>Détail du livre : {{ livre.titre }}
         <small>
             <a href="{{ livre.googleLink }}" target="_blank">
                 <img src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_92x36dp.png"
                      title="Lien vers la page google book du livre {{ livre.titre }}"/>
             </a>
         </small>
-    </h1>
+    </h2>
     <table class="table table-striped table-responsive">
+
         <tr>
-            <td class="col-sm-1">
-                Date de publication :
+            <td colspan="1">
+                Résumé :
             </td>
-            <td class="col-sm-1">
-                {{ livre.datePublication|date('d/m/Y') }}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Description :
-            </td>
-            <td>
+            <td colspan="3">
                 <div class="pull-right" style="max-width: 200px">
                     {{ livreMacro.getUrlImage(livre, "pull-right") }}
 
@@ -32,10 +25,16 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td class="col-sm-1">
+                Date de publication :
+            </td>
+            <td class="col-sm-1">
+                {{ livre.datePublication|date('d/m/Y') }}
+            </td>
+            <td class="col-sm-1">
                 ISBN :
             </td>
-            <td>
+            <td class="col-sm-1">
                 {{ livre.isbn10 }}
                 <small>
                     ({{ livre.isbn13 }})
@@ -49,34 +48,22 @@
             <td>
                 {{ livre.nombrePages }}
             </td>
+            <td>
+                Prix :
+            </td>
+            <td>
+                {{ livre.prix }}
+            </td>
         </tr>
-        {% if livre.hauteur|length>0 %}
+        {% if livre.hauteur|length>0 or livre.largeur|length>0  or livre.epaisseur|length>0 %}
             <tr>
                 <td>
-                    Hauteur :
+                    Format :
                 </td>
-                <td>
-                    {{ livre.hauteur }}
-                </td>
-            </tr>
-        {% endif %}
-        {% if livre.largeur|length>0 %}
-            <tr>
-                <td>
-                    Largeur :
-                </td>
-                <td>
-                    {{ livre.largeur }}
-                </td>
-            </tr>
-        {% endif %}
-        {% if livre.epaisseur|length>0 %}
-            <tr>
-                <td>
-                    Epaisseur :
-                </td>
-                <td>
-                    {{ livre.epaisseur }}
+                <td colspan="3">
+                   Hauteur : {{ livre.hauteur }} -
+                    Largeur : {{ livre.largeur }} - 
+                    Epaisseur  : {{ livre.epaisseur }} <br/>
                 </td>
             </tr>
         {% endif %}
@@ -87,55 +74,45 @@
             <td>
                 {{ livre.pays }}
             </td>
-        </tr>
-        <tr>
-            <td>
-                Prix :
-            </td>
-            <td>
-                {{ livre.prix }}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Slug :
-            </td>
-            <td>
-                {{ livre.slug }}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Auteurs :
-            </td>
-            <td>
-                {{ dump(livre.auteurs) }}
-            </td>
-        </tr>
-        <tr>
             <td>
                 Editeur :
             </td>
             <td>
-                {{ dump(livre.editeur) }}
+                {% if livre.editeur is not null %}
+                    {{ livre.editeur.label }}
+                {% endif %}
             </td>
         </tr>
 
-        <tr>
-            <td>
-                Catégorie :
-            </td>
-            <td>
-                {{ dump(livre.categories) }}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Série :
-            </td>
-            <td>
-                {{ dump(livre.serie) }}
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    Auteurs :
+                </td>
+                <td>
+                    {% for auteur in livre.auteurs %}
+                        {{ auteur.nomComplet }}<br/>
+                    {% endfor %}
+                </td>
+                <td>
+                    Catégorie :
+                </td>
+                <td>
+                    {% for categorie in livre.categories %}
+                        {{ categorie.label }} -
+                    {% endfor %}
+                </td>
+            </tr>
+
+
+        {% if livre.serie is not null %}
+            <tr>
+                <td>
+                    Série :
+                </td>
+                <td>
+                    {{ dump(livre.serie) }}
+                </td>
+            </tr>
+        {% endif %}
     </table>
 </div>

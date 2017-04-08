@@ -319,7 +319,12 @@ class GoogleGetBookService
                         ->setNom($googleEditeur);
                     $this->em->persist($editeur);
                 }
+
             }
+            // Ajout de l'éditeur au livre
+            if(false === is_null($editeur))
+                $livre->setEditeur($editeur);
+
         }
         return $editeur;
     }

@@ -62,7 +62,7 @@
                 </td>
                 <td colspan="3">
                    Hauteur : {{ livre.hauteur }} -
-                    Largeur : {{ livre.largeur }} - 
+                    Largeur : {{ livre.largeur }} -
                     Epaisseur  : {{ livre.epaisseur }} <br/>
                 </td>
             </tr>
@@ -79,7 +79,7 @@
             </td>
             <td>
                 {% if livre.editeur is not null %}
-                    {{ livre.editeur.label }}
+                    {{ livre.editeur.nom }}
                 {% endif %}
             </td>
         </tr>

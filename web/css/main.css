@@ -32,3 +32,10 @@
 .div_news_lien, #table_news tr {
     cursor: pointer; cursor: hand;
 }
+#liste_livres tr{
+    cursor: pointer; cursor: hand;
+}
+#detail_livre{
+    max-height:500px;
+    overflow-y: auto;
+}

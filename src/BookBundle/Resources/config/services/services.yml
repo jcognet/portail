@@ -1,5 +1,10 @@
 services:
-    # Service concernant les alertes utilisateurs
-    book.google_get_book_service:
+    # Service gérant l'appel google books
+    livre.google_get_book_service:
         class: BookBundle\Service\GoogleGetBookService
-        arguments: ["@doctrine.orm.entity_manager", "%google_books_api%", "@transverse.curl","%path_absolu_upload_image_livre%" ]
+        arguments: ["@doctrine.orm.entity_manager", "%google_books_api%", "@transverse.curl","@livre.image" ]
+
+  # Service gérant l'appel google books
+    livre.image:
+        class: BookBundle\Service\LivreImageService
+        arguments: ["%path_relatif_upload_image%","%path_absolu_upload_image_livre%",  "@transverse.curl" ]

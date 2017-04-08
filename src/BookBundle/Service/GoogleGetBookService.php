@@ -73,10 +73,10 @@ class GoogleGetBookService
     protected $curlService = null;
 
     /**
-     * Répertoire d'upload des images
-     * @var string
+     * Service gérant les livres
+     * @var LivreImageService
      */
-    protected $pathUpload = '';
+    protected $livreService = '';
 
     /**
      * Entité de log d'appel au webservice google
@@ -85,12 +85,12 @@ class GoogleGetBookService
     protected $log = null;
 
 
-    public function __construct(EntityManager $em, $googleApiBook, CurlService $curlService, $pathUpload)
+    public function __construct(EntityManager $em, $googleApiBook, CurlService $curlService, LivreImageService $livreService)
     {
         $this->em            = $em;
         $this->googleApiBook = $googleApiBook;
         $this->curlService   = $curlService;
-        $this->pathUpload    = $pathUpload;
+        $this->livreService    = $livreService;
     }
 
     /**
@@ -352,11 +352,9 @@ class GoogleGetBookService
             $this->ecrit("Pas d'image");
             return null;
         }
-        // On télécharge l'image
-        $pathEnregistrement = $this->pathUpload . $livre->getSlug() . '.jpg';
         $this->ecrit("Enregistrement de image : " . $urlImage);
-        $this->ecrit("Destination image : " . $pathEnregistrement);
-        return $this->curlService->telechargeImage($urlImage, $pathEnregistrement);
+        $this->ecrit("Destination image : " . $this->livreService->getPathUploadImage($livre));
+        return $this->livreService->enregistreImage($livre, $urlImage);
 
     }
 

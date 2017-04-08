@@ -2,7 +2,7 @@
 <div>
     <h2>Détail du livre : {{ livre.titre }}
         <small>
-            <a href="{{ livre.googleLink }}" target="_blank">
+            <a href="{{ livre.googleDetailLink }}" target="_blank">
                 <img src="https://www.gstatic.com/images/branding/googlelogo/1x/googlelogo_color_92x36dp.png"
                      title="Lien vers la page google book du livre {{ livre.titre }}"/>
             </a>
@@ -17,11 +17,8 @@
             <td colspan="3">
                 <div class="pull-right" style="max-width: 200px">
                     {{ livreMacro.getUrlImage(livre, "pull-right") }}
-
                 </div>
                 {{ livre.description|e('html') }}
-
-
             </td>
         </tr>
         <tr>
@@ -61,9 +58,9 @@
                     Format :
                 </td>
                 <td colspan="3">
-                   Hauteur : {{ livre.hauteur }} -
+                    Hauteur : {{ livre.hauteur }} -
                     Largeur : {{ livre.largeur }} -
-                    Epaisseur  : {{ livre.epaisseur }} <br/>
+                    Epaisseur : {{ livre.epaisseur }} <br/>
                 </td>
             </tr>
         {% endif %}
@@ -84,33 +81,31 @@
             </td>
         </tr>
 
-            <tr>
-                <td>
-                    Auteurs :
-                </td>
-                <td>
-                    {% for auteur in livre.auteurs %}
-                        {{ auteur.nomComplet }}<br/>
-                    {% endfor %}
-                </td>
-                <td>
-                    Catégorie :
-                </td>
-                <td>
-                    {% for categorie in livre.categories %}
-                        {{ categorie.label }} -
-                    {% endfor %}
-                </td>
-            </tr>
-
-
+        <tr>
+            <td>
+                Auteurs :
+            </td>
+            <td>
+                {% for auteur in livre.auteurs %}
+                    {{ auteur.nomComplet }}<br/>
+                {% endfor %}
+            </td>
+            <td>
+                Catégorie :
+            </td>
+            <td>
+                {% for categorie in livre.categories %}
+                    {{ categorie.label }} <br/>
+                {% endfor %}
+            </td>
+        </tr>
         {% if livre.serie is not null %}
             <tr>
                 <td>
                     Série :
                 </td>
-                <td>
-                    {{ dump(livre.serie) }}
+                <td colspan="3">
+                    {{ livre.serie.nom}}
                 </td>
             </tr>
         {% endif %}

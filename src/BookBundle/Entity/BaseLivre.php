@@ -43,6 +43,13 @@ class BaseLivre
     /**
      * @var string
      *
+     * @ORM\Column(name="google_link_detail", type="string", length=255, nullable=true)
+     */
+    private $googleDetailLink;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="titre", type="string", length=255, nullable=true)
      */
     private $titre;
@@ -681,5 +688,29 @@ class BaseLivre
     public function getSerie()
     {
         return $this->serie;
+    }
+
+    /**
+     * Set googleDetailLink
+     *
+     * @param string $googleDetailLink
+     *
+     * @return BaseLivre
+     */
+    public function setGoogleDetailLink($googleDetailLink)
+    {
+        $this->googleDetailLink = $googleDetailLink;
+
+        return $this;
+    }
+
+    /**
+     * Get googleDetailLink
+     *
+     * @return string
+     */
+    public function getGoogleDetailLink()
+    {
+        return $this->googleDetailLink;
     }
 }

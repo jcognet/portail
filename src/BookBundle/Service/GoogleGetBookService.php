@@ -223,7 +223,10 @@ class GoogleGetBookService
                 ->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate))
                 ->setDescription($livreGoogle->volumeInfo->description)
                 ->setNombrePages($livreGoogle->volumeInfo->pageCount)
-                ->setPays($livreGoogle->volumeInfo->language);
+                ->setPays($livreGoogle->volumeInfo->language)
+                ->setGoogleDetailLink($livreGoogle->volumeInfo->previewLink);
+
+            ;
             # Dimension
             if (true === property_exists($livreGoogle->volumeInfo, 'dimensions')) {
                 $livre->setHauteur($livreGoogle->volumeInfo->dimensions->height)

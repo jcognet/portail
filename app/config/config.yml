@@ -5,7 +5,7 @@ imports:
     - { resource: "@CommunBundle/Resources/config/services.yml" }
     - { resource: "@UserBundle/Resources/config/services.yml" }
     - { resource: "@AdminBundle/Resources/config/services.yml" }
-    - { resource: "@BookBundle/Resources/config/services.yml" }
+    - { resource: "@LivreBundle/Resources/config/services.yml" }
     - { resource: "@TransverseBundle/Resources/config/services.yml" }
     - { resource: "@DeviseBundle/Resources/config/services.yml" }
 

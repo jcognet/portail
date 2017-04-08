@@ -3,7 +3,7 @@ devise:
     prefix:   /devise
 
 book:
-    resource: "@BookBundle/Resources/config/routing.yml"
+    resource: "@LivreBundle/Resources/config/routing.yml"
     prefix:   /livre/
 
 user:

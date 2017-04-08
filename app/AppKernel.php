@@ -22,7 +22,7 @@ class AppKernel extends Kernel
             new AdminBundle\AdminBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
-            new BookBundle\BookBundle(),
+            new LivreBundle\LivreBundle(),
             new TransverseBundle\TransverseBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             new DeviseBundle\DeviseBundle(),

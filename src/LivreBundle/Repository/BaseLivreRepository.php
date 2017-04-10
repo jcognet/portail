@@ -1,6 +1,7 @@
 <?php
 
 namespace LivreBundle\Repository;
+
 use LivreBundle\Entity\BaseLivre;
 
 /**
@@ -27,11 +28,26 @@ class BaseLivreRepository extends \Doctrine\ORM\EntityRepository
      * @param $isbn
      * @return BaseLivre |null
      */
-    public function findOneByIsbn($isbn){
+    public function findOneByIsbn($isbn)
+    {
         return $this->createQueryBuilder('l')
             ->where('l.isbn10 = :isbn OR l.isbn13 = :isbn')
             ->setParameter('isbn', $isbn)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Eecherche un livre sur son label
+     * @param $texte
+     * @return \Doctrine\ORM\Query
+     */
+    public function getQueryLivreLivreRecherche($texte)
+    {
+        return $this->createQueryBuilder('l')
+            ->where('l.isbn10 like :texte OR l.isbn13 like :texte OR l.titre like :texte or l.description like :texte')
+            ->setParameter('texte', "%" . $texte . "%")
+            ->addOrderBy('l.dateCreation', 'DESC')
+            ->getQuery();
     }
 }

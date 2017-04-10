@@ -20,7 +20,6 @@ class LivreController extends Controller
     public function listeAction(Request $request)
     {
         //TODO : gérer la pagination de la liste
-        //TODO : gérer le détail d'un livre quand il n'y a qu'un livre
         //TODO : gérer la recherche avec plusieurs paramètres
         // Gestion des info evoyées
         $form = $this->createFormRecherche();
@@ -76,6 +75,7 @@ class LivreController extends Controller
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $isbn = $form->get('isbn')->getData();
+                // Si on a un isbn : on tente de chercher sur ce champ
                 if (strlen($isbn) > 0) {
                     // On recherche si le livre est en base
                     $livre = $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')->findOneByIsbn($isbn);
@@ -89,14 +89,20 @@ class LivreController extends Controller
                         $listeLivresData = array($livre);
                     }
                 }
+                else{
+                    $texte = $form->get('label')->getData();
+                    // Sinon on tente un autre champ
+                    $listeLivresData = $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')
+                        ->getQueryLivreLivreRecherche($texte);
+                }
             } else {
-
+                // Affichage de tous les erreurs
                 foreach ($form->getErrors(true, true) as $erreur) {
                     $listeErreurs[] = $erreur->getMessage();
                 }
             }
         }
-
+        // Par défaut : toute la liste
         if (true === is_null($listeLivresData)) {
             $listeLivresData = $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')->getQueryListeLivre();
         }
@@ -129,6 +135,11 @@ class LivreController extends Controller
                 'constraints' => array(new Isbn(array(
                     'bothIsbnMessage' => "{{ value }} n'est pas un ISBN 10 ou 13."
                 )))
+            ))
+            ->add('label', TextType::class, array(
+                'required' => false,
+                'label'    => 'Texte',
+
             ))
             ->add('chercher', ButtonType::class, array(
                 'label' => 'Chercher',

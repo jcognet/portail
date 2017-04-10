@@ -35,3 +35,8 @@
     {% endfor %}
     </tbody>
 </table>
+{% if liste_livres|length>0 %}
+<div class="navigation">
+    {{ knp_pagination_render(liste_livres) }}
+</div>
+{% endif %}

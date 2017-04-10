@@ -18,6 +18,7 @@ $(document).ready(function () {
     $('#recherche_livre button').on('click', function (e) {
         rechercheLivre(this.form);
     });
+    afficheDetailLivreSiUnique();
 });
 // Affiche les détails d'un livre
 function getDetailLivre(id) {
@@ -44,18 +45,22 @@ function getDetailLivre(id) {
     });
 }
 // Recherche des livres
-function rechercheLivre(formRecherche) {
+function rechercheLivre(formRecherche, sort, direction, page) {
     setAjaxWorking(blockListeId);
+    var queryString = createQueryStringPaginatior(sort, direction, page);
 
-    var formRechercheData =  new FormData(formRecherche);
-    url = Routing.generate('livre_ajax_recherche');
+    var formRechercheData = new FormData(formRecherche);
+    url = Routing.generate('livre_ajax_recherche')+queryString;
+    for (var pair of formRechercheData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+    }
     $.ajax({
         url: url,
         type: 'POST',
         data: formRechercheData,
         contentType: false,
         cache: false,
-        processData:false,
+        processData: false,
         success: function (block_html, statut) { // success est toujours en place, bien sûr !
             $('#' + blockListeId).html(block_html);
             unsetAjaxWorking(blockListeId);
@@ -99,16 +104,56 @@ function addEvent() {
             getDetailLivre(livreId);
         }
     });
+
+    $('ul.pagination a').on('click', function (e) {
+        var sort = getParameterByName('sort', $(this).attr('href'));
+        var direction = getParameterByName('direction', $(this).attr('href'));
+        var page = getParameterByName('page', $(this).attr('href'));
+
+
+        rechercheLivre(formRecherche[0], sort, direction, page)
+        e.preventDefault();
+    });
 }
 // Affiche un livre s'il n'y a qu'un élément
-function afficheDetailLivreSiUnique(){
-    var ligne =$('#liste_livre table tbody tr');
-    console.log($().length == 1);
-    if(ligne.length == 1){
-        var livreId =ligne.attr('data-id');
-        console.log(livreId);
+function afficheDetailLivreSiUnique() {
+    var ligne = $('#liste_livre table tbody tr');
+    if (ligne.length == 1) {
+        var livreId = ligne.attr('data-id');
         if (livreId > 0) {
             getDetailLivre(livreId);
         }
     }
+}
+// Get parametre from url
+function getParameterByName(name, url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+// Create query string for paginator
+function createQueryStringPaginatior( sort, direction, page){
+    var queryString = "?"
+    if (!sort) {
+        sort = '';
+    }else{
+        queryString = queryString +'sort='+sort+'&'
+    }
+    if (!direction){
+        direction = '';
+    }else{
+        queryString = queryString +'direction='+direction+'&'
+    }
+    if (!page){
+        page = '';
+    }else{
+        queryString = queryString +'page='+page+'&'
+    }
+    return queryString;
 }

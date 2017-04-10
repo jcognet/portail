@@ -13,14 +13,18 @@ use Symfony\Component\Validator\Constraints\Isbn;
 class LivreController extends Controller
 {
     /**
+     * Nombre de livres dans la pagination
+     */
+    const MAX_ELEMENT_PAGINATION = 10;
+
+    /**
      * Liste des livres
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function listeAction(Request $request)
     {
-        //TODO : gérer la pagination de la liste
-        //TODO : gérer la recherche avec plusieurs paramètres
+        // TODO : pop up détail livre image
         // Gestion des info evoyées
         $form = $this->createFormRecherche();
         // Dernier livres trouvés
@@ -28,7 +32,7 @@ class LivreController extends Controller
         $listeLivres = $paginator->paginate(
             $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')->getQueryListeLivre(),
             $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
+            $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
         );
 
 
@@ -112,7 +116,7 @@ class LivreController extends Controller
         $listeLivres = $paginator->paginate(
             $listeLivresData,
             $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
+            $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
         );
 
         return $this->render('LivreBundle:Block:livre_liste.html.twig', array(

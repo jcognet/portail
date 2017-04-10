@@ -1,43 +1,60 @@
 {% import "macro/general.html.twig" as generalMacro %}
 {% extends "LivreBundle::base.html.twig" %}
 {% block javascripts %}
+    <script>
+        var zone_recherche_visible = false;
+    </script>
     <script src="{{ asset('js/livre_liste.js') }}"></script>
+
 {% endblock %}
 {% block title_header %}
     Livre des livres
 {% endblock %}
 {% block body %}
     <div class="col-sm-6" id="liste_livres">
+        <div id="recherche_livre_bloc">
+            <h2>
+                Recherche
+                <small>
+                    <span id="recherche_livre_ouvrir" class="glyphicon glyphicon-resize-full"></span>
+                    <span id="recherche_livre_fermer" class="glyphicon glyphicon-resize-small"></span>
+                </small>
+            </h2>
+            <div id="recherche_livre">
+                {{ form(form_recherche) }}
+            </div>
+        </div>
         <h2>Liste des livres</h2>
-        <table class="table table-striped table-responsive">
-            <thead>
-            <tr>
-                <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.titre') }}">
-                    {{ knp_pagination_sortable(liste_livres, 'Titre', 'l.titre') }}
-                </th>
-                <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.dateCreation') }}">
-                    {{ knp_pagination_sortable(liste_livres, 'Date de création', 'l.dateCreation') }}
-                </th>
-                <th class="col-sm-1">ISBN</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for livre in liste_livres %}
-                <tr data-id="{{ livre.id }}">
-                    <td>
-                        {{ livre.titre }}
-                    </td>
-                    <td>
-                        {{ livre.dateCreation|date('d/m/Y') }}
-                    </td>
-                    <td>
-                        {{ livre.isbn10 }}
-                    </td>
+        <div id="liste_livre">
+            <table class="table table-striped table-responsive">
+                <thead>
+                <tr>
+                    <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.titre') }}">
+                        {{ knp_pagination_sortable(liste_livres, 'Titre', 'l.titre') }}
+                    </th>
+                    <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.dateCreation') }}">
+                        {{ knp_pagination_sortable(liste_livres, 'Date de création', 'l.dateCreation') }}
+                    </th>
+                    <th class="col-sm-1">ISBN</th>
                 </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
+                </thead>
+                <tbody>
+                {% for livre in liste_livres %}
+                    <tr data-id="{{ livre.id }}">
+                        <td>
+                            {{ livre.titre }}
+                        </td>
+                        <td>
+                            {{ livre.dateCreation|date('d/m/Y') }}
+                        </td>
+                        <td>
+                            {{ livre.isbn10 }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="col-sm-6">
         <div id="detail_livre">

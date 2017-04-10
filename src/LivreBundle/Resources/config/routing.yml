@@ -12,7 +12,7 @@ livre_edit:
     defaults: { _controller: LivreBundle:Livre:edit }
 
 # Détail d'un livre en ajax
-livre_ajax_edit:
+livre_ajax_detail:
     path:     /ajax/detail/{id}
     defaults: { _controller: LivreBundle:Livre:ajaxDetail }
     options:

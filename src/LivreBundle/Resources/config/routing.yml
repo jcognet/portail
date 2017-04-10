@@ -17,3 +17,10 @@ livre_ajax_detail:
     defaults: { _controller: LivreBundle:Livre:ajaxDetail }
     options:
         expose: true
+
+# Détail d'un livre en ajax
+livre_ajax_recherche:
+    path:     /ajax/recherche
+    defaults: { _controller: LivreBundle:Livre:ajaxRecherche}
+    options:
+        expose: true

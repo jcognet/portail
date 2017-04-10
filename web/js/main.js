@@ -30,7 +30,6 @@ function alerteSiSuppression(){
     $('.lnk_suppression').each(function(){
         $(this).click( function(e){
             if(!confirm('Voulez-vous vraiment supprimer cet élément ? ')){
-                alert('bbbbb')
                 e.preventDefault();
                 return false;
             }

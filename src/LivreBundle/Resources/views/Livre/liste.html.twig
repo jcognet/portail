@@ -11,9 +11,9 @@
     Livre des livres
 {% endblock %}
 {% block body %}
-    <div class="col-sm-6" id="liste_livres">
+    <div class="col-sm-6" id="liste_livre_bloc">
         <div id="recherche_livre_bloc">
-            <h2>
+            <h2 id="recherche_livre_titre">
                 Recherche
                 <small>
                     <span id="recherche_livre_ouvrir" class="glyphicon glyphicon-resize-full"></span>
@@ -26,34 +26,8 @@
         </div>
         <h2>Liste des livres</h2>
         <div id="liste_livre">
-            <table class="table table-striped table-responsive">
-                <thead>
-                <tr>
-                    <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.titre') }}">
-                        {{ knp_pagination_sortable(liste_livres, 'Titre', 'l.titre') }}
-                    </th>
-                    <th class="col-sm-1 {{ generalMacro.gereTri(liste_livres, 'l.dateCreation') }}">
-                        {{ knp_pagination_sortable(liste_livres, 'Date de création', 'l.dateCreation') }}
-                    </th>
-                    <th class="col-sm-1">ISBN</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for livre in liste_livres %}
-                    <tr data-id="{{ livre.id }}">
-                        <td>
-                            {{ livre.titre }}
-                        </td>
-                        <td>
-                            {{ livre.dateCreation|date('d/m/Y') }}
-                        </td>
-                        <td>
-                            {{ livre.isbn10 }}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+          {% embed 'LivreBundle:Block:livre_liste.html.twig' %}
+            {% endembed %}
         </div>
     </div>
     <div class="col-sm-6">

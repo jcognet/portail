@@ -167,7 +167,7 @@ class GoogleGetLivreService
      * @param $retourGoogle
      * @return BaseLivre
      */
-    public function analyseRetourGoogle($retourGoogle)
+    protected function analyseRetourGoogle($retourGoogle)
     {
         // Récupération du livre courant
         $bookPremier = current($retourGoogle->items);

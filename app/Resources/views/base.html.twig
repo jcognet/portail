@@ -39,7 +39,7 @@
                 </h1>
             </div>
             {% for flash_message in app.session.flashBag.get('erreur') %}
-                <div class="alert alert-erreur">
+                <div class="alert alert-danger">
                     {{ flash_message }}
                 </div>
             {% endfor %}

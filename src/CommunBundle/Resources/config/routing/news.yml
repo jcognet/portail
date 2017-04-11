@@ -22,3 +22,12 @@ commun_news_supprimer:
     defaults: { _controller: CommunBundle:News:deleteNews, id: null}
     requirements:
         id: '\d+'
+
+# Supprime une news
+commun_news_ajax_detail:
+    path:     /news/ajax/detail/{id}
+    defaults: { _controller: CommunBundle:News:ajaxDetail, id: null}
+    requirements:
+        id: '\d+'
+    options:
+       expose: true

@@ -1,0 +1,12 @@
+{% import "@Livre/Macro/livre.html.twig" as livreMacro %}
+<div>
+    <h2>
+        {{ news.titre }}
+    <small>
+        {{ news.dateMiseEnLigne|date('d/m/Y h:i:s') }}
+    </small>
+    </h2>
+    <div>
+        {{ news.corps |raw}}
+    </div>
+</div>

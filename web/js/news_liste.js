@@ -1,13 +1,11 @@
+// Id du block avec le détail du livre
+var blockDetailId = 'detail_news';
+// Id du block avec la liste des livres
+var blockListeId = 'liste_news';
+// Route pour le détail d'une entité
+var route_detail = 'commun_news_ajax_detail';
+// Formulaire de recherche
+var formRecherche = null;
 $(document).ready(function () {
-    $('.news_content').hide();
-    addEventTr();
+    addEvent();
 });
-
-function addEventTr(){
-    $("#table_news tr").on('click', function(e){
-        if($(this)[0].hasAttribute('data-news-id')){
-            var divNews = $('#news_content_'+$(this).attr('data-news-id'));
-            divNews.fadeToggle();
-        }
-    });
-}

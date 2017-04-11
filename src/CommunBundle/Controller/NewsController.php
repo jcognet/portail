@@ -108,4 +108,17 @@ class NewsController extends Controller
         );
         return $this->redirectToRoute('commun_news_liste');
     }
+
+    /**
+     * Affiche le détail d'une actualité
+     * @param Request $request
+     * @param News $news
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxDetailAction(Request $request, News $news)
+    {
+        return $this->render('CommunBundle:Block:news_detail.html.twig', array(
+            'news' => $news
+        ));
+    }
 }

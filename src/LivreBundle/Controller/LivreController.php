@@ -56,7 +56,7 @@ class LivreController extends Controller
      * @param BaseLivre $livre
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxDetailAction(Request $request, BaseLivre $livre)
+    public function detailAjaxAction(Request $request, BaseLivre $livre)
     {
         return $this->render('LivreBundle:Block:livre_detail.html.twig', array(
             'livre' => $livre
@@ -68,7 +68,7 @@ class LivreController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxRechercheAction(Request $request)
+    public function rechercheAjaxAction(Request $request)
     {
         $listeLivresData = null;
         // Gestion des info envoyées

@@ -13,14 +13,14 @@ livre_edit:
 
 # Détail d'un livre en ajax
 livre_detail_ajax:
-    path:     /ajax/detail/{id}
-    defaults: { _controller: LivreBundle:Livre:ajaxDetail }
+    path:     /detail/{id}
+    defaults: { _controller: LivreBundle:Livre:detailAjax }
     options:
         expose: true
 
 # Détail d'un livre en ajax
 livre_recherche_ajax:
-    path:     /ajax/recherche
-    defaults: { _controller: LivreBundle:Livre:ajaxRecherche}
+    path:     /recherche
+    defaults: { _controller: LivreBundle:Livre:rechercheAjax}
     options:
         expose: true

@@ -119,7 +119,7 @@ class NewsController extends Controller
      * @param News $news
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxDetailAction(Request $request, News $news)
+    public function detailAjaxAction(Request $request, News $news)
     {
         return $this->render('CommunBundle:Block:news_detail.html.twig', array(
             'news' => $news
@@ -131,7 +131,7 @@ class NewsController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function ajaxRechercheAction(Request $request)
+    public function rechercheAjaxAction(Request $request)
     {
 
         $paginator          = $this->get('knp_paginator');

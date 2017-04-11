@@ -25,8 +25,8 @@ commun_news_supprimer:
 
 # Détail d'une news
 commun_news_detail_ajax:
-    path:     /news/ajax/detail/{id}
-    defaults: { _controller: CommunBundle:News:ajaxDetail, id: null}
+    path:     /news/detail/{id}
+    defaults: { _controller: CommunBundle:News:detailAjax, id: null}
     requirements:
         id: '\d+'
     options:
@@ -34,8 +34,8 @@ commun_news_detail_ajax:
 
 # Recherche des news
 commun_news_recherche_ajax:
-    path:     /news/ajax/recherche/
-    defaults: { _controller: CommunBundle:News:ajaxRecherche}
+    path:     /news/recherche/
+    defaults: { _controller: CommunBundle:News:rechercheAjax}
     requirements:
         id: '\d+'
     options:

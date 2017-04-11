@@ -3,9 +3,9 @@ var blockDetailId = 'detail_livre';
 // Id du block avec la liste des livres
 var blockListeId = 'liste_livre';
 // Route pour le détail d'une entité
-var route_detail = 'livre_ajax_detail';
+var route_detail = 'livre_detail_ajax';
 // Route de recherche
-var route_recherche = 'livre_ajax_recherche';
+var route_recherche = 'livre_recherche_ajax';
 // Formulaire de recherche
 var formRecherche = null;
 // Input des form de recherche

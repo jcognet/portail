@@ -11,7 +11,7 @@ $(document).ready(function () {
     formRecherche = $("#recherche_livre form");
     // Gestion de la zone de recherche
     gereAffichageZoneRechercheLivre(zone_recherche_visible);
-    addEvent();
+    addEventDatagrid();
     // Action sur la zone d'ouverture de la recherche
     $('#recherche_livre_titre').on('click', function (e) {
         gereAffichageZoneRechercheLivre(!zoneRechechercheVisible());
@@ -42,7 +42,7 @@ function rechercheObjet(formRecherche, sort, direction, page) {
         success: function (block_html, statut) { // success est toujours en place, bien sûr !
             $('#' + blockListeId).html(block_html);
             unsetAjaxWorking(blockListeId);
-            addEvent();
+            addEventDatagrid();
             afficheDetailLivreSiUnique();
         },
 
@@ -53,7 +53,7 @@ function rechercheObjet(formRecherche, sort, direction, page) {
             console.log(erreur);
             console.log('**********');
             unsetAjaxWorking(blockListeId);
-            addEvent();
+            addEventDatagrid();
         }
     });
 }

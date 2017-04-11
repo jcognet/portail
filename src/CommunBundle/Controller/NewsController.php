@@ -11,6 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class NewsController extends Controller
 {
+    /**
+     * Nombre de livres dans la pagination
+     */
+    const MAX_ELEMENT_PAGINATION = 1;
 
     /**
      * Charger une news
@@ -48,7 +52,7 @@ class NewsController extends Controller
                 $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
             ),
             $request->query->getInt('page', 1),
-            $request->query->getInt('limit', 10)
+            $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
         );
         return $this->render('CommunBundle:News:liste.html.twig', array(
             'liste_news_paginator' => $listeNewsPaginator

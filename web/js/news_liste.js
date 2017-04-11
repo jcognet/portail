@@ -7,5 +7,5 @@ var route_detail = 'commun_news_ajax_detail';
 // Formulaire de recherche
 var formRecherche = null;
 $(document).ready(function () {
-    addEvent();
+    addEventDatagrid();
 });

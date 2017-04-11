@@ -1,5 +1,5 @@
 // Ajoute les événements sur la page
-function addEvent() {
+function addEventDatagrid() {
     // Gestion de la zone de détail d'un livre
     $('#' + blockListeId + ' tr').on('click', function (e) {
         var objetId = $(this).attr('data-id');

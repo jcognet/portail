@@ -23,10 +23,19 @@ commun_news_supprimer:
     requirements:
         id: '\d+'
 
-# Supprime une news
+# Détail d'une news
 commun_news_ajax_detail:
     path:     /news/ajax/detail/{id}
     defaults: { _controller: CommunBundle:News:ajaxDetail, id: null}
+    requirements:
+        id: '\d+'
+    options:
+       expose: true
+
+# Recherche des news
+commun_news_ajax_recherche:
+    path:     /news/ajax/recherche/
+    defaults: { _controller: CommunBundle:News:ajaxRecherche}
     requirements:
         id: '\d+'
     options:

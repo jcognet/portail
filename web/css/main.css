@@ -32,7 +32,7 @@
 .div_news_lien, #table_news tr {
     cursor: pointer; cursor: hand;
 }
-#liste_livres tr{
+#liste_livre tr{
     cursor: pointer; cursor: hand;
 }
 #detail_livre{

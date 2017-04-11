@@ -6,7 +6,7 @@
 {% endblock %}
 
     {% block header %}
-        Liste des actualités
+        Quoi de neuf ?
         {% if is_granted('ROLE_ADMIN') %}
             <small>
                 <a href="{{ path('commun_news_enregistre') }}" title="Modifier une actualité">
@@ -17,7 +17,7 @@
     {% endblock %}
 {% block body %}
     <div class="col-sm-6" id="liste_news_bloc">
-        <h2>Liste des livres</h2>
+        <h2>Liste des actualités</h2>
         <div id="liste_news">
             {% embed 'CommunBundle:Block:news_liste.html.twig' %}
             {% endembed %}

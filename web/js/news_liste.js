@@ -4,8 +4,7 @@ var blockDetailId = 'detail_news';
 var blockListeId = 'liste_news';
 // Route pour le détail d'une entité
 var route_detail = 'commun_news_ajax_detail';
+// Route de recherche
+var route_recherche = 'commun_news_ajax_recherche';
 // Formulaire de recherche
 var formRecherche = null;
-$(document).ready(function () {
-    addEventDatagrid();
-});

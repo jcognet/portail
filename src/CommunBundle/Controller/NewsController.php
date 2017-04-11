@@ -14,7 +14,7 @@ class NewsController extends Controller
     /**
      * Nombre de livres dans la pagination
      */
-    const MAX_ELEMENT_PAGINATION = 1;
+    const MAX_ELEMENT_PAGINATION = 10;
 
     /**
      * Charger une news
@@ -123,6 +123,27 @@ class NewsController extends Controller
     {
         return $this->render('CommunBundle:Block:news_detail.html.twig', array(
             'news' => $news
+        ));
+    }
+
+    /**
+     * Affiche les résultats répondant à une requête
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function ajaxRechercheAction(Request $request)
+    {
+
+        $paginator          = $this->get('knp_paginator');
+        $listeNewsPaginator = $paginator->paginate(
+            $this->getDoctrine()->getRepository('CommunBundle:News')->getQueryListe(
+                $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
+            ),
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
+        );
+        return $this->render('CommunBundle:Block:news_liste.html.twig', array(
+            'liste_news_paginator' => $listeNewsPaginator
         ));
     }
 }

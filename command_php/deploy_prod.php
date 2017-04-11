@@ -1,5 +1,5 @@
 <?php
 include(__DIR__.'/include.php');
-executeSymfonyCommande('cours:get');
+executeSymfonyCommande('bin:console c:c --env=prod');
 
 

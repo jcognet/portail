@@ -105,6 +105,7 @@ class GoogleGetLivreService
      */
     public function rechercheLivreParISBN($isbn)
     {
+        $this->resetCache();
         // Préparation du log
         $this->creeLog($isbn);
         $livre = $this->appelleGoogleApi($isbn);
@@ -467,14 +468,18 @@ class GoogleGetLivreService
      */
     protected function getContentSelfLink($livreGoogle)
     {
-        static $contentSelfLink = ""; // Petit mécanisme de cache
-        if (false === is_object($contentSelfLink)) {
+        if (false === is_object($this->contentSelfLink)) {
             $selfLink        = $livreGoogle->selfLink;
-            $contentSelfLink = $this->appelleCurl($selfLink);
+            $this->contentSelfLink = $this->appelleCurl($selfLink);
         }
 
-        return $contentSelfLink;
+        return $this->contentSelfLink;
     }
+
+    /**
+     * @var string
+     */
+    protected $contentSelfLink = "";
 
     /**
      * Appelle une URL CURL
@@ -486,6 +491,14 @@ class GoogleGetLivreService
     {
         $this->ecrit('URL : ' . $url);
         return $this->curlService->appelleCurl($url);
+    }
+
+
+    /**
+     * Remet à 0 le cache de l'objet
+     */
+    public function resetCache(){
+        $this->contentSelfLink = "";
     }
 }
 

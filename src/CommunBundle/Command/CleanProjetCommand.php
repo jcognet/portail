@@ -66,6 +66,17 @@ class CleanProjetCommand extends ContainerAwareCommand
         );
         $inputDevise      = new ArrayInput($argumentsDevise);
         $returnCodeDevise = $commandDevise->run($inputDevise, $output);
+        // Ajout de quelques livres
+        $listeIsbn = array('2955358401', '281041744X', '2373490641', '2302055853', '2800177195');
+        foreach ($listeIsbn as $isbn) {
+            $commandLivre   = $this->getApplication()->find('livre:google:get-by-isbn');
+            $argumentsLivre = array(
+                '--env' => 'test',
+                'isbn'  => $isbn
+            );
+            $inputLivre     = new ArrayInput($argumentsLivre);
+            $returnLivre    = $commandLivre->run($inputLivre, $output);
+        }
     }
 
 

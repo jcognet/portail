@@ -65,10 +65,10 @@ class CleanTestCommand extends ContainerAwareCommand
         // Liste des jours de suivi
         $em         = $this->getContainer()->get('doctrine.orm.entity_manager');
         $listeSuivi = $em->getRepository('DeviseBundle:CoursJournee')->findBy(array(), array('date' => 'DESC'));
-        $date = new \DateTime();
+        $date       = new \DateTime();
         $date->setTime(0, 0, 0);
         // On init le jour précédent
-        $premierCours = reset($listeSuivi);
+        $premierCours  = reset($listeSuivi);
         $jourPrecedent = $premierCours->getDate();
         foreach ($listeSuivi as $coursJournee) {
             $jourCourant = clone($coursJournee->getDate());
@@ -83,6 +83,17 @@ class CleanTestCommand extends ContainerAwareCommand
             $jourPrecedent = $jourCourant;
         }
         $em->flush();
+        // Ajout de quelques livres
+        $listeIsbn = array('2955358401', '281041744X', '2373490641', '2302055853', '2800177195');
+        foreach ($listeIsbn as $isbn) {
+            $commandLivre   = $this->getApplication()->find('livre:google:get-by-osb,');
+            $argumentsLivre = array(
+                '--env' => 'test',
+                'isbn'  => $isbn
+            );
+            $inputLivre     = new ArrayInput($argumentsLivre);
+            $returnLivre    = $commandLivre->run($inputLivre, $output);
+        }
         $output->writeln('Fini !');
     }
 

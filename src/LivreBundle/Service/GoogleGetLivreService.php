@@ -26,7 +26,6 @@ class GoogleGetLivreService
      */
     const GOOGLE_API_URL = 'https://www.googleapis.com/books/v1/volumes';
 
-
     /**
      * Liste des images à utiliser par google api (plus la valeur est au début de la liste, plus elle sera utilisée)
      */
@@ -84,6 +83,12 @@ class GoogleGetLivreService
      */
     protected $log = null;
 
+    /**
+     * URL d'appel google
+     * @var string
+     */
+    protected $url = '';
+
 
     public function __construct(EntityManager $em, $googleApiBook, CurlService $curlService, LivreImageService $livreService)
     {
@@ -110,12 +115,21 @@ class GoogleGetLivreService
     }
 
     /**
-     * URL de la requête API
+     * URL de la requête API avec un q
      * @return string
      */
-    protected function getGoogleApiUrl($isbn)
+    protected function getPrimeGoogleApiUrl($isbn)
     {
         return self::GOOGLE_API_URL . '?key=' . $this->googleApiBook . '&q=isbn:' . $isbn;
+    }
+
+    /**
+     * URL de la requête API avec un q
+     * @return string
+     */
+    protected function getSecondaryGoogleApiUrl($isbn)
+    {
+        return self::GOOGLE_API_URL . '?key=' . $this->googleApiBook . '&q=' . $isbn;
     }
 
     /**
@@ -127,8 +141,16 @@ class GoogleGetLivreService
     protected function appelleGoogleApi($isbn)
     {
         // Création de la requête API
-        $query = $this->getGoogleApiUrl($isbn);
-        return $this->appelleCurl($query);
+        $query = $this->getPrimeGoogleApiUrl($isbn);
+        $retourGoogle = $this->appelleCurl($query);
+        // Si le premier appel n'a rien envoyé, on tente la deuxième URL
+        if(0 === $retourGoogle->totalItems ) {
+            $query = $this->getSecondaryGoogleApiUrl($isbn);
+            $retourGoogle = $this->appelleCurl($query);
+        }
+        // On enregistre l'url pour les logs
+        $this->url = $query;
+        return $retourGoogle;
     }
 
     /**
@@ -141,7 +163,7 @@ class GoogleGetLivreService
         $log = new LivreLogWerservice();
         $log->setDebut(new \DateTime())
             ->setIsbn($isbn)
-            ->setUrl($this->getGoogleApiUrl($isbn));
+            ->setUrl($this->url);
         $this->em->persist($log);
         $this->em->flush();
         $this->log = $log;
@@ -169,6 +191,9 @@ class GoogleGetLivreService
      */
     protected function analyseRetourGoogle($retourGoogle)
     {
+        // PRotection
+        if(0 === $retourGoogle->totalItems )
+            return ;
         // Récupération du livre courant
         $bookPremier = current($retourGoogle->items);
         $book        = $this->getContentSelfLink($bookPremier);

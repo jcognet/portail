@@ -23,8 +23,9 @@ $(document).ready(function () {
         gereAffichageZoneRechercheLivre(!zoneRechechercheVisible());
     });
     // Lance la recherche
-    $('#recherche_livre button').on('click', function (e) {
-        rechercheObjet(this.form);
+    $('#recherche_livre form').on('submit', function (e) {
+        rechercheObjet(this);
+        e.preventDefault();
     });
     gereFocusChampRecherche();
 });

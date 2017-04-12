@@ -5,6 +5,7 @@ namespace LivreBundle\Controller;
 use LivreBundle\Entity\BaseLivre;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Iban;
@@ -145,7 +146,7 @@ class LivreController extends Controller
                 'label'    => 'Texte',
 
             ))
-            ->add('chercher', ButtonType::class, array(
+            ->add('chercher', SubmitType::class, array(
                 'label' => 'Chercher',
 
             ));

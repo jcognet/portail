@@ -95,7 +95,7 @@ class GoogleGetLivreService
         $this->em            = $em;
         $this->googleApiBook = $googleApiBook;
         $this->curlService   = $curlService;
-        $this->livreService    = $livreService;
+        $this->livreService  = $livreService;
     }
 
     /**
@@ -141,11 +141,11 @@ class GoogleGetLivreService
     protected function appelleGoogleApi($isbn)
     {
         // Création de la requête API
-        $query = $this->getPrimeGoogleApiUrl($isbn);
+        $query        = $this->getPrimeGoogleApiUrl($isbn);
         $retourGoogle = $this->appelleCurl($query);
         // Si le premier appel n'a rien envoyé, on tente la deuxième URL
-        if(0 === $retourGoogle->totalItems ) {
-            $query = $this->getSecondaryGoogleApiUrl($isbn);
+        if (0 === $retourGoogle->totalItems) {
+            $query        = $this->getSecondaryGoogleApiUrl($isbn);
             $retourGoogle = $this->appelleCurl($query);
         }
         // On enregistre l'url pour les logs
@@ -192,8 +192,8 @@ class GoogleGetLivreService
     protected function analyseRetourGoogle($retourGoogle)
     {
         // PRotection
-        if(0 === $retourGoogle->totalItems )
-            return ;
+        if (0 === $retourGoogle->totalItems)
+            return;
         // Récupération du livre courant
         $bookPremier = current($retourGoogle->items);
         $book        = $this->getContentSelfLink($bookPremier);
@@ -220,7 +220,7 @@ class GoogleGetLivreService
             $this->ecrit("Catégorie : " . $categorie->getReferenceGoogle() . " - id : " . $categorie->getId());
         }
         $serie = $this->convertitSeries($book, $livre);
-        if(false === is_null($serie))
+        if (false === is_null($serie))
             $this->ecrit("Série : " . $serie->getReferenceGoogle() . " - id : " . $serie->getId());
         // Enregistrement en basee
         $this->em->flush();
@@ -245,18 +245,20 @@ class GoogleGetLivreService
         if (true === property_exists($livreGoogle, 'volumeInfo')) {
             # volumeInfo
             $livre->setTitre($livreGoogle->volumeInfo->title)
-                ->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate))
-                ->setDescription($livreGoogle->volumeInfo->description)
-                ->setNombrePages($livreGoogle->volumeInfo->pageCount)
+                ->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate));
+            if (true === property_exists($livreGoogle->volumeInfo, 'description'))
+                $livre->setDescription($livreGoogle->volumeInfo->description);
+            $livre->setNombrePages($livreGoogle->volumeInfo->pageCount)
                 ->setPays($livreGoogle->volumeInfo->language)
-                ->setGoogleDetailLink($livreGoogle->volumeInfo->previewLink);
-
-            ;
+                ->setGoogleDetailLink($livreGoogle->volumeInfo->previewLink);;
             # Dimension
             if (true === property_exists($livreGoogle->volumeInfo, 'dimensions')) {
-                $livre->setHauteur($livreGoogle->volumeInfo->dimensions->height)
-                    ->setLargeur($livreGoogle->volumeInfo->dimensions->width)
-                    ->setEpaisseur($livreGoogle->volumeInfo->dimensions->thickness);
+                if (true === property_exists($livreGoogle->volumeInfo->dimensions, 'height'))
+                    $livre->setHauteur($livreGoogle->volumeInfo->dimensions->height);
+                if (true === property_exists($livreGoogle->volumeInfo->dimensions, 'width'))
+                    $livre->setLargeur($livreGoogle->volumeInfo->dimensions->width);
+                if (true === property_exists($livreGoogle->volumeInfo->dimensions, 'thickness'))
+                    $livre->setEpaisseur($livreGoogle->volumeInfo->dimensions->thickness);
             }
             // Mise à jour de l'isbn
             if (true === property_exists($livreGoogle->volumeInfo, 'industryIdentifiers')) {
@@ -350,7 +352,7 @@ class GoogleGetLivreService
 
             }
             // Ajout de l'éditeur au livre
-            if(false === is_null($editeur))
+            if (false === is_null($editeur))
                 $livre->setEditeur($editeur);
 
         }
@@ -438,7 +440,8 @@ class GoogleGetLivreService
     {
         $serie = null;
         if (true === property_exists($livreGoogle, "volumeInfo")
-            &&  true === property_exists($livreGoogle->volumeInfo, 'seriesInfo')) {
+            && true === property_exists($livreGoogle->volumeInfo, 'seriesInfo')
+        ) {
             // Récupération de la référence de google
             $seriesGoogle         = current($livreGoogle->volumeInfo->seriesInfo->volumeSeries);
             $serieReferenceGoogle = $seriesGoogle->seriesId;

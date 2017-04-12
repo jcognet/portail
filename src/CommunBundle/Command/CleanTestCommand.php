@@ -64,7 +64,7 @@ class CleanTestCommand extends ContainerAwareCommand
         // Déclage des dates pour que les données correspondent à aujourd'hui
         // Liste des jours de suivi
         $em         = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $listeSuivi = $em->getRepository('CommunBundle:CoursJournee')->findBy(array(), array('date' => 'DESC'));
+        $listeSuivi = $em->getRepository('DeviseBundle:CoursJournee')->findBy(array(), array('date' => 'DESC'));
         $date = new \DateTime();
         $date->setTime(0, 0, 0);
         // On init le jour précédent

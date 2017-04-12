@@ -4,7 +4,7 @@ namespace CommunBundle\Controller;
 
 use CommunBundle\Entity\Devise;
 use CommunBundle\Entity\News;
-use CommunBundle\Entity\SuiviDevise;
+use DeviseBundle\Entity\SuiviDevise;
 use FOS\UserBundle\Form\Type\RegistrationFormType;
 use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

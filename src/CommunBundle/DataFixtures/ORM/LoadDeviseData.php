@@ -2,7 +2,7 @@
 
 namespace CommunBundle\DataFixtures\ORM;
 
-use CommunBundle\Entity\Devise;
+use DeviseBundle\Entity\Devise;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 

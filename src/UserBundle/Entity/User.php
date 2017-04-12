@@ -2,7 +2,7 @@
 
 namespace UserBundle\Entity;
 
-use CommunBundle\Entity\SuiviDevise;
+use DeviseBundle\Entity\SuiviDevise;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -69,11 +69,11 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Add listeDevise
      *
-     * @param \CommunBundle\Entity\SuiviDevise $listeDevise
+     * @param \DeviseBundle\Entity\SuiviDevise $listeDevise
      *
      * @return User
      */
-    public function addListeDevise(\CommunBundle\Entity\SuiviDevise $listeDevise)
+    public function addListeDevise(\DeviseBundle\Entity\SuiviDevise $listeDevise)
     {
         $this->listeDevises[] = $listeDevise;
 
@@ -83,9 +83,9 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Remove listeDevise
      *
-     * @param \CommunBundle\Entity\SuiviDevise $listeDevise
+     * @param \DeviseBundle\Entity\SuiviDevise $listeDevise
      */
-    public function removeListeDevise(\CommunBundle\Entity\SuiviDevise $listeDevise)
+    public function removeListeDevise(\DeviseBundle\Entity\SuiviDevise $listeDevise)
     {
         $this->listeDevises->removeElement($listeDevise);
     }

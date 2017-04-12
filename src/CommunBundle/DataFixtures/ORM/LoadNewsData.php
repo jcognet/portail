@@ -12,6 +12,7 @@ class LoadNewsData implements FixtureInterface
     {
         $newsVersion1 = new News();
         $newsVersion1->setDateCreation(new \DateTime('2016-10-29'))
+            ->setType(News::TYPE_NEWS_ALEX)
             ->setDateMiseEnLigne(new \DateTime('2016-11-03'))
             ->setTitre('Run 1 : Configuration technique')
             ->setCorps('
@@ -54,6 +55,7 @@ Fin réel : Mardi 8 Novembre<br/>
 
         $newsVersion3 = new News();
         $newsVersion3->setDateCreation(new \DateTime('2016-11-20'))
+            ->setType(News::TYPE_NEWS_CHANGESOUS)
             ->setDateMiseEnLigne(new \DateTime('2016-11-20'))
             ->setTitre('Run 3 : Visuel des données (Version 0.3)')
             ->setCorps('

@@ -2,8 +2,8 @@
 
 namespace CommunBundle\DataFixtures\ORM;
 
-use CommunBundle\Entity\Devise;
-use CommunBundle\Entity\SuiviDevise;
+use DeviseBundle\Entity\Devise;
+use DeviseBundle\Entity\SuiviDevise;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use UserBundle\Entity\User;

@@ -5,3 +5,10 @@ services:
           class: CommunBundle\Twig\CommunExtension
           tags:
               - { name: twig.extension }
+
+    # Extension twig news
+    commun.news_extension:
+          arguments: ["@commun.news"]
+          class: CommunBundle\Twig\NewsExtension
+          tags:
+              - { name: twig.extension }

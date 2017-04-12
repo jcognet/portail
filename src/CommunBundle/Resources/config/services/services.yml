@@ -1,6 +1,8 @@
 services:
-
     # Service de mail
     commun.mailer:
         class: CommunBundle\Service\MailerService
         arguments: ["@twig", "@mailer", "%mailer_from%", "@router", "@user.service"]
+    # Service de news
+    commun.news:
+        class: CommunBundle\Service\NewsService

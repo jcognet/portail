@@ -58,8 +58,9 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
 
         return $this->createQueryBuilder('n')
             ->select('n')
-            ->where('n.dateMiseEnLigne>:date')
+            ->where('n.dateMiseEnLigne>:date and n.dateMiseEnLigne<:now')
             ->setParameter('date', $news->getDateMiseEnLigne())
+            ->setParameter('now', new \DateTime())
             ->addOrderBy('n.dateMiseEnLigne', 'ASC')
             ->setMaxResults(1)
             ->getQuery()

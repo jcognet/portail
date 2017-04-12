@@ -1,5 +1,12 @@
+{% import "CommunBundle:Macro:news.html.twig" as newsMacro %}
 <div class="news">
-    <h3 class="titre">{{ news.titre }} <small>({{ news.dateMiseEnLigne|date('d/m/Y') }})</small></h3>
+    <h3 class="titre">
+        <small>
+            {{ newsMacro.getPicto(news) }}
+        </small>
+            {{ news.titre }}
+        <small>({{ news.dateMiseEnLigne|date('d/m/Y') }})</small>
+    </h3>
     <div class="corps">
         {{ news.corps|raw }}
     </div>

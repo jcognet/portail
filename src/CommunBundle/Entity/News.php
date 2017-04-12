@@ -13,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class News
 {
     /**
+     * Constante pour les types de nouvelles pour Changesous
+     */
+    const TYPE_NEWS_CHANGESOUS = "changesous";
+
+    /**
+     * Constante pour les types de nouvelles pour Alex
+     */
+    const TYPE_NEWS_ALEX = "alex";
+
+    /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
@@ -48,6 +58,13 @@ class News
      * @ORM\Column(name="date_mise_en_ligne", type="datetime")
      */
     private $dateMiseEnLigne;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255)
+     */
+    private $type = "";
 
 
     /**
@@ -163,4 +180,39 @@ class News
     }
 
 
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return News
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Liste toutes les types de news possibles
+     * @return array
+     */
+    public static function getListeTypeNews()
+    {
+        return array(
+            self::TYPE_NEWS_CHANGESOUS => 'Changeous',
+            self::TYPE_NEWS_ALEX       => 'Alex'
+        );
+    }
 }

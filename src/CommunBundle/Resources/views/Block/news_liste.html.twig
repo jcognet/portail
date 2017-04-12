@@ -1,11 +1,15 @@
 {% import "macro/general.html.twig" as generalMacro %}
+{% import "CommunBundle:Macro:news.html.twig" as newsMacro %}
 <table class="table table-striped table-responsive" id="table_news">
     <thead>
     <tr>
         <th class="col-sm-3 {{ generalMacro.gereTri(liste_news_paginator, 'n.dateMiseEnLigne') }}">
             {{ knp_pagination_sortable(liste_news_paginator, 'Date de mise en ligne', 'n.dateMiseEnLigne') }}
         </th>
-        <th class="col-sm-8">Titre</th>
+        <th>
+            &nbsp;
+        </th>
+        <th class="col-sm-7">Titre</th>
         {% if is_granted('ROLE_ADMIN') %}
             <th class="col-sm-1">&nbsp</th>
         {% endif %}
@@ -20,7 +24,15 @@
                 {% endif %}
             </td>
             <td>
+                {{newsMacro.getPicto( news) }}
+            </td>
+            <td>
                 {{ news.titre }}
+            </td>
+            <td>{{ news.dateMiseEnLigne|date('d/m/Y') }}
+                {% if is_granted('ROLE_ADMIN') %}
+                    {{ news.dateMiseEnLigne|date('H:s') }}
+                {% endif %}
             </td>
             {% if is_granted('ROLE_ADMIN') %}
                 <td class="col-sm-1 action">

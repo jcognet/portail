@@ -2,8 +2,10 @@
 
 namespace CommunBundle\Form;
 
+use CommunBundle\Entity\News;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,10 +18,21 @@ class NewsType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('corps', CKEditorType::class)
-            ->add('dateMiseEnLigne')        ;
+            ->add('corps', CKEditorType::class, array(
+                'label'    => 'Corps',
+                'required' => true
+            ))
+            ->add('type', ChoiceType::class, array(
+                    'label'      => 'Type de news',
+                    'required'   => false,
+                    'choices'    => array_flip(News::getListeTypeNews()),
+                    'empty_data' => '',
+                )
+
+            )
+            ->add('dateMiseEnLigne');
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -1,0 +1,6 @@
+{% macro getPicto(news) %}
+    {% set urlPicto = get_picto(news) %}
+    {% if urlPicto is not null %}
+        <span title="Type de news : {{ news.type }}" class="{{ urlPicto}}"></span>
+    {% endif %}
+{% endmacro %}

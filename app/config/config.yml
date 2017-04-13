@@ -14,7 +14,7 @@ imports:
 parameters:
     locale: fr
     version: 1.1.0
-    date_version: 15/03/2017
+    date_version: 17/04/2017
     #Chemin d'accès du répertoire avec les upload d'image
     path_absolu_upload_image_livre: '%path_physique_upload%%path_relatif_upload_image%'
 

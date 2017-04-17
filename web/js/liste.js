@@ -12,16 +12,13 @@ function addEventDatagrid() {
         }
     });
 
+    $('table.fe_liste th a').on('click', function(e){
+        lanceRecherche($(this))
+        e.preventDefault();
+    });
+
     $('ul.pagination a').on('click', function (e) {
-        var sort = getParameterByName('sort', $(this).attr('href'));
-        var direction = getParameterByName('direction', $(this).attr('href'));
-        var page = getParameterByName('page', $(this).attr('href'));
-
-        var formRechercheObjetJS = null;
-        if(formRecherche && formRecherche|length>0)
-            formRechercheObjetJS = formRecherche[0];
-        rechercheObjet(formRechercheObjetJS, sort, direction, page);
-
+        lanceRecherche($(this))
         e.preventDefault();
     });
 }
@@ -94,11 +91,11 @@ function afficheDetailSiUnique() {
     }
 }
 // Recherche des livres
-function rechercheObjet(formRecherche, sort, direction, page) {
+function rechercheObjet(formRechercheObjetJS, sort, direction, page) {
     setAjaxWorking(blockListeId);
     var queryString = createQueryStringPaginatior(sort, direction, page);
 
-    var formRechercheData = new FormData(formRecherche);
+    var formRechercheData = new FormData(formRechercheObjetJS);
     url = Routing.generate(route_recherche)+queryString;
     $.ajax({
         url: url,
@@ -124,4 +121,17 @@ function rechercheObjet(formRecherche, sort, direction, page) {
             addEventDatagrid();
         }
     });
+}
+// Lance la recherche
+function lanceRecherche(lien){
+    var sort = getParameterByName('sort', lien.attr('href'));
+    var direction = getParameterByName('direction', lien.attr('href'));
+    var page = getParameterByName('page', lien.attr('href'));
+
+    var formRechercheObjetJS = null;
+    if(formRecherche && formRecherche.length>0)
+        formRechercheObjetJS = formRecherche[0];
+    rechercheObjet(formRechercheObjetJS, sort, direction, page);
+
+
 }

@@ -18,8 +18,8 @@ commun_news_enregistre:
         id: '\d+'
 # Supprime une news
 commun_news_supprimer:
-    path:     /news/delete/{id}
-    defaults: { _controller: CommunBundle:News:deleteNews, id: null}
+    path:     /news/supprimer/{id}
+    defaults: { _controller: CommunBundle:News:supprimeNews, id: null}
     requirements:
         id: '\d+'
 

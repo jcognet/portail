@@ -100,7 +100,7 @@ class NewsController extends Controller
      * @param News $news
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteNewsAction(Request $request, News $news){
+    public function supprimeNewsAction(Request $request, News $news){
         // Protection
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Impossible de se conecter à cette page.');
 

@@ -1,0 +1,27 @@
+# Homepage de la partie livre
+livre_homepage:
+    path:     /
+    defaults: { _controller: LivreBundle:Livre:liste }
+# Liste des livre
+livre_liste:
+    path:     /
+    defaults: { _controller: LivreBundle:Livre:liste }
+
+# Edition des livres
+livre_edit:
+    path:     /edit
+    defaults: { _controller: LivreBundle:Livre:edit }
+
+# Détail d'un livre en ajax
+livre_detail_ajax:
+    path:     /detail/{id}
+    defaults: { _controller: LivreBundle:Livre:detailAjax }
+    options:
+        expose: true
+
+# Détail d'un livre en ajax
+livre_recherche_ajax:
+    path:     /recherche
+    defaults: { _controller: LivreBundle:Livre:rechercheAjax}
+    options:
+        expose: true

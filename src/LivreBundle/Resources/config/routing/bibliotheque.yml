@@ -1,0 +1,22 @@
+# Liste des livre de la bibliotheque
+livre_bibliotheque_liste:
+    path:     /liste
+    defaults: { _controller: LivreBundle:Bibliotheque:liste }
+# Ajouter livre à la bibliotheque
+livre_bibliotheque_ajout:
+    path:     /ajout
+    defaults: { _controller: LivreBundle:Bibliotheque:ajout }
+    options:
+        expose: true
+# Supprimer livre à la bibliotheque
+livre_bibliotheque_supprime:
+    path:     /supprime
+    defaults: { _controller: LivreBundle:Bibliotheque:supprime }
+    options:
+      expose: true
+# Supprimer livre à la bibliotheque
+livre_bibliotheque_enregistre:
+    path:     /supprime
+    defaults: { _controller: LivreBundle:Bibliotheque:supprime }
+    options:
+        expose: true

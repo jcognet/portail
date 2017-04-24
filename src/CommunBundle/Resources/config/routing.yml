@@ -8,7 +8,6 @@ news:
     resource: '@CommunBundle/Resources/config/routing/news.yml'
 user:
     resource: '@CommunBundle/Resources/config/routing/user.yml'
-
 command:
     resource: '@CommunBundle/Resources/config/routing/command.yml'
     prefix: 'command'

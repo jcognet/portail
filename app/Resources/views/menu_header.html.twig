@@ -25,7 +25,19 @@
                         <li><a target="_blank" href="https://github.com/jcognet/changesous">Github</a></li>
                     </ul>
                 </li>
-                <li{% if espace_est_actif('livre') %} class="active" {% endif %}><a href="{{ path('livre_homepage') }}">Alex</a>
+                <li class="dropdown {% if espace_est_actif('livre') %} active {% endif %}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                       aria-expanded="false">
+                        Alex <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('livre_homepage') }}">Tous les livres</a></li>
+                        {% if app.user %}
+                            <li><a href="{{ path('livre_bibliotheque_liste') }}">
+                                    <span class="glyphicon glyphicon-heart"></span>Ma bibliothèque
+                                </a></li>
+                        {% endif %}
+                    </ul>
                 </li>
                 <li {% if  page_est_actif('commun_contact') %} class="active" {% endif %} ><a
                         href="{{ path('commun_contact') }}">Contact</a></li>

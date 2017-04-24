@@ -55,6 +55,15 @@ class User extends \FOS\UserBundle\Model\User
     private $jourProchaineAlerte = null;
 
 
+
+    /**
+     * @var Livre[]
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Livre", mappedBy="proprietaire")
+     */
+    private $listeLivres;
+
+
     /**
      * Get id
      *
@@ -170,5 +179,39 @@ class User extends \FOS\UserBundle\Model\User
     public function getJourProchaineAlerte()
     {
         return $this->jourProchaineAlerte;
+    }
+
+    /**
+     * Add listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     *
+     * @return User
+     */
+    public function addListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres[] = $listeLivre;
+
+        return $this;
+    }
+
+    /**
+     * Remove listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     */
+    public function removeListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres->removeElement($listeLivre);
+    }
+
+    /**
+     * Get listeLivres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListeLivres()
+    {
+        return $this->listeLivres;
     }
 }

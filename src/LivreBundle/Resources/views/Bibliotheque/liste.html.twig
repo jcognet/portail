@@ -1,5 +1,8 @@
 {% extends "LivreBundle::base.html.twig" %}
 
+{% block javascripts %}
+    <script src="{{ asset('js/bibliotheque_liste.js.js') }}"></script>
+{% endblock %}
 {% block title %} Ma bibliothèque{% endblock %}
 
 {% block title_header %}
@@ -10,6 +13,10 @@
         Menu de la partie
     </div>
     <div class="col-sm-6">
-        Liste & ajout
+        <h2>Liste & ajout</h2>
+        <h3>ISBN</h3>
+        Formulaire avec saisi ISBN
+        <h3>Liste des derniers livres</h3>
+        {{ form(form) }}
     </div>
 {% endblock %}

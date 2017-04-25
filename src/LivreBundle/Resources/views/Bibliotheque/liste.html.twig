@@ -13,14 +13,19 @@
         Menu de la partie
     </div>
     <div class="col-sm-6">
+    <div id="form_ajout">
         <h2>Liste & ajout</h2>
         {{ form_start(form_ajout) }}
         {{ form_row(form_ajout.isbn) }}
         {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
         {{ form_rest(form_ajout) }}
-        <h3>ISBN</h3>
-        Formulaire avec saisi ISBN
-        <h3>Liste des derniers livres</h3>
+    </div>
+    <h3>ISBN</h3>
+    Formulaire avec saisi ISBN
+    <h3>Liste des derniers livres</h3>
+    <div id="liste_livre">
+        <div id="liste_livre_ajout"></div>
         {{ form(form_bibliotheque) }}
+
     </div>
 {% endblock %}

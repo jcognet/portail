@@ -28,7 +28,7 @@ class BibliothequeController extends Controller
 
     public function ajoutAction(Request $request)
     {
-        return $this->render('LivreBundle:Bibliotheque:ajout.html.twig', array(// ...
+        return $this->render('LivreBundle:Block:bibliotheque_ajout_livre.html.twig', array(// ...
         ));
     }
 

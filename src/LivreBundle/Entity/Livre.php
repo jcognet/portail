@@ -149,9 +149,32 @@ class Livre
         return $this->prix;
     }
 
-    private function __construct()
+    public function __construct()
     {
         $this->dateAjout = new \DateTime();
     }
-}
 
+    /**
+     * Set proprietaire
+     *
+     * @param \UserBundle\Entity\User $proprietaire
+     *
+     * @return Livre
+     */
+    public function setProprietaire(\UserBundle\Entity\User $proprietaire = null)
+    {
+        $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    /**
+     * Get proprietaire
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getProprietaire()
+    {
+        return $this->proprietaire;
+    }
+}

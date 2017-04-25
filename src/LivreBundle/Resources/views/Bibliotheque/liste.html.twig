@@ -1,7 +1,7 @@
 {% extends "LivreBundle::base.html.twig" %}
 
 {% block javascripts %}
-    <script src="{{ asset('js/bibliotheque_liste.js.js') }}"></script>
+    <script src="{{ asset('js/bibliotheque_liste.js') }}"></script>
 {% endblock %}
 {% block title %} Ma bibliothèque{% endblock %}
 
@@ -14,9 +14,13 @@
     </div>
     <div class="col-sm-6">
         <h2>Liste & ajout</h2>
+        {{ form_start(form_ajout) }}
+        {{ form_row(form_ajout.isbn) }}
+        {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
+        {{ form_rest(form_ajout) }}
         <h3>ISBN</h3>
         Formulaire avec saisi ISBN
         <h3>Liste des derniers livres</h3>
-        {{ form(form) }}
+        {{ form(form_bibliotheque) }}
     </div>
 {% endblock %}

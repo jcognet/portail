@@ -77,7 +77,6 @@ class LivreController extends Controller
         $form->handleRequest($request);
         // Liste des erreurs du form
         $listeErreurs = array();
-        dump($form);
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $isbn = $form->get('isbn')->getData();

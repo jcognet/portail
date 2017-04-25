@@ -1,6 +1,9 @@
 <?php
 
 namespace LivreBundle\Repository;
+use LivreBundle\Entity\BaseLivre;
+use LivreBundle\Entity\Livre;
+use UserBundle\Entity\User;
 
 /**
  * LivreRepository
@@ -10,4 +13,19 @@ namespace LivreBundle\Repository;
  */
 class LivreRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Vérifie si l'utilisateur possède le livre
+     * @param BaseLivre $baseLivre
+     * @param User $user
+     * @return bool
+     */
+    public function utilisateurPossedeLivre(BaseLivre $baseLivre, User $user){
+        return $this->createQueryBuilder('l')
+            ->select('count(l)')
+            ->where('l.baseLivre = :baseLivre AND l.proprietaire = :user')
+            ->setParameter('baseLivre', $baseLivre)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getScalarResult() >0;
+    }
 }

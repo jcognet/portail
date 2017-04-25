@@ -1,4 +1,5 @@
 {% extends "LivreBundle::base.html.twig" %}
+{% import "@Livre/Macro/bibliotheque.html.twig" as bibliotheque_macro %}
 
 {% block javascripts %}
     <script src="{{ asset('js/bibliotheque_liste.js') }}"></script>
@@ -14,18 +15,38 @@
     </div>
     <div class="col-sm-6">
     <div id="form_ajout">
-        <h2>Liste & ajout</h2>
-        {{ form_start(form_ajout) }}
-        {{ form_row(form_ajout.isbn) }}
-        {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
-        {{ form_rest(form_ajout) }}
+        <h2>Ajout</h2>
+        <div class="row">
+            {{ form_start(form_ajout) }}
+            <div class="col-sm-2">
+                {{ form_label(form_ajout.isbn) }} :
+            </div>
+            <div class="col-sm-4">
+                {{ form_widget(form_ajout.isbn) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
+            </div>
+
+            {{ form_rest(form_ajout) }}
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div id="form_ajout_erreur" class="alert-danger"></div>
+            </div>
+        </div>
     </div>
-    <h3>ISBN</h3>
-    Formulaire avec saisi ISBN
-    <h3>Liste des derniers livres</h3>
+    <h2>Liste des derniers livres</h2>
     <div id="liste_livre">
+        <div class="row">
+            {{ bibliotheque_macro.affiche_form_liste_entete() }}
+        </div>
         <div id="liste_livre_ajout"></div>
-        {{ form(form_bibliotheque) }}
+        {{ form_start(form_bibliotheque) }}
+        {% for form_livre in form_bibliotheque.listeLivres.children %}
+            {{ bibliotheque_macro.affiche_form_liste_livre(form_livre) }}
+        {% endfor %}
+        {{ form_rest(form_bibliotheque) }}
 
     </div>
 {% endblock %}

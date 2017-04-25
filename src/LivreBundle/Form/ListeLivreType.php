@@ -16,7 +16,7 @@ class ListeLivreType extends AbstractType
     {
         $builder->add('listeLivres', CollectionType::class, array(
             'entry_type' => LivreType::class,
-            'label'      => false
+            'label'      => false,
         ));
     }
 

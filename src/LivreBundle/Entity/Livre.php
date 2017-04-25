@@ -44,6 +44,14 @@ class Livre
 
 
     /**
+     * @var \LivreBundle\Entity\BaseLivre
+     *
+     * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\BaseLivre")
+     */
+    private $baseLivre;
+
+
+    /**
      * Get id
      *
      * @return int
@@ -176,5 +184,29 @@ class Livre
     public function getProprietaire()
     {
         return $this->proprietaire;
+    }
+
+    /**
+     * Set baseLivre
+     *
+     * @param \LivreBundle\Entity\BaseLivre $baseLivre
+     *
+     * @return Livre
+     */
+    public function setBaseLivre(\LivreBundle\Entity\BaseLivre $baseLivre = null)
+    {
+        $this->baseLivre = $baseLivre;
+
+        return $this;
+    }
+
+    /**
+     * Get baseLivre
+     *
+     * @return \LivreBundle\Entity\BaseLivre
+     */
+    public function getBaseLivre()
+    {
+        return $this->baseLivre;
     }
 }

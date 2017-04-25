@@ -4,6 +4,8 @@ namespace LivreBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class LivreType extends AbstractType
@@ -13,7 +15,7 @@ class LivreType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dateAjout')
+        $builder
             ->add('prix')
             ;
     }
@@ -35,6 +37,7 @@ class LivreType extends AbstractType
     {
         return 'livrebundle_livre';
     }
+
 
 
 }

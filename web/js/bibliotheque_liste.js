@@ -25,6 +25,10 @@ $(document).ready(function(){
 
 // function ajout livre à la bibliotheque
 function ajouteLivre(){
+    // On retire les mauvais caractères
+    isbn = nettoieISBN(ISBN_INPUT.val());
+    ISBN_INPUT.val(isbn);
+
     console.log('ajoute livre');
 }
 // Gere le timer de l'input isbn
@@ -39,11 +43,15 @@ function gereInputISBN(){
         console.log('not isbn')
     }
 }
+// Nettoie l'iSBN
+function nettoieISBN(isbn){
+    return isbn.trim().replace(/[^\dX]/gi, '');;
+}
 
 // Vérifie si une donnée est un code ISBN
 // Source : https://neilang.com/articles/how-to-check-if-an-isbn-is-valid-in-javascript/
 function isISBN (isbn) {
-    isbn = isbn.replace(/[^\dX]/gi, '');
+    isbn = nettoieISBN(isbn)
     if(isbn.length != 10){
         return false;
     }
@@ -54,6 +62,6 @@ function isISBN (isbn) {
     var sum = 0;
     for (var i = 0; i < chars.length; i++) {
         sum += ((10-i) * parseInt(chars[i]));
-    };
+    }
     return ((sum % 11) == 0);
 }

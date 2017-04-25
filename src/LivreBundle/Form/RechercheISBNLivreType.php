@@ -12,8 +12,9 @@ class RechercheISBNLivreType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('isbn')
-            ;
+        $builder->add('isbn', null, array(
+            'attr'=>array('maxlength' => 11),
+        ));
     }
 
 

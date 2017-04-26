@@ -18,23 +18,24 @@ var MODAL_DETAIL = null;
 // Quelques variables globales à la page
 var isbnInputTimer;
 var dureeAttenteSaisie = 2000; // En seconde
-$(document).ready(function(){
+var bufferLivre = new Array();
+$(document).ready(function () {
     // Mise a jour des champs
-    ISBN_INPUT =$('#'+ISBN_INPUT_ID);
-    ISBN_BUTTON = $('#'+ISBN_BUTTON_ID);
+    ISBN_INPUT = $('#' + ISBN_INPUT_ID);
+    ISBN_BUTTON = $('#' + ISBN_BUTTON_ID);
     ISBN_FORM_JS = ISBN_INPUT.parents('form').get(0);
-    LISTE_AJOUT_DIV = $('#'+LISTE_AJOUT_DIV_ID);
-    ERREUR_DIV =  $('#'+ERREUR_DIV_ID);
-    MODAL_DETAIL = $('#'+MODAL_DETAIL_ID);
+    LISTE_AJOUT_DIV = $('#' + LISTE_AJOUT_DIV_ID);
+    ERREUR_DIV = $('#' + ERREUR_DIV_ID);
+    MODAL_DETAIL = $('#' + MODAL_DETAIL_ID);
 
     // Evenements
     // saisi dans le champ ISBN
-    ISBN_INPUT.on('keydown', function(e){
+    ISBN_INPUT.on('keydown', function (e) {
         clearTimeout(isbnInputTimer);
         attenteInputISBN();
     });
     // Click sur le bouton
-    ISBN_BUTTON .on('click', function(e){
+    ISBN_BUTTON.on('click', function (e) {
         gereInputISBN();
     });
     addEvent();
@@ -44,7 +45,7 @@ $(document).ready(function(){
 });
 
 // function ajout livre à la bibliotheque
-function ajouteLivre(){
+function ajouteLivre() {
     ERREUR_DIV.slideUp();
     // On retire les mauvais caractères
     isbn = nettoieISBN(ISBN_INPUT.val());
@@ -63,11 +64,11 @@ function ajouteLivre(){
         success: function (retour, statut) { // success est toujours en place, bien sûr !
             var code = retour.code;
             var html = retour.html;
-            if(code == 200) {
+            if (code == 200) {
                 LISTE_AJOUT_DIV.append(html);
                 ISBN_INPUT.val('');
                 addEvent();
-            }else{
+            } else {
                 console.log(ERREUR_DIV);
                 console.log(html);
                 ERREUR_DIV.html(html);
@@ -89,76 +90,90 @@ function ajouteLivre(){
 
 }
 // Gere le timer de l'input isbn
-function attenteInputISBN(){
+function attenteInputISBN() {
     isbnInputTimer = setTimeout(gereInputISBN, dureeAttenteSaisie);
 }
 // Gere la saiei de l'utilisateur
-function gereInputISBN(){
-    if(isISBN(ISBN_INPUT.val())){
+function gereInputISBN() {
+    if (isISBN(ISBN_INPUT.val())) {
         ajouteLivre();
-    }else{
+    } else {
         console.log('no isbn')
     }
 }
 // Nettoie l'iSBN
-function nettoieISBN(isbn){
-    return isbn.trim().replace(/[^\dX]/gi, '');;
+function nettoieISBN(isbn) {
+    return isbn.trim().replace(/[^\dX]/gi, '');
+    ;
 }
 
 // Vérifie si une donnée est un code ISBN
 // Source : https://neilang.com/articles/how-to-check-if-an-isbn-is-valid-in-javascript/
-function isISBN (isbn) {
+function isISBN(isbn) {
     isbn = nettoieISBN(isbn)
-    if(isbn.length != 10){
+    if (isbn.length != 10) {
         return false;
     }
     var chars = isbn.split('');
-    if(chars[9].toUpperCase() == 'X'){
+    if (chars[9].toUpperCase() == 'X') {
         chars[9] = 10;
     }
     var sum = 0;
     for (var i = 0; i < chars.length; i++) {
-        sum += ((10-i) * parseInt(chars[i]));
+        sum += ((10 - i) * parseInt(chars[i]));
     }
     return ((sum % 11) == 0);
 }
 // Affiche la modale de détail d'un livre
- function afficheModalLivre(baseLivreId, divParent){
-     MODAL_DETAIL.modal('hide');
-     setAjaxWorking(divParent);
-     url = Routing.generate(ROUTE_DETAIL_POP_IN, {'id': baseLivreId});
-     $.ajax({
-         url: url,
-         type: 'POST',
-         contentType: false,
-         cache: false,
-         processData: false,
-         success: function (retour, statut) { // success est toujours en place, bien sûr !
-             var titre = retour.titre;
-             var html = retour.html;
-             MODAL_DETAIL.find('.modal-title').html(titre)
-             MODAL_DETAIL.find('.modal-body').html(html)
-             MODAL_DETAIL.modal('show');
-             unsetAjaxWorking(divParent);
-         },
+function afficheModalLivre(baseLivreId, divParent) {
+    MODAL_DETAIL.modal('hide');
+    // Cas où le livre n'est pas encore dans le buffer
+    if (!(baseLivreId in bufferLivre)) {
+        return rechercheLivre(baseLivreId, divParent);
+    }
+    afficheLivre(baseLivreId);
+}
+// Ajout les événements
+function addEvent() {
+    $('.titre_livre').on('mouseover', function () {
+        var rowParent = $(this).parent('.row');
+        var livreId = $(this).attr('data-livre-id');
+        afficheModalLivre(livreId, rowParent);
+    });
+}
+// Affiche un livre en pop in
+function afficheLivre(baseLivreId) {
+    if (baseLivreId in bufferLivre) {
+        MODAL_DETAIL.find('.modal-title').html(bufferLivre[baseLivreId]['titre']);
+        MODAL_DETAIL.find('.modal-body').html(bufferLivre[baseLivreId]['html']);
+        MODAL_DETAIL.modal('show');
+    }
+}
+// Recherche le livre en baseLivreId
+function rechercheLivre(baseLivreId, divParent) {
+    setAjaxWorking(divParent.attr('id'));
+    url = Routing.generate(ROUTE_DETAIL_POP_IN, {'id': baseLivreId});
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (retour, statut) { // success est toujours en place, bien sûr !
+            var titre = retour.titre;
+            var html = retour.html;
+            unsetAjaxWorking(divParent.attr('id'));
+            bufferLivre[baseLivreId] = {'titre': titre, 'html': html};
+            afficheLivre(baseLivreId);
+        },
 
-         error: function (resultat, statut, erreur) {
-             console.log('*****erreur*****');
-             console.log(resultat);
-             console.log(statut);
-             console.log(erreur);
-             console.log('**********');
-             unsetAjaxWorking(divParent);
-         }
-     });
-
-     console.log('show')
- }
- // Ajout les événements
- function addEvent(){
-     $('.titre_livre').on('mouseover', function(){
-         console.log($(this).parents('.row'));
-         var livreId =$(this).attr('data-livre-id');
-         afficheModalLivre(livreId, $(this).parents('.row'));
-     })
- }
+        error: function (resultat, statut, erreur) {
+            console.log('*****erreur*****');
+            console.log(resultat);
+            console.log(statut);
+            console.log(erreur);
+            console.log('**********');
+            unsetAjaxWorking(divParent.attr('id'));
+        }
+    });
+}

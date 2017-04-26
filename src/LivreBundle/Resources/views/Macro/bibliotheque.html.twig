@@ -3,7 +3,7 @@
     {% import "@Livre/Macro/livre.html.twig" as livre_macro %}
     {% set livre = form.vars.value %}
     {% set base_livre = livre.baseLivre %}
-    <div class="row">
+    <div class="row" id="div_livre_{{ base_livre.id }}">
         <div class="col-md-4 text-center titre_livre" data-livre-id="{{ base_livre.id }}">
             {{ base_livre.titre }}
         </div>

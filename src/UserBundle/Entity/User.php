@@ -60,6 +60,7 @@ class User extends \FOS\UserBundle\Model\User
      * @var Livre[]
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Livre", mappedBy="proprietaire")
+     * @ORM\OrderBy({"dateAjout" = "ASC"})
      */
     private $listeLivres;
 

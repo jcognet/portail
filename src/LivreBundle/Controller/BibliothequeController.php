@@ -15,8 +15,11 @@ class BibliothequeController extends Controller
 {
     public function listeAction(Request $request)
     {
-        //TODO : trier par ordre d'ajout
-        //TODO : détail d'un livre (pop up avec chargement auto)
+        //TODO : modifier le prix d'un livre
+        //TODO : Supprimer un livre
+        //TODO : notion d'un lieu
+        //TODO : empêcher accès à cette page sans user
+
         // Formulaire pour modifier les dernières entrées de la bibliotheque
         $formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());
         // Formulaire pour ajouter un livre

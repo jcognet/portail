@@ -25,3 +25,9 @@ livre_recherche_ajax:
     defaults: { _controller: LivreBundle:Livre:rechercheAjax}
     options:
         expose: true
+# Pop in detail livre
+livre_detail_pop_in:
+    path:     /detail/popin/{id}
+    defaults: { _controller: LivreBundle:Livre:detailPopIn }
+    options:
+        expose: true

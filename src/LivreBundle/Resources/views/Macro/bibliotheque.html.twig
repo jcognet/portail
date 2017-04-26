@@ -4,32 +4,26 @@
     {% set livre = form.vars.value %}
     {% set base_livre = livre.baseLivre %}
     <div class="row">
-        <div class="col-md-2">
-            {{livre_macro.getUrlImage(base_livre)  }}
-        </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center titre_livre" data-livre-id="{{ base_livre.id }}">
             {{ base_livre.titre }}
         </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center">
             {{ livre.dateAjout|date('d/m/Y à H:i') }}
         </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center">
             {{ form_widget(form.prix) }}
         </div>
     </div>
 {% endmacro %}
 {% macro affiche_form_liste_entete() %}
     <div class="row">
-        <div class="col-md-2 text-center">
-            Image
-        </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center">
             Titre
         </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center">
             Date d'ajout
         </div>
-        <div class="col-md-2 text-center">
+        <div class="col-md-4 text-center">
             Prix (en euros)
         </div>
     </div>

@@ -2,11 +2,13 @@
 
 namespace LivreBundle\Controller;
 
+use Doctrine\ORM\Query\Expr\Base;
 use LivreBundle\Entity\BaseLivre;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Iban;
 use Symfony\Component\Validator\Constraints\Isbn;
@@ -93,8 +95,7 @@ class LivreController extends Controller
                     if (false === is_null($livre)) {
                         $listeLivresData = array($livre);
                     }
-                }
-                else{
+                } else {
                     $texte = $form->get('label')->getData();
                     // Sinon on tente un autre champ
                     $listeLivresData = $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')
@@ -152,6 +153,24 @@ class LivreController extends Controller
             ));
 
         return $formBuilder->getForm();
+    }
+
+    /**
+     * Récupère le détail d'un livre
+     * @param Request $request
+     * @param BaseLivre $livre
+     * @return JsonResponse
+     */
+    public function detailPopInAction(Request $request, BaseLivre $livre)
+    {
+        $contenu = $this->renderView('LivreBundle:Block:livre_detail_popin.html.twig', array(
+            'livre' => $livre,
+        ));
+        $titre   = $livre->getTitre();
+        return new JsonResponse(array(
+            'titre'   => $titre,
+            'html' => $contenu
+        ));
     }
 
 }

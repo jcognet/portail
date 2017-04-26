@@ -26,6 +26,6 @@ class LivreRepository extends \Doctrine\ORM\EntityRepository
             ->setParameter('baseLivre', $baseLivre)
             ->setParameter('user', $user)
             ->getQuery()
-            ->getScalarResult() >0;
+            ->getSingleScalarResult() >0;
     }
 }

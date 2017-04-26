@@ -38,9 +38,7 @@
     </div>
     <h2>Liste des derniers livres</h2>
     <div id="liste_livre">
-        <div class="row">
-            {{ bibliotheque_macro.affiche_form_liste_entete() }}
-        </div>
+        {{ bibliotheque_macro.affiche_form_liste_entete() }}
         <div id="liste_livre_ajout"></div>
         {{ form_start(form_bibliotheque) }}
         {% for form_livre in form_bibliotheque.listeLivres.children %}

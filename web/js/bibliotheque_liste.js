@@ -135,11 +135,27 @@ function afficheModalLivre(baseLivreId, divParent) {
 }
 // Ajout les événements
 function addEvent() {
-    $('.titre_livre').on('mouseover', function () {
+    var rowLivre =$('#liste_livre .row');
+    // Ajout de l'action pour apparaîte la pop in
+    $('.lien_pop_in').on('click', function () {
         var rowParent = $(this).parent('.row');
         var livreId = $(this).attr('data-livre-id');
         afficheModalLivre(livreId, rowParent);
     });
+    // Mise en place du style alterné
+    var iRowLivre = 0;
+    rowLivre.each(function(e){
+        $(this).removeClass('active');
+        if(iRowLivre%2 == 0)
+            $(this).addClass('active');
+        iRowLivre++;
+
+    });
+    // Correction de la hauteur de la première ligne car elle n'a pas de input
+    if(rowLivre.length>=2){
+        rowLivre.get(0).style.height =rowLivre.get(1).offsetHeight+'px';
+    }
+
 }
 // Affiche un livre en pop in
 function afficheLivre(baseLivreId) {
@@ -148,6 +164,7 @@ function afficheLivre(baseLivreId) {
         MODAL_DETAIL.find('.modal-body').html(bufferLivre[baseLivreId]['html']);
         MODAL_DETAIL.modal('show');
     }
+    livreBuffer();
 }
 // Recherche le livre en baseLivreId
 function rechercheLivre(baseLivreId, divParent) {
@@ -176,4 +193,13 @@ function rechercheLivre(baseLivreId, divParent) {
             unsetAjaxWorking(divParent.attr('id'));
         }
     });
+}
+// Affiche les livres connus dans le buffer
+function livreBuffer(){
+    // Affichage d'une icone avant chaque élément dans le buffer
+    for (var livreId in bufferLivre) {
+        var element =  $("div[data-livre-id="+livreId+"]");
+        if(element.children('.glyphicon-record').length ==0)
+            element.prepend('<span class="glyphicon glyphicon-record"></span>');
+    }
 }

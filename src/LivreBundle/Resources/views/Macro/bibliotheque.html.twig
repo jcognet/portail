@@ -1,13 +1,13 @@
 
-{% macro affiche_form_liste_livre(form) %}
+{% macro affiche_form_liste_livre(form, css) %}
     {% import "@Livre/Macro/livre.html.twig" as livre_macro %}
     {% set livre = form.vars.value %}
     {% set base_livre = livre.baseLivre %}
     <div class="row" id="div_livre_{{ base_livre.id }}">
-        <div class="col-md-4 text-center titre_livre" data-livre-id="{{ base_livre.id }}">
+        <div class="col-md-4 text-center lien_pop_in " data-livre-id="{{ base_livre.id }}">
             {{ base_livre.titre }}
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-4 text-center lien_pop_in">
             {{ livre.dateAjout|date('d/m/Y à H:i') }}
         </div>
         <div class="col-md-4 text-center">
@@ -16,16 +16,15 @@
     </div>
 {% endmacro %}
 {% macro affiche_form_liste_entete() %}
-    <div class="row">
+    <div class="row active">
         <div class="col-md-4 text-center">
-            Titre
+            <strong>Titre</strong>
         </div>
         <div class="col-md-4 text-center">
-            Date d'ajout
+            <strong>Date d'ajout</strong>
         </div>
         <div class="col-md-4 text-center">
-            Prix (en euros)
+            <strong>Prix (en euros)</strong>
         </div>
     </div>
-
 {% endmacro %}

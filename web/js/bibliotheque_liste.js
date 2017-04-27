@@ -6,8 +6,9 @@ var LISTE_AJOUT_DIV_ID = 'liste_livre_ajout'; // id de la div après laquelle le
 var ERREUR_DIV_ID = 'form_ajout_erreur'; // id de la div avec les erreurs
 var MODAL_DETAIL_ID = 'modalDetail'; // id de la div de la modele
 
-var ROUTE_AJOUT = 'livre_bibliotheque_ajout'; // Route Symfony gérant l'ajout
+var ROUTE_AJOUT = 'livre_bibliotheque_ajout_ajax'; // Route Symfony gérant l'ajout
 var ROUTE_DETAIL_POP_IN = 'livre_detail_pop_in';
+var ROUTE_MODIFIE = 'livre_bibliotheque_modifie_ajax';
 
 var ISBN_INPUT = null;
 var ISBN_BUTTON = null;
@@ -69,8 +70,6 @@ function ajouteLivre() {
                 ISBN_INPUT.val('');
                 addEvent();
             } else {
-                console.log(ERREUR_DIV);
-                console.log(html);
                 ERREUR_DIV.html(html);
                 ERREUR_DIV.slideDown();
                 ISBN_INPUT.trigger('blur');
@@ -79,11 +78,6 @@ function ajouteLivre() {
         },
 
         error: function (resultat, statut, erreur) {
-            console.log('*****erreur*****');
-            console.log(resultat);
-            console.log(statut);
-            console.log(erreur);
-            console.log('**********');
             unsetAjaxWorking(ISBN_DIV_ID);
         }
     });
@@ -139,7 +133,7 @@ function addEvent() {
     // Ajout de l'action pour apparaîte la pop in
     $('.lien_pop_in').on('click', function () {
         var rowParent = $(this).parent('.row');
-        var livreId = $(this).attr('data-livre-id');
+        var livreId = rowParent.attr('data-livre-id');
         afficheModalLivre(livreId, rowParent);
     });
     // Mise en place du style alterné
@@ -155,7 +149,12 @@ function addEvent() {
     if(rowLivre.length>=2){
         rowLivre.get(0).style.height =rowLivre.get(1).offsetHeight+'px';
     }
-
+    // Modification d'un livre
+    $('#liste_livre input').on('change', function () {
+        var rowParent = $(this).parent('.row');
+        var livreId = rowParent.attr('data-livre-id');
+        modifieLivre(livreId, rowParent);
+    });
 }
 // Affiche un livre en pop in
 function afficheLivre(baseLivreId) {
@@ -185,11 +184,6 @@ function rechercheLivre(baseLivreId, divParent) {
         },
 
         error: function (resultat, statut, erreur) {
-            console.log('*****erreur*****');
-            console.log(resultat);
-            console.log(statut);
-            console.log(erreur);
-            console.log('**********');
             unsetAjaxWorking(divParent.attr('id'));
         }
     });
@@ -199,7 +193,33 @@ function livreBuffer(){
     // Affichage d'une icone avant chaque élément dans le buffer
     for (var livreId in bufferLivre) {
         var element =  $("div[data-livre-id="+livreId+"]");
-        if(element.children('.glyphicon-record').length ==0)
-            element.prepend('<span class="glyphicon glyphicon-record"></span>');
+        var caseName = $(element.children('.lien_pop_in').get(0));
+        if(caseName.children('.glyphicon-record').length ==0)
+            caseName.prepend('<span class="glyphicon glyphicon-record"></span>');
     }
+}
+// Modifie un livre
+function modifieLivre(livreId, divParent){
+    setAjaxWorking(divParent.attr('id'));
+
+    var formModifieData = new FormData(formModifieData);
+    url = Routing.generate(ROUTE_MODIFIE, {'id': livreId});
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formModifieData,
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (block_html, statut) { // success est toujours en place, bien sûr !
+            divParent.html(block_html);
+            unsetAjaxWorking(divParent.attr('id'));
+            addEvent();
+        },
+
+        error: function (resultat, statut, erreur) {
+            unsetAjaxWorking(divParent.attr('id'));
+            addEvent();
+        }
+    });
 }

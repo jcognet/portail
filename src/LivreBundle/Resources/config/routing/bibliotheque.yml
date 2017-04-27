@@ -3,9 +3,15 @@ livre_bibliotheque_liste:
     path:     /liste
     defaults: { _controller: LivreBundle:Bibliotheque:liste }
 # Ajouter livre à la bibliotheque
-livre_bibliotheque_ajout:
+livre_bibliotheque_ajout_ajax:
     path:     /ajout
-    defaults: { _controller: LivreBundle:Bibliotheque:ajout }
+    defaults: { _controller: LivreBundle:Bibliotheque:ajoutAjax }
+    options:
+        expose: true
+# Modifie un livre
+livre_bibliotheque_modifie_ajax:
+    path:     /modifie/{id}
+    defaults: { _controller: LivreBundle:Bibliotheque:modifieAjax }
     options:
         expose: true
 # Supprimer livre à la bibliotheque

@@ -35,6 +35,9 @@
 #liste_livre tr{
     cursor: pointer; cursor: hand;
 }
+.lien_pop_in{
+    cursor: pointer; cursor: hand;
+}
 #detail_livre{
     max-height:500px;
     overflow-y: auto;

@@ -37,11 +37,6 @@ function getDetailObjet(id) {
         },
 
         error: function (resultat, statut, erreur) {
-            console.log('*****erreur*****');
-            console.log(resultat);
-            console.log(statut);
-            console.log(erreur);
-            console.log('**********');
             unsetAjaxWorking(blockDetailId);
         }
 
@@ -112,11 +107,6 @@ function rechercheObjet(formRechercheObjetJS, sort, direction, page) {
         },
 
         error: function (resultat, statut, erreur) {
-            console.log('*****erreur*****');
-            console.log(resultat);
-            console.log(statut);
-            console.log(erreur);
-            console.log('**********');
             unsetAjaxWorking(blockListeId);
             addEventDatagrid();
         }
@@ -132,6 +122,4 @@ function lanceRecherche(lien){
     if(formRecherche && formRecherche.length>0)
         formRechercheObjetJS = formRecherche[0];
     rechercheObjet(formRechercheObjetJS, sort, direction, page);
-
-
 }

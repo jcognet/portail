@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BibliothequeController extends Controller
 {
@@ -39,7 +40,7 @@ class BibliothequeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function ajoutAction(Request $request)
+    public function ajoutAjaxAction(Request $request)
     {
         //TODO : vérifier la présence d'un utilisateur
         $formAjout = $this->createForm(RechercheISBNLivreType::class)
@@ -48,7 +49,7 @@ class BibliothequeController extends Controller
             ));
         $formAjout->handleRequest($request);
         $listeErreurs = array();
-        $livre = null;
+        $livre        = null;
 
         if ($formAjout->isSubmitted() && $formAjout->isValid()) {
             $isbn = $formAjout->get('isbn')->getData();
@@ -63,7 +64,7 @@ class BibliothequeController extends Controller
             $em = $this->getDoctrine()->getManager();
             if (false === is_null($baseLivre)) {
                 // mais est-ce que l'utilisateur courant l'a-t-il déjà ?
-                if(false === $em->getRepository('LivreBundle:Livre')->utilisateurPossedeLivre($baseLivre, $this->getUser())) {
+                if (false === $em->getRepository('LivreBundle:Livre')->utilisateurPossedeLivre($baseLivre, $this->getUser())) {
                     $livre = new Livre();
                     $livre->setAction('ajout')
                         ->setDateAction(new \DateTime())
@@ -74,7 +75,7 @@ class BibliothequeController extends Controller
 
                     $em->persist($livre);
                     $em->flush();
-                }else{
+                } else {
                     $listeErreurs[] = "Vous possédez déjà ce livre, petit coquinou !";
                 }
             } else {
@@ -111,6 +112,35 @@ class BibliothequeController extends Controller
                 'html' => $content
             )
         );
+    }
+
+    /**
+     * Modiei un livre l'utilisateur courant
+     * @param Request $request
+     * @return Response
+     */
+    public function modieiAjaxAction(Request $request, Livre $livre)
+    {
+        //TODO : vérifier la présence d'un utilisateur
+        $listeErreurs = array();
+        $livre        = null;
+        $em           = $this->getDoctrine()->getManager();
+        // Gestion du formulaire
+        $formModifie = $this->createForm(LivreType::class, $livre);
+        $formModifie->handleRequest($request);
+        if ($formModifie->isSubmitted() && $formModifie->isValid()) {
+            $em->persist($livre);
+            $em->flush();
+        } else {
+            foreach ($formModifie->getErrors(true, true) as $erreur) {
+                $formModifie[] = $erreur->getMessage();
+            }
+        }
+
+        // On retourne le tout !
+        return $this->render('LivreBundle:Block:bibliotheque_ajout_livre.html.twig', array(
+            'form_livre' => $formModifie
+        ));
     }
 
     public function supprimeAction(Request $request)

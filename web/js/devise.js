@@ -94,11 +94,6 @@ function afficheBlockDevise(blockId, deviseId){
     },
 
     error : function(resultat, statut, erreur){
-      console.log('*****erreur*****');
-      console.log(resultat);
-      console.log(statut);
-      console.log(erreur);
-      console.log('**********');
       unsetAjaxWorking(blockId);
       enableDdlDevise();
     }
@@ -146,11 +141,6 @@ function calculeSomme(input){
     },
 
     error : function(resultat, statut, erreur){
-      console.log('*****erreur*****');
-      console.log(resultat);
-      console.log(statut);
-      console.log(erreur);
-      console.log('**********');
       unsetAjaxWorking(divId);
       enableInput(inputResultat);
     }
@@ -181,11 +171,6 @@ function enregistreSuiviDevise(input){
     },
 
     error : function(resultat, statut, erreur){
-      console.log('*****erreur*****');
-      console.log(resultat);
-      console.log(statut);
-      console.log(erreur);
-      console.log('**********');
       unsetAjaxWorking(divId);
     }
 

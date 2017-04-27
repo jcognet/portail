@@ -17,12 +17,6 @@ function chargeNews(newsId){
         },
 
         error : function(resultat, statut, erreur){
-            console.log('*****erreur*****');
-            console.log(resultat);
-            console.log(statut);
-            console.log(url);
-            console.log(erreur);
-            console.log('**********');
             unsetAjaxWorking(divId);
         }
 

@@ -22,7 +22,10 @@ class BibliothequeController extends Controller
         //TODO : empêcher accès à cette page sans user
 
         // Formulaire pour modifier les dernières entrées de la bibliotheque
-        $formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());
+        //$formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());
+        $formBibliotheque = array();
+        foreach($this->getUser()->getListeLivres() as $livre)
+            $formBibliotheque[] = $this->createForm(LivreType::class, $livre)->createView();
         // Formulaire pour ajouter un livre
         $formAjout = $this->createForm(RechercheISBNLivreType::class)
             ->add('btnAjouterLivre', ButtonType::class, array(
@@ -30,7 +33,7 @@ class BibliothequeController extends Controller
             ));
 
         return $this->render('LivreBundle:Bibliotheque:liste.html.twig', array(
-            'form_bibliotheque' => $formBibliotheque->createView(),
+            'form_bibliotheque' => $formBibliotheque,
             'form_ajout'        => $formAjout->createView()
         ));
     }
@@ -119,11 +122,10 @@ class BibliothequeController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function modieiAjaxAction(Request $request, Livre $livre)
+    public function modifieAjaxAction(Request $request, Livre $livre)
     {
         //TODO : vérifier la présence d'un utilisateur
         $listeErreurs = array();
-        $livre        = null;
         $em           = $this->getDoctrine()->getManager();
         // Gestion du formulaire
         $formModifie = $this->createForm(LivreType::class, $livre);
@@ -133,13 +135,13 @@ class BibliothequeController extends Controller
             $em->flush();
         } else {
             foreach ($formModifie->getErrors(true, true) as $erreur) {
-                $formModifie[] = $erreur->getMessage();
+                $listeErreurs[] = $erreur->getMessage();
             }
         }
 
         // On retourne le tout !
         return $this->render('LivreBundle:Block:bibliotheque_ajout_livre.html.twig', array(
-            'form_livre' => $formModifie
+            'form_livre' => $formModifie->createView(),
         ));
     }
 

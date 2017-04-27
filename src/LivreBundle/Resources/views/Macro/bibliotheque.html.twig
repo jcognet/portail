@@ -3,7 +3,8 @@
     {% import "@Livre/Macro/livre.html.twig" as livre_macro %}
     {% set livre = form.vars.value %}
     {% set base_livre = livre.baseLivre %}
-    <div class="row" data-livre-id="{{ base_livre.id }}" id="row_livre_{{ base_livre.id }}">
+    <div class="row" data-livre-id="{{ livre.id }}" data-base-livre-id="{{ base_livre.id }}" id="row_livre_{{ livre.id }}">
+        {{ form_start(form) }}
         <div class="col-md-4 text-center lien_pop_in">
             {{ base_livre.titre }}
         </div>
@@ -13,7 +14,10 @@
         <div class="col-md-4 text-center">
             {{ form_widget(form.prix) }}
         </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
     </div>
+
 {% endmacro %}
 {% macro affiche_form_liste_entete() %}
     <div class="row">

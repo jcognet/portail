@@ -26,7 +26,7 @@ class LivreType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LivreBundle\Entity\Livre'
+            'data_class' => 'LivreBundle\Entity\Livre',
         ));
     }
 
@@ -36,6 +36,10 @@ class LivreType extends AbstractType
     public function getBlockPrefix()
     {
         return 'livrebundle_livre';
+    }
+
+    public function getName(){
+        return 'toto';
     }
 
 

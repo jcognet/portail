@@ -133,7 +133,7 @@ function addEvent() {
     // Ajout de l'action pour apparaîte la pop in
     $('.lien_pop_in').on('click', function () {
         var rowParent = $(this).parent('.row');
-        var livreId = rowParent.attr('data-livre-id');
+        var livreId = rowParent.attr('data-base-livre-id');
         afficheModalLivre(livreId, rowParent);
     });
     // Mise en place du style alterné
@@ -151,7 +151,8 @@ function addEvent() {
     }
     // Modification d'un livre
     $('#liste_livre input').on('change', function () {
-        var rowParent = $(this).parent('.row');
+        console.log('ddd')
+        var rowParent = $(this).closest('.row');
         var livreId = rowParent.attr('data-livre-id');
         modifieLivre(livreId, rowParent);
     });
@@ -192,7 +193,7 @@ function rechercheLivre(baseLivreId, divParent) {
 function livreBuffer(){
     // Affichage d'une icone avant chaque élément dans le buffer
     for (var livreId in bufferLivre) {
-        var element =  $("div[data-livre-id="+livreId+"]");
+        var element =  $("div[data-base-livre-id="+livreId+"]");
         var caseName = $(element.children('.lien_pop_in').get(0));
         if(caseName.children('.glyphicon-record').length ==0)
             caseName.prepend('<span class="glyphicon glyphicon-record"></span>');
@@ -202,17 +203,17 @@ function livreBuffer(){
 function modifieLivre(livreId, divParent){
     setAjaxWorking(divParent.attr('id'));
 
-    var formModifieData = new FormData(formModifieData);
+    //console.log(divParent.find('form').get(0));
+    //var formModifieData = new FormData(divParent.find('form').get(0));
+    var formModifieData = (divParent.find('form')).serialize();
     url = Routing.generate(ROUTE_MODIFIE, {'id': livreId});
     $.ajax({
         url: url,
         type: 'POST',
         data: formModifieData,
-        contentType: false,
         cache: false,
-        processData: false,
         success: function (block_html, statut) { // success est toujours en place, bien sûr !
-            divParent.html(block_html);
+            divParent.replaceWith(block_html);
             unsetAjaxWorking(divParent.attr('id'));
             addEvent();
         },

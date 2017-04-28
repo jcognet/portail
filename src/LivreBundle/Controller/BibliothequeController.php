@@ -14,17 +14,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BibliothequeController extends Controller
 {
+    /**
+     * Liste les  utilisateurs
+     * @param Request $request
+     * @return Response
+     */
     public function listeAction(Request $request)
     {
-        //TODO : modifier le prix d'un livre
-        //TODO : Supprimer un livre
         //TODO : notion d'un lieu
-        //TODO : empêcher accès à cette page sans user
-
+        $this->securite();
         // Formulaire pour modifier les dernières entrées de la bibliotheque
         //$formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());
         $formBibliotheque = array();
-        foreach($this->getUser()->getListeLivres() as $livre)
+        foreach ($this->getUser()->getListeLivres() as $livre)
             $formBibliotheque[] = $this->createForm(LivreType::class, $livre)->createView();
         // Formulaire pour ajouter un livre
         $formAjout = $this->createForm(RechercheISBNLivreType::class)
@@ -45,7 +47,7 @@ class BibliothequeController extends Controller
      */
     public function ajoutAjaxAction(Request $request)
     {
-        //TODO : vérifier la présence d'un utilisateur
+        $this->securite();
         $formAjout = $this->createForm(RechercheISBNLivreType::class)
             ->add('btnAjouterLivre', ButtonType::class, array(
                 'label' => 'Ajouter >>',
@@ -124,7 +126,7 @@ class BibliothequeController extends Controller
      */
     public function modifieAjaxAction(Request $request, Livre $livre)
     {
-        //TODO : vérifier la présence d'un utilisateur
+        $this->securite();
         $listeErreurs = array();
         $em           = $this->getDoctrine()->getManager();
         // Gestion du formulaire
@@ -145,10 +147,38 @@ class BibliothequeController extends Controller
         ));
     }
 
-    public function supprimeAction(Request $request)
+    /**
+     * Supprime un livre
+     * @param Request $request
+     * @param Livre $livre
+     * @return JsonResponse
+     */
+    public function supprimeAjaxAction(Request $request, Livre $livre)
     {
-        return $this->render('LivreBundle:Bibliotheque:supprime.html.twig', array(// ...
+        $this->securite();
+        $this->getDoctrine()->getManager()->remove($livre);
+        $this->getDoctrine()->getManager()->flush();
+        return new JsonResponse(array(
+            'code' => 200
         ));
+    }
+
+    /**
+     * Gère la sécurité de la page
+     * @param Livre $livre
+     * @return bool
+     */
+    protected function securite(Livre $livre = null){
+        // Vérifie si l'utilisateur est connecté
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            throw $this->createAccessDeniedException();
+        }
+        // Vérifie que le livre lui appartient bien
+        $user = $this->getUser();
+        if(false === is_null($livre) && $livre->getProprietaire()->getId() !== $user->getId()){
+            throw $this->createAccessDeniedException();
+        }
+        return true;
     }
 
 }

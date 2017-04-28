@@ -18,6 +18,11 @@
             <h2>Ajout</h2>
             <div class="row">
                 {{ form_start(form_ajout) }}
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div id="form_ajout_erreur" class="alert-danger"></div>
+                    </div>
+                </div>
                 <div class="col-sm-2">
                     {{ form_label(form_ajout.isbn) }} :
                 </div>
@@ -31,14 +36,11 @@
                 {{ form_rest(form_ajout) }}
                 {{ form_end(form_ajout) }}
             </div>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div id="form_ajout_erreur" class="alert-danger"></div>
-                </div>
-            </div>
         </div>
         <div id="liste_livre">
             <h2>Liste des derniers livres</h2>
+            {{ bibliotheque_macro.affiche_form_liste_entete()}}
+            <div id="liste_livre_ajout"></div>
             {% for form_livre in form_bibliotheque %}
                 {{ bibliotheque_macro.affiche_form_liste_livre(form_livre) }}
             {% endfor %}

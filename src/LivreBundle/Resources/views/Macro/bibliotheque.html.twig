@@ -11,8 +11,14 @@
         <div class="col-md-4 text-center lien_pop_in">
             {{ livre.dateAjout|date('d/m/Y à H:i') }}
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-3 text-center">
             {{ form_widget(form.prix) }}
+        </div>
+        <div class="col-md-1">
+            <a class="lnk_suppression_livre"
+               title="Supprimer un livre">
+                <span class="glyphicon glyphicon-trash"></span>
+            </a>
         </div>
         {{ form_rest(form) }}
         {{ form_end(form) }}
@@ -27,8 +33,10 @@
         <div class="col-md-4 text-center">
             Date d'ajout
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-3 text-center">
             Prix (en euros)
+        </div>
+        <div class="col-md-1">
         </div>
     </div>
 

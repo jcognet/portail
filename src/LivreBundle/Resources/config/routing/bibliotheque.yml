@@ -15,14 +15,8 @@ livre_bibliotheque_modifie_ajax:
     options:
         expose: true
 # Supprimer livre à la bibliotheque
-livre_bibliotheque_supprime:
-    path:     /supprime
-    defaults: { _controller: LivreBundle:Bibliotheque:supprime }
+livre_bibliotheque_supprime_ajax:
+    path:     /supprime/{id}
+    defaults: { _controller: LivreBundle:Bibliotheque:supprimeAjax }
     options:
       expose: true
-# Supprimer livre à la bibliotheque
-livre_bibliotheque_enregistre:
-    path:     /supprime
-    defaults: { _controller: LivreBundle:Bibliotheque:supprime }
-    options:
-        expose: true

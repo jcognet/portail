@@ -245,13 +245,17 @@ class GoogleGetLivreService
         $livre->setGoogleLink($livreGoogle->selfLink);
         if (true === property_exists($livreGoogle, 'volumeInfo')) {
             # volumeInfo
-            $livre->setTitre($livreGoogle->volumeInfo->title)
-                ->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate));
+            $livre->setTitre($livreGoogle->volumeInfo->title);
+            if (true === property_exists($livreGoogle->volumeInfo, 'publishedDate'))
+                $livre->setDatePublication(new \DateTime($livreGoogle->volumeInfo->publishedDate));
             if (true === property_exists($livreGoogle->volumeInfo, 'description'))
                 $livre->setDescription($livreGoogle->volumeInfo->description);
-            $livre->setNombrePages($livreGoogle->volumeInfo->pageCount)
-                ->setPays($livreGoogle->volumeInfo->language)
-                ->setGoogleDetailLink($livreGoogle->volumeInfo->previewLink);;
+            if (true === property_exists($livreGoogle->volumeInfo, 'pageCount'))
+                $livre->setNombrePages($livreGoogle->volumeInfo->pageCount);
+            if (true === property_exists($livreGoogle->volumeInfo, 'language'))
+                $livre->setPays($livreGoogle->volumeInfo->language);
+            if (true === property_exists($livreGoogle->volumeInfo, 'previewLink'))
+                $livre->setGoogleDetailLink($livreGoogle->volumeInfo->previewLink);;
             # Dimension
             if (true === property_exists($livreGoogle->volumeInfo, 'dimensions')) {
                 if (true === property_exists($livreGoogle->volumeInfo->dimensions, 'height'))
@@ -469,7 +473,7 @@ class GoogleGetLivreService
     protected function getContentSelfLink($livreGoogle)
     {
         if (false === is_object($this->contentSelfLink)) {
-            $selfLink        = $livreGoogle->selfLink;
+            $selfLink              = $livreGoogle->selfLink;
             $this->contentSelfLink = $this->appelleCurl($selfLink);
         }
 
@@ -497,7 +501,8 @@ class GoogleGetLivreService
     /**
      * Remet à 0 le cache de l'objet
      */
-    public function resetCache(){
+    public function resetCache()
+    {
         $this->contentSelfLink = "";
     }
 }

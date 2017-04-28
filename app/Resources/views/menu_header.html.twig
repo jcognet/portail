@@ -33,6 +33,9 @@
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('livre_homepage') }}">Tous les livres</a></li>
                         {% if app.user %}
+                            <li><a href="{{ path('livre_lieu_liste') }}">
+                                    <span class="glyphicon glyphicon-tree-deciduous"></span>Mes lieux
+                                </a></li>
                             <li><a href="{{ path('livre_bibliotheque_liste') }}">
                                     <span class="glyphicon glyphicon-heart"></span>Ma bibliothèque
                                 </a></li>

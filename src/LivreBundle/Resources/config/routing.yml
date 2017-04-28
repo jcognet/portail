@@ -3,3 +3,6 @@ livre:
 bibliotheque:
     resource: '@LivreBundle/Resources/config/routing/bibliotheque.yml'
     prefix: 'bibliotheque'
+lieu:
+    resource: '@LivreBundle/Resources/config/routing/lieu.yml'
+    prefix: 'lieu'

@@ -1,0 +1,8 @@
+# Homepage de la partie livre
+livre_lieu_homepage:
+    path:     /
+    defaults: { _controller: LivreBundle:Lieu:liste }
+# Liste des livre
+livre_lieu_liste:
+    path:     /
+    defaults: { _controller: LivreBundle:Lieu:liste }

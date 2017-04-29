@@ -21,7 +21,8 @@ class LieuController extends Controller
     public function listeAction(Request $request)
     {
         //TODO : protéger
-        //TODO : faire les 3 types de lieu
+        //TODO : affichager un lieu & gestion ajax pour afficher après modif
+        //TODO : protéger sur absence de lieu (maison ? )
         //TODO : Modifier un lieu
         //TODO : supprimer le x à lieu quand il existe
         //TODO : créer méthode retournant le contenu html des formulaires des lieux

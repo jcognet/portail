@@ -11,3 +11,9 @@ services:
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
+    # form des meubles
+  livre.form.etagere:
+    class: LivreBundle\Form\EtagereType
+    arguments: ["@security.token_storage"]
+    tags:
+      - { name: form.type }

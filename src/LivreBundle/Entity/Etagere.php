@@ -3,6 +3,7 @@
 namespace LivreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Etagere
@@ -28,6 +29,14 @@ class Etagere
      * @ORM\JoinColumn(name="meuble_id", referencedColumnName="id", nullable= true)
      */
     private $meuble;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255)
+     * @Assert\NotBlank()
+     */
+    private $nom;
 
     /**
      * @var \UserBundle\Entity\User
@@ -93,5 +102,29 @@ class Etagere
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     *
+     * @return Etagere
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string
+     */
+    public function getNom()
+    {
+        return $this->nom;
     }
 }

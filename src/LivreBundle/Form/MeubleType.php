@@ -27,7 +27,7 @@ class MeubleType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')
+        $builder->add('nom', null, array('label'=>'Nom'))
             ->add('piece', EntityType::class, array(
                 'choices'      => $this->tokenStorage->getToken()->getUser()->getPieces(),
                 'choice_label' => 'nom',

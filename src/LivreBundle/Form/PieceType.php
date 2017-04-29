@@ -27,8 +27,8 @@ class PieceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')
-            ->add('etage')
+        $builder->add('nom', null, array('label'=>'Nom'))
+            ->add('etage', null, array('label'=>'Etage'))
             ->add('maison', EntityType::class, array(
                 'choices'      => $this->tokenStorage->getToken()->getUser()->getMaisons(),
                 'choice_label' => 'nom',

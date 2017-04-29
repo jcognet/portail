@@ -2,20 +2,42 @@
 
 namespace LivreBundle\Form;
 
+use LivreBundle\Entity\Meuble;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class EtagereType extends AbstractType
 {
+    /**
+     * @var null|TokenStorageInterface
+     */
+    protected $tokenStorage = null;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
+
+
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('meuble');
+        $builder
+            ->add('nom', null, array('label' => 'Nom'))
+            ->add('meuble', EntityType::class, array(
+                'choices'      => $this->tokenStorage->getToken()->getUser()->getMeubles(),
+                'choice_label' => 'nom',
+                'class'        => Meuble::class,
+                'empty_data'   => null,
+                'placeholder'  => "Meuble de l'étagère"
+            ));
     }
-    
+
     /**
      * {@inheritdoc}
      */

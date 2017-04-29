@@ -13,7 +13,9 @@ class MaisonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nom')->add('adresse');
+        $builder
+            ->add('nom', null, array('label'=>'Nom'))
+            ->add('adresse', null, array('label'=>'Adresse '));
     }
     
     /**

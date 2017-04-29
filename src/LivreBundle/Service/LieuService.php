@@ -27,6 +27,12 @@ class LieuService
      */
     const TYPE_LIEU_MEUBLE = 'meuble';
 
+
+    /**
+     * Constante de type de lieu etagere
+     */
+    const TYPE_LIEU_ETAGERE = 'etagere';
+
     /**
      * Retourne la liste des types de lieu
      * @return array
@@ -34,9 +40,10 @@ class LieuService
     public static function getTypesLieux()
     {
         return array(
-            'maison' => self::TYPE_LIEU_MAISON,
-            'pièce'  => self::TYPE_LIEU_PIECE,
+            'maison'  => self::TYPE_LIEU_MAISON,
+            'pièce'   => self::TYPE_LIEU_PIECE,
             'meuble'  => self::TYPE_LIEU_MEUBLE,
+            'etagère' => self::TYPE_LIEU_ETAGERE,
         );
     }
 

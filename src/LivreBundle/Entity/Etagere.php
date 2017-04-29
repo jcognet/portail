@@ -25,8 +25,16 @@ class Etagere
      * @var \LivreBundle\Entity\Meuble
      *
      * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Meuble", inversedBy="etageres")
+     * @ORM\JoinColumn(name="meuble_id", referencedColumnName="id", nullable= true)
      */
     private $meuble;
+
+    /**
+     * @var \UserBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="etageres")
+     */
+    private $user;
 
 
     /**

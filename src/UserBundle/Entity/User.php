@@ -73,6 +73,30 @@ class User extends \FOS\UserBundle\Model\User
     private $maisons;
 
 
+    /**
+     * @var \LivreBundle\Entity\Piece
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Piece", mappedBy="user")
+     */
+    private $pieces;
+
+
+    /**
+     * @var \LivreBundle\Entity\Meuble
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Meuble", mappedBy="user")
+     */
+    private $meubles;
+
+
+    /**
+     * @var \LivreBundle\Entity\Etagere
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Etagere", mappedBy="user")
+     */
+    private $etageres;
+
+
 
     /**
      * Get id

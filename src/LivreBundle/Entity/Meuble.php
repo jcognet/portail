@@ -32,6 +32,7 @@ class Meuble
      * @var \LivreBundle\Entity\Piece
      *
      * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Piece", inversedBy="meubles")
+     * @ORM\JoinColumn(name="piece_id", referencedColumnName="id", nullable= true)
      */
     private $piece;
 
@@ -42,6 +43,13 @@ class Meuble
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Etagere", mappedBy="meuble")
      */
     private $etageres;
+
+    /**
+     * @var \UserBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="meubles")
+     */
+    private $user;
 
 
     /**

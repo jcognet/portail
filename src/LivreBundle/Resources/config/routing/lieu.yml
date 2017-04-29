@@ -7,8 +7,15 @@ livre_lieu_liste:
     path:     /
     defaults: { _controller: LivreBundle:Lieu:liste }
 # Form d'ajout d'un nouveau lieu
-livre_lieu_nouveau_lieu_ajax:
+livre_lieu_form_ajax:
     path:     /form/get/
     defaults: { _controller: LivreBundle:Lieu:getFormAjax }
+    options:
+      expose: true
+
+# Form d'ajout d'un nouveau lieu
+livre_lieu_enregistre_ajax:
+    path:     /form/enregistre/{typeLieu}
+    defaults: { _controller: LivreBundle:Lieu:enregistreAjax }
     options:
       expose: true

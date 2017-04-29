@@ -21,7 +21,8 @@ class LieuController extends Controller
     public function listeAction(Request $request)
     {
         //TODO : protéger
-        //TODO : liaison avec utilisateur (pour toutes les entités)
+        //TODO : supprimer le x à lieu quand il existe
+        //TODO : créer méthode retournant le contenu html des formulaires des lieux
         $formTypeLieu = $this->createForm(LieuType::class)
             ->add('btnChoix', ButtonType::class, array(
                 'label' => '+'
@@ -41,51 +42,52 @@ class LieuController extends Controller
     {
         // Ce type de formulaire est dynamique
         $formNouveauLieu = null;
-        $typeLieux       = '';
+        $typeLieu        = '';
         // On gère le form envoyé
         $formTypeLieu = $this->createForm(LieuType::class)->add('btnChoix', ButtonType::class, array(
             'label' => '+'
         ));
         $formTypeLieu->handleRequest($request);
         if ($formTypeLieu->isValid()) {
-            $typeLieux       = ucfirst($formTypeLieu->get(LieuType::TYPE_LIEU_NAME)->getData());
+            $typeLieu        = ucfirst($formTypeLieu->get(LieuType::TYPE_LIEU_NAME)->getData());
             $formNouveauLieu = $this->createForm(
-                $this->get('livre.lieu')->getFormFromTypeLieu($typeLieux)
+                $this->get('livre.lieu')->getFormFromTypeLieu($typeLieu)
             );
         }
 
-        return $this->render('LivreBundle:Block:form_lieu_' . strtolower($typeLieux) . '.html.twig', array(
+        return $this->render('LivreBundle:Block:form_lieu_' . strtolower($typeLieu) . '.html.twig', array(
             'form_nouveau_lieu' => $formNouveauLieu->createView()
         ));
     }
 
 
-    public function enregistreMaisonAjaxAction(Request $request)
+    public function enregistreAjaxAction(Request $request, $typeLieu)
     {
         //TODO : protéger
-        //TODO : rendre généraliste
-        $maison     = new Maison();
-        $formMaison = $this->createForm(MaisonType::class, $maison)
-            ->add('btnSave', ButtonType::class, array(
-                'label' => 'Ajouter une maison'
-            ));
-        $formMaison->handleRequest($request);
-        if ($formMaison->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($maison);
+        $code = '';
+        $html = '';
+        // Gestion du formulaore
+        $formNouveauLieu = $this->createForm(
+            $this->get('livre.lieu')->getFormFromTypeLieu($typeLieu)
+        );
+        $formNouveauLieu->handleRequest($request);
+        $lieu = $formNouveauLieu->getData();
+        dump($lieu);
+        if ($formNouveauLieu->isValid()) {
+            // Ajout de l'utilisateur
+            $lieu = $formNouveauLieu->getData();
+            $em   = $this->getDoctrine()->getManager();
+            $lieu->setUser($this->getUser());
+            $em->persist($lieu);
             $em->flush();
             $code = 200;
-            // Nettoyage en cas de succes
-            $formMaison = $this->createForm(MaisonType::class)
-                ->add('btnSave', ButtonType::class, array(
-                    'label' => 'Ajouter une maison'
-                ));
         } else {
             $code = 500;
         }
-        $html = $this->renderView('LivreBundle:Block:form_maison.html.twig', array(
-            'form_maison' => $formMaison
+        $html = $this->renderView('LivreBundle:Block:form_lieu_' . strtolower($typeLieu) . '.html.twig', array(
+            'form_nouveau_lieu' => $formNouveauLieu->createView()
         ));
+
         return new JsonResponse(array(
             'code' => $code,
             'html' => $html

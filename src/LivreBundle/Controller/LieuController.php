@@ -21,8 +21,11 @@ class LieuController extends Controller
     public function listeAction(Request $request)
     {
         //TODO : protéger
+        //TODO : faire les 3 types de lieu
+        //TODO : Modifier un lieu
         //TODO : supprimer le x à lieu quand il existe
         //TODO : créer méthode retournant le contenu html des formulaires des lieux
+        // Tree : http://jsfiddle.net/jhfrench/GpdgF/
         $formTypeLieu = $this->createForm(LieuType::class)
             ->add('btnChoix', ButtonType::class, array(
                 'label' => '+'

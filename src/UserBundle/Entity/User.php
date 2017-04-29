@@ -66,6 +66,15 @@ class User extends \FOS\UserBundle\Model\User
 
 
     /**
+     * @var \LivreBundle\Entity\Maison
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Maison", mappedBy="user")
+     */
+    private $maisons;
+
+
+
+    /**
      * Get id
      *
      * @return int
@@ -214,5 +223,39 @@ class User extends \FOS\UserBundle\Model\User
     public function getListeLivres()
     {
         return $this->listeLivres;
+    }
+
+    /**
+     * Add maison
+     *
+     * @param \LivreBundle\Entity\Maison $maison
+     *
+     * @return User
+     */
+    public function addMaison(\LivreBundle\Entity\Maison $maison)
+    {
+        $this->maisons[] = $maison;
+
+        return $this;
+    }
+
+    /**
+     * Remove maison
+     *
+     * @param \LivreBundle\Entity\Maison $maison
+     */
+    public function removeMaison(\LivreBundle\Entity\Maison $maison)
+    {
+        $this->maisons->removeElement($maison);
+    }
+
+    /**
+     * Get maisons
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMaisons()
+    {
+        return $this->maisons;
     }
 }

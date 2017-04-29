@@ -77,5 +77,69 @@ class Meuble
     {
         return $this->nom;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->etageres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Set piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     *
+     * @return Meuble
+     */
+    public function setPiece(\LivreBundle\Entity\Piece $piece = null)
+    {
+        $this->piece = $piece;
+
+        return $this;
+    }
+
+    /**
+     * Get piece
+     *
+     * @return \LivreBundle\Entity\Piece
+     */
+    public function getPiece()
+    {
+        return $this->piece;
+    }
+
+    /**
+     * Add etagere
+     *
+     * @param \LivreBundle\Entity\Etagere $etagere
+     *
+     * @return Meuble
+     */
+    public function addEtagere(\LivreBundle\Entity\Etagere $etagere)
+    {
+        $this->etageres[] = $etagere;
+
+        return $this;
+    }
+
+    /**
+     * Remove etagere
+     *
+     * @param \LivreBundle\Entity\Etagere $etagere
+     */
+    public function removeEtagere(\LivreBundle\Entity\Etagere $etagere)
+    {
+        $this->etageres->removeElement($etagere);
+    }
+
+    /**
+     * Get etageres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEtageres()
+    {
+        return $this->etageres;
+    }
+}

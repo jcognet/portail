@@ -83,5 +83,93 @@ class Piece
     {
         return $this->nom;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->meubles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Set etage
+     *
+     * @param string $etage
+     *
+     * @return Piece
+     */
+    public function setEtage($etage)
+    {
+        $this->etage = $etage;
+
+        return $this;
+    }
+
+    /**
+     * Get etage
+     *
+     * @return string
+     */
+    public function getEtage()
+    {
+        return $this->etage;
+    }
+
+    /**
+     * Set maison
+     *
+     * @param \LivreBundle\Entity\Maison $maison
+     *
+     * @return Piece
+     */
+    public function setMaison(\LivreBundle\Entity\Maison $maison = null)
+    {
+        $this->maison = $maison;
+
+        return $this;
+    }
+
+    /**
+     * Get maison
+     *
+     * @return \LivreBundle\Entity\Maison
+     */
+    public function getMaison()
+    {
+        return $this->maison;
+    }
+
+    /**
+     * Add meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     *
+     * @return Piece
+     */
+    public function addMeuble(\LivreBundle\Entity\Meuble $meuble)
+    {
+        $this->meubles[] = $meuble;
+
+        return $this;
+    }
+
+    /**
+     * Remove meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     */
+    public function removeMeuble(\LivreBundle\Entity\Meuble $meuble)
+    {
+        $this->meubles->removeElement($meuble);
+    }
+
+    /**
+     * Get meubles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeubles()
+    {
+        return $this->meubles;
+    }
+}

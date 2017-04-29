@@ -42,6 +42,13 @@ class Maison
      */
     private $pieces;
 
+    /**
+     * @var \UserBundle\Entity\User
+     *
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="maisons")
+     */
+    private $user;
+
 
     /**
      * Get id
@@ -100,5 +107,69 @@ class Maison
     {
         return $this->adresse;
     }
-}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->pieces = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     *
+     * @return Maison
+     */
+    public function addPiece(\LivreBundle\Entity\Piece $piece)
+    {
+        $this->pieces[] = $piece;
+
+        return $this;
+    }
+
+    /**
+     * Remove piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     */
+    public function removePiece(\LivreBundle\Entity\Piece $piece)
+    {
+        $this->pieces->removeElement($piece);
+    }
+
+    /**
+     * Get pieces
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPieces()
+    {
+        return $this->pieces;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \UserBundle\Entity\User $user
+     *
+     * @return Maison
+     */
+    public function setUser(\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

@@ -38,5 +38,28 @@ class Etagere
     {
         return $this->id;
     }
-}
 
+    /**
+     * Set meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     *
+     * @return Etagere
+     */
+    public function setMeuble(\LivreBundle\Entity\Meuble $meuble = null)
+    {
+        $this->meuble = $meuble;
+
+        return $this;
+    }
+
+    /**
+     * Get meuble
+     *
+     * @return \LivreBundle\Entity\Meuble
+     */
+    public function getMeuble()
+    {
+        return $this->meuble;
+    }
+}

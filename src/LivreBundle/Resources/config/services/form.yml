@@ -5,3 +5,9 @@ services:
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
+    # form des meubles
+  livre.form.meuble:
+    class: LivreBundle\Form\MeubleType
+    arguments: ["@security.token_storage"]
+    tags:
+      - { name: form.type }

@@ -23,6 +23,11 @@ class LieuService
     const TYPE_LIEU_PIECE = 'piece';
 
     /**
+     * Constante de type de lieu meuble
+     */
+    const TYPE_LIEU_MEUBLE = 'meuble';
+
+    /**
      * Retourne la liste des types de lieu
      * @return array
      */
@@ -30,7 +35,8 @@ class LieuService
     {
         return array(
             'maison' => self::TYPE_LIEU_MAISON,
-            'piece'  => self::TYPE_LIEU_PIECE,
+            'pièce'  => self::TYPE_LIEU_PIECE,
+            'meuble'  => self::TYPE_LIEU_MEUBLE,
         );
     }
 

@@ -3,8 +3,10 @@
 namespace LivreBundle\Controller;
 
 use LivreBundle\Entity\Maison;
+use LivreBundle\Form\LieuType;
 use LivreBundle\Form\MaisonType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Button;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,23 +22,43 @@ class LieuController extends Controller
     {
         //TODO : protéger
         //TODO : liaison avec utilisateur (pour toutes les entités)
-
-        // Affichage
-        return $this->render('LivreBundle:Lieu:liste.html.twig', array());
-    }
-
-    public function getFormMaisonAction(Request $request, $type)
-    {
-        //TODO : protéger
-        //TODO : rendre dynamique
-        $formMaison = $this->createForm(MaisonType::class)
-            ->add('btnSave', ButtonType::class, array(
-                'label' => 'Ajouter une maison'
+        $formTypeLieu = $this->createForm(LieuType::class)
+            ->add('btnChoix', ButtonType::class, array(
+                'label' => '+'
             ));
-        return $this->render('LivreBundle:Block:form_maison.html.twig', array(
-            'form_maison' => $formMaison
+        // Affichage
+        return $this->render('LivreBundle:Lieu:liste.html.twig', array(
+            'form_type_lieu' => $formTypeLieu->createView()
         ));
     }
+
+    /**
+     * Créer le formulaire d'un type de lieu
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getFormAjaxAction(Request $request)
+    {
+        // Ce type de formulaire est dynamique
+        $formNouveauLieu = null;
+        $typeLieux       = '';
+        // On gère le form envoyé
+        $formTypeLieu = $this->createForm(LieuType::class)->add('btnChoix', ButtonType::class, array(
+            'label' => '+'
+        ));
+        $formTypeLieu->handleRequest($request);
+        if ($formTypeLieu->isValid()) {
+            $typeLieux       = ucfirst($formTypeLieu->get(LieuType::TYPE_LIEU_NAME)->getData());
+            $formNouveauLieu = $this->createForm(
+                $this->get('livre.lieu')->getFormFromTypeLieu($typeLieux)
+            );
+        }
+
+        return $this->render('LivreBundle:Block:form_lieu_' . strtolower($typeLieux) . '.html.twig', array(
+            'form_nouveau_lieu' => $formNouveauLieu->createView()
+        ));
+    }
+
 
     public function enregistreMaisonAjaxAction(Request $request)
     {
@@ -61,13 +83,13 @@ class LieuController extends Controller
         } else {
             $code = 500;
         }
-        $html = $this->render('LivreBundle:Block:form_maison.html.twig', array(
+        $html = $this->renderView('LivreBundle:Block:form_maison.html.twig', array(
             'form_maison' => $formMaison
         ));
         return new JsonResponse(array(
             'code' => $code,
             'html' => $html
-        ))
+        ));
     }
 
 

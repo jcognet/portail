@@ -38,10 +38,5 @@ class LivreType extends AbstractType
         return 'livrebundle_livre';
     }
 
-    public function getName(){
-        return 'toto';
-    }
-
-
 
 }

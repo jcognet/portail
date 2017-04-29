@@ -8,3 +8,7 @@ services:
     livre.image:
         class: LivreBundle\Service\LivreImageService
         arguments: ["%path_relatif_upload_image%","%path_absolu_upload_image_livre%",  "@transverse.curl" ]
+
+    # Service gérant les lieux
+    livre.lieu:
+        class: LivreBundle\Service\LieuService

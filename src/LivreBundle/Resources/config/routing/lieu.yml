@@ -6,3 +6,9 @@ livre_lieu_homepage:
 livre_lieu_liste:
     path:     /
     defaults: { _controller: LivreBundle:Lieu:liste }
+# Form d'ajout d'un nouveau lieu
+livre_lieu_nouveau_lieu_ajax:
+    path:     /form/get/
+    defaults: { _controller: LivreBundle:Lieu:getFormAjax }
+    options:
+      expose: true

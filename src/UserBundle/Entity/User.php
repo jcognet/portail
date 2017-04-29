@@ -282,4 +282,106 @@ class User extends \FOS\UserBundle\Model\User
     {
         return $this->maisons;
     }
+
+    /**
+     * Add piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     *
+     * @return User
+     */
+    public function addPiece(\LivreBundle\Entity\Piece $piece)
+    {
+        $this->pieces[] = $piece;
+
+        return $this;
+    }
+
+    /**
+     * Remove piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     */
+    public function removePiece(\LivreBundle\Entity\Piece $piece)
+    {
+        $this->pieces->removeElement($piece);
+    }
+
+    /**
+     * Get pieces
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPieces()
+    {
+        return $this->pieces;
+    }
+
+    /**
+     * Add meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     *
+     * @return User
+     */
+    public function addMeuble(\LivreBundle\Entity\Meuble $meuble)
+    {
+        $this->meubles[] = $meuble;
+
+        return $this;
+    }
+
+    /**
+     * Remove meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     */
+    public function removeMeuble(\LivreBundle\Entity\Meuble $meuble)
+    {
+        $this->meubles->removeElement($meuble);
+    }
+
+    /**
+     * Get meubles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMeubles()
+    {
+        return $this->meubles;
+    }
+
+    /**
+     * Add etagere
+     *
+     * @param \LivreBundle\Entity\Etagere $etagere
+     *
+     * @return User
+     */
+    public function addEtagere(\LivreBundle\Entity\Etagere $etagere)
+    {
+        $this->etageres[] = $etagere;
+
+        return $this;
+    }
+
+    /**
+     * Remove etagere
+     *
+     * @param \LivreBundle\Entity\Etagere $etagere
+     */
+    public function removeEtagere(\LivreBundle\Entity\Etagere $etagere)
+    {
+        $this->etageres->removeElement($etagere);
+    }
+
+    /**
+     * Get etageres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEtageres()
+    {
+        return $this->etageres;
+    }
 }

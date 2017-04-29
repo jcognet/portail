@@ -1,0 +1,7 @@
+services:
+    # form des pièces
+  livre.form.piece:
+    class: LivreBundle\Form\PieceType
+    arguments: ["@security.token_storage"]
+    tags:
+      - { name: form.type }

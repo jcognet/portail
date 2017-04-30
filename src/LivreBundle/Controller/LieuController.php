@@ -24,14 +24,12 @@ class LieuController extends Controller
         //TODO : affichager un lieu & gestion ajax pour afficher après modif
         //TODO : protéger sur absence de lieu (maison ? )
         //TODO : Modifier un lieu
+        //TODO : ajouter un fils à un lieu
+        //TODO : supprimer un lieu
         //TODO : supprimer le x à lieu quand il existe
         //TODO : créer méthode retournant le contenu html des formulaires des lieux
         //TODO : notion d'ordre sur un lieu
-        // Tree : http://jsfiddle.net/jhfrench/GpdgF/
-        $formTypeLieu = $this->createForm(LieuType::class)
-            ->add('btnChoix', ButtonType::class, array(
-                'label' => '+'
-            ));
+        $formTypeLieu = $this->createForm(LieuType::class);
         // Affichage
         return $this->render('LivreBundle:Lieu:liste.html.twig', array(
             'form_type_lieu' => $formTypeLieu->createView()
@@ -49,9 +47,7 @@ class LieuController extends Controller
         $formNouveauLieu = null;
         $typeLieu        = '';
         // On gère le form envoyé
-        $formTypeLieu = $this->createForm(LieuType::class)->add('btnChoix', ButtonType::class, array(
-            'label' => '+'
-        ));
+        $formTypeLieu = $this->createForm(LieuType::class);
         $formTypeLieu->handleRequest($request);
         if ($formTypeLieu->isValid()) {
             $typeLieu        = ucfirst($formTypeLieu->get(LieuType::TYPE_LIEU_NAME)->getData());
@@ -66,6 +62,12 @@ class LieuController extends Controller
     }
 
 
+    /**
+     * Enregistre un lieu
+     * @param Request $request
+     * @param $typeLieu
+     * @return JsonResponse
+     */
     public function enregistreAjaxAction(Request $request, $typeLieu)
     {
         //TODO : protéger
@@ -99,5 +101,16 @@ class LieuController extends Controller
         ));
     }
 
+    /**
+     * Affiche l'arbre des lieux
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function afficheArbreLieuAjaxAction(Request $request){
 
+        //Source :  http://jsfiddle.net/jhfrench/GpdgF/
+        return $this->render('LivreBundle:Block:form_arbre_lieu.html.twig', array(
+
+        ));
+    }
 }

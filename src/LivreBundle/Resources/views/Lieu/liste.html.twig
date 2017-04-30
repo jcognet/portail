@@ -2,6 +2,9 @@
 {% block javascripts %}
     <script src="{{ asset('js/lieu_liste.js') }}"></script>
 {% endblock %}
+ {% block stylesheets %}
+     <link rel="stylesheet" href="{{ asset('css/arbre.css') }}" />
+ {% endblock %}
 {% block title_header %}
     Gestion de mes lieux
 {% endblock %}
@@ -20,14 +23,13 @@
                 <div class="col-sm-5">
                     {{ form_widget(form_type_lieu.typeLieu) }}
                 </div>
-                <div class="col-sm-2">
-                    {{ form_widget(form_type_lieu.btnChoix, {'attr': {'class':'btn btn-primary pull-right'}}) }}
-                </div>
                 {{ form_end(form_type_lieu) }}
             </div>
         </div>
         <h2>Mes lieux</h2>
-
+        <div id="div_mes_lieux">
+        {{ render(controller('LivreBundle:Lieu:afficheArbreLieuAjax', {'request': app.request})) }}
+        </div>
     </div>
 
     <!-- Modal -->

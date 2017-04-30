@@ -384,4 +384,49 @@ class User extends \FOS\UserBundle\Model\User
     {
         return $this->etageres;
     }
+
+    /**
+     * Returne si l'utilisateur possède au moins une pièce sans maison
+     * @return bool
+     */
+    public function hasPieceSansMaison(){
+        $hasPieceSansMaison = false;
+        foreach($this->getPieces() as $piece){
+            if(is_null($piece->getMaison())){
+                $hasPieceSansMaison = true;
+                break;
+            }
+        }
+        return $hasPieceSansMaison;
+    }
+
+    /**
+     * Returne si l'utilisateur possède au moins un meuble sans piece
+     * @return bool
+     */
+    public function hasMeubleSansPiece(){
+        $hasMeubleSansPiece = false;
+        foreach($this->getMeubles() as $meuble){
+            if(is_null($meuble->getPiece())){
+                $hasMeubleSansPiece = true;
+                break;
+            }
+        }
+        return $hasMeubleSansPiece;
+    }
+
+    /**
+     *  Returne si l'utilisateur possède au moins une étagère sans meuble
+     * @return bool
+     */
+    public function hasEtagereSansMeuble(){
+        $hasEtagereSansMeuble = false;
+        foreach($this->getEtageres() as $etagere){
+            if(is_null($etagere->getMeuble())){
+                $hasEtagereSansMeuble = true;
+                break;
+            }
+        }
+        return $hasEtagereSansMeuble;
+    }
 }

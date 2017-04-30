@@ -1,13 +1,14 @@
 // Quelques constantes
-var TYPE_LIEU_INPUT_ID = 'livrebundle_lieu_btnChoix'; // ID du bouton du formulaire de rajout d'un lieu
 var AJOUTER_LIEU_ID = 'div_ajouter_lieu';
 var MODAL_AJOUTER_LIEU_ID = 'modalAjouterLieu';
 var DDL_TYPE_LIEU_ID = 'livrebundle_lieu_typeLieu';
 var BTN_AJOUTER_LIEU_ID = 'btnAjouterLieu';
 var PROGRESS_BAR_DIV_ID = 'progress_bar';
+var DIV_MES_LIEUX_ID = 'div_mes_lieux';
 
 var ROUTE_LIEU_AJOUT = 'livre_lieu_form_ajax'; // Route Symfony gérant l'ajout
 var ROUTE_LIEU_ENREGISTRE = 'livre_lieu_enregistre_ajax'; // Route Symfony gérant l'ajout
+var ROUTE_MAJ_ARBRE = 'livre_lieu_affiche_arbre_lieu_ajax';
 
 var TYPE_LIEU_INPUT = null;
 var MODAL_AJOUTER_LIEU  = null;
@@ -17,12 +18,12 @@ var DDL_TYPE_LIEU = null;
 var BTN_AJOUTER_LIEU = null;
 var PROGRESS_BAR_DIV = null;
 var PROGRESS_BAR = null;
+var DIV_MES_LIEUX = 'div_mes_lieux';
 
 var dureeAttenteChargement = 500;
 var chargementTimeout = null;
 $(document).ready(function () {
     // Mise en place des constantes
-    TYPE_LIEU_INPUT = $('#'+TYPE_LIEU_INPUT_ID);
     MODAL_AJOUTER_LIEU = $('#'+MODAL_AJOUTER_LIEU_ID);
     AJOUTER_LIEU = $('#'+AJOUTER_LIEU_ID);
     FORM_AJOUTER_LIEU = AJOUTER_LIEU.find('form');
@@ -30,15 +31,17 @@ $(document).ready(function () {
     BTN_AJOUTER_LIEU = $('#'+BTN_AJOUTER_LIEU_ID);
     PROGRESS_BAR_DIV = $('#'+PROGRESS_BAR_DIV_ID);
     PROGRESS_BAR =  PROGRESS_BAR_DIV.find('.progress-bar');
+    DIV_MES_LIEUX = $('#'+DIV_MES_LIEUX_ID);
 
     // Evenements
-    TYPE_LIEU_INPUT.on('click', function(){
+    DDL_TYPE_LIEU.on('change', function(){
         gereFormulaireLieu();
     });
     BTN_AJOUTER_LIEU.on('click', function(){
         enregistreFormulaireLieu();
     });
     PROGRESS_BAR_DIV.hide();
+    eventArbreLieu();
 
 });
 // Gere le formulaire d'un lieu
@@ -77,11 +80,12 @@ function enregistreFormulaireLieu(){
         cache: false,
         processData: false,
         success: function (retour, statut) {
-            arreteTimerEnregistrement()
+            arreteTimerEnregistrement();
             var code = retour.code;
             var html = retour.html;
             if(code == 200){
                 MODAL_AJOUTER_LIEU.modal('hide');
+                updateArbreLieu();
             }else {
                 MODAL_AJOUTER_LIEU.find('.modal-body').html(html);
             }
@@ -120,4 +124,40 @@ function arreteTimerEnregistrement(){
 function setPourcentageTimer(pourcentage){
     PROGRESS_BAR.attr('aria-valuenow', pourcentage );
     PROGRESS_BAR.width(pourcentage+'%' );
+}
+// Gère l'arbre de données
+function eventArbreLieu(){
+    //Source :  http://jsfiddle.net/jhfrench/GpdgF/
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Fermer');
+    $('.tree li.parent_li > span').on('click', function (e) {
+        var children = $(this).parent('li.parent_li').find(' > ul > li');
+        if (children.is(":visible")) {
+            children.hide('fast');
+            $(this).attr('title', 'Ouvrir').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+        } else {
+            children.show('fast');
+            $(this).attr('title', 'Fermer').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+        }
+        e.stopPropagation();
+    });
+}
+// Met à jour l'adre des données
+function updateArbreLieu(){
+    setAjaxWorking(DIV_MES_LIEUX_ID);
+    var url = Routing.generate(ROUTE_MAJ_ARBRE);
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (retour, statut) {
+            DIV_MES_LIEUX.html(retour);
+            unsetAjaxWorking(DIV_MES_LIEUX_ID);
+        },
+
+        error: function (resultat, statut, erreur) {
+            unsetAjaxWorking(DIV_MES_LIEUX_ID);
+        }
+    });
 }

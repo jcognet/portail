@@ -1,0 +1,46 @@
+{% import 'LivreBundle:Macro:lieu.html.twig'  as lieu_macro %}
+<div class="tree well">
+    {% set user = app.user %}
+    {% if user.maisons |length>0 %}
+        <ul>
+
+            {% for maison in user.maisons %}
+                {{ lieu_macro.affiche_maison(maison) }}
+            {% endfor %}
+
+        </ul>
+    {% endif %}
+    {% if user.hasPieceSansMaison %}
+        <ul>
+            <ul>
+                {% for piece in user.pieces if piece.maison is null %}
+                    {{ lieu_macro.affiche_piece(piece, false) }}
+                {% endfor %}
+            </ul>
+        </ul>
+    {% endif %}
+    {% if user.hasMeubleSansPiece %}
+        <ul>
+            <ul>
+                <ul>
+                    {% for meuble in user.meubles if meuble.piece is null %}
+                        {{ lieu_macro.affiche_meuble(meuble, false) }}
+                    {% endfor %}
+                </ul>
+            </ul>
+        </ul>
+    {% endif %}
+    {% if user.hasEtagereSansMeuble %}
+        <ul>
+            <ul>
+                <ul>
+                    <ul>
+                        {% for etagere in user.etageres if etagere.meuble is null %}
+                            {{ lieu_macro.affiche_etagere(etagere, false) }}
+                        {% endfor %}
+                    </ul>
+                </ul>
+            </ul>
+        </ul>
+    {% endif %}
+</div>

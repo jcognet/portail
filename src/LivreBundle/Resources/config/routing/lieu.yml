@@ -12,10 +12,15 @@ livre_lieu_form_ajax:
     defaults: { _controller: LivreBundle:Lieu:getFormAjax }
     options:
       expose: true
-
 # Form d'ajout d'un nouveau lieu
 livre_lieu_enregistre_ajax:
     path:     /form/enregistre/{typeLieu}
     defaults: { _controller: LivreBundle:Lieu:enregistreAjax }
+    options:
+      expose: true
+# Form d'ajout d'un nouveau lieu
+livre_lieu_affiche_arbre_lieu_ajax:
+    path:     /form/affiche/arbre
+    defaults: { _controller: LivreBundle:Lieu:afficheArbreLieuAjax }
     options:
       expose: true

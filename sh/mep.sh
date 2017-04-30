@@ -35,4 +35,5 @@ echo "Gestion des Assets"
 #bin/console assetic:dump --env=prod
 # Cache
 echo "Cache"
-/usr/local/php7.0/bin/php bin/console cache:clear --env=$ENV
+/usr/local/php7.0/bin/php bin/console cache:clear --env=dev
+/usr/local/php7.0/bin/php bin/console cache:clear --env=prod

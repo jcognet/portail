@@ -219,8 +219,6 @@ function livreBuffer(){
 // Modifie un livre
 function modifieLivre(livreId, divParent){
     setAjaxWorking(divParent.attr('id'));
-
-    //console.log(divParent.find('form').get(0));
     //var formModifieData = new FormData(divParent.find('form').get(0));
     var formModifieData = (divParent.find('form')).serialize();
     var url = Routing.generate(ROUTE_MODIFIE, {'id': livreId});

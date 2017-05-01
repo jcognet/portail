@@ -60,6 +60,11 @@ $(document).ready(function () {
     });
     PROGRESS_BAR_DIV.hide();
     eventArbreLieu();
+
+    // Focus premier champ input de la modale
+    $(MODAL_AJOUTER_LIEU).on('shown.bs.modal', function () {
+        $(this).find("input:first").focus();
+    })
 });
 // Gere le formulaire d'un lieu
 function gereFormulaireLieu() {
@@ -76,6 +81,8 @@ function gereFormulaireLieu() {
         success: function (retour, statut) {
             MODAL_AJOUTER_LIEU.find('.modal-body').html(retour);
             MODAL_AJOUTER_LIEU.modal('show');
+            MODAL_AJOUTER_LIEU.find("input:first").focus();
+            console.log(MODAL_AJOUTER_LIEU.find("input:first"));
             unsetAjaxWorking(AJOUTER_LIEU_ID);
         },
 

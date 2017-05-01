@@ -63,22 +63,51 @@ class LieuController extends Controller
 
 
     /**
+     * Retourne le formulaire lié à un lieu
+     * @param Request $request
+     * @param $typeLieu
+     * @param null $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getFormUpdateAjaxAction(Request $request, $typeLieu, $id = null)
+    {
+        // Ce type de formulaire est dynamique
+        $formNouveauLieu = null;
+        $typeLieu        = ucfirst($typeLieu);
+        $entity          = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
+        $formNouveauLieu = $this->createForm(
+            $this->get('livre.lieu')->getFormFromTypeLieu($typeLieu), $entity
+        );
+
+        return $this->render('LivreBundle:Block:form_lieu_' . strtolower($typeLieu) . '.html.twig', array(
+            'form_nouveau_lieu' => $formNouveauLieu->createView()
+        ));
+    }
+
+
+    /**
      * Enregistre un lieu
      * @param Request $request
      * @param $typeLieu
      * @return JsonResponse
      */
-    public function enregistreAjaxAction(Request $request, $typeLieu)
+    public function enregistreAjaxAction(Request $request, $typeLieu, $id = null)
     {
         //TODO : protéger
         $code = '';
         $html = '';
-        // Gestion du formulaore
+        $lieu = null;
+        // Récupération en base si existant
+        if (false === is_null($id) && strlen($id)>0 && intval($id)>0)
+            $lieu = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
+        // Gestion du formulaire
         $formNouveauLieu = $this->createForm(
-            $this->get('livre.lieu')->getFormFromTypeLieu($typeLieu)
+            $this->get('livre.lieu')->getFormFromTypeLieu($typeLieu), $lieu
         );
         $formNouveauLieu->handleRequest($request);
-        $lieu = $formNouveauLieu->getData();
+        // Si aucun lieu, on récupère la data
+        if (true === is_null($lieu))
+            $lieu = $formNouveauLieu->getData();
         dump($lieu);
         if ($formNouveauLieu->isValid()) {
             // Ajout de l'utilisateur
@@ -106,11 +135,10 @@ class LieuController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function afficheArbreLieuAjaxAction(Request $request){
+    public function afficheArbreLieuAjaxAction(Request $request)
+    {
 
         //Source :  http://jsfiddle.net/jhfrench/GpdgF/
-        return $this->render('LivreBundle:Block:form_arbre_lieu.html.twig', array(
-
-        ));
+        return $this->render('LivreBundle:Block:form_arbre_lieu.html.twig', array());
     }
 }

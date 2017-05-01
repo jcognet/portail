@@ -69,6 +69,7 @@ class User extends \FOS\UserBundle\Model\User
      * @var \LivreBundle\Entity\Maison
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Maison", mappedBy="user")
+     * @ORM\OrderBy({"nom" = "ASC"})
      */
     private $maisons;
 
@@ -77,6 +78,7 @@ class User extends \FOS\UserBundle\Model\User
      * @var \LivreBundle\Entity\Piece
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Piece", mappedBy="user")
+     * @ORM\OrderBy({"nom" = "ASC"})
      */
     private $pieces;
 
@@ -85,6 +87,7 @@ class User extends \FOS\UserBundle\Model\User
      * @var \LivreBundle\Entity\Meuble
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Meuble", mappedBy="user")
+     * @ORM\OrderBy({"nom" = "ASC"})
      */
     private $meubles;
 
@@ -93,6 +96,7 @@ class User extends \FOS\UserBundle\Model\User
      * @var \LivreBundle\Entity\Etagere
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Etagere", mappedBy="user")
+     * @ORM\OrderBy({"nom" = "ASC"})
      */
     private $etageres;
 

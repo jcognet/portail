@@ -12,10 +12,16 @@ livre_lieu_form_ajax:
     defaults: { _controller: LivreBundle:Lieu:getFormAjax }
     options:
       expose: true
+# Form de mise à jour d'un lieu
+livre_lieu_form_update_ajax:
+    path:     /form/get/update/{typeLieu}/{id}
+    defaults: { _controller: LivreBundle:Lieu:getFormUpdateAjax }
+    options:
+      expose: true
 # Form d'ajout d'un nouveau lieu
 livre_lieu_enregistre_ajax:
-    path:     /form/enregistre/{typeLieu}
-    defaults: { _controller: LivreBundle:Lieu:enregistreAjax }
+    path:     /form/enregistre/{typeLieu}/{id}
+    defaults: { _controller: LivreBundle:Lieu:enregistreAjax, id: null }
     options:
       expose: true
 # Form d'ajout d'un nouveau lieu

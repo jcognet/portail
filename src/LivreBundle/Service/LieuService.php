@@ -2,6 +2,7 @@
 
 namespace LivreBundle\Service;
 
+use Doctrine\ORM\EntityManager;
 use LivreBundle\Form\LieuType;
 
 
@@ -11,6 +12,15 @@ use LivreBundle\Form\LieuType;
  */
 class LieuService
 {
+    /**
+     * @var EntityManager|null
+     */
+    protected $em = null;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
     /**
      * Constante de type de lieu maison
@@ -26,7 +36,6 @@ class LieuService
      * Constante de type de lieu meuble
      */
     const TYPE_LIEU_MEUBLE = 'meuble';
-
 
     /**
      * Constante de type de lieu etagere
@@ -54,8 +63,28 @@ class LieuService
      */
     public function getFormFromTypeLieu($typeLieu)
     {
-        $typeLieuPropre = ucfirst(strtolower($typeLieu));
-        return LieuType::getCurrentNamespace() . "\\" . $typeLieuPropre . "Type";
+        return LieuType::getCurrentNamespace() . "\\" . $this->nettoieTypeLieu($typeLieu) . "Type";
+    }
+
+    /**
+     * Retourne une entité à partir de son type et de son id
+     * @param $typeLieu
+     * @param $id
+     * @return null|object
+     */
+    public function getEntityFromTypeLieu($typeLieu, $id)
+    {
+        return $this->em->getRepository('LivreBundle:' . $this->nettoieTypeLieu($typeLieu))->find($id);
+    }
+
+    /**
+     * nettoie le type de lieu
+     * @param $typeLieu
+     * @return string
+     */
+    protected function nettoieTypeLieu($typeLieu)
+    {
+        return ucfirst(strtolower($typeLieu));
     }
 }
 

@@ -12,3 +12,4 @@ services:
     # Service gérant les lieux
     livre.lieu:
         class: LivreBundle\Service\LieuService
+        arguments: ["@doctrine.orm.entity_manager"]

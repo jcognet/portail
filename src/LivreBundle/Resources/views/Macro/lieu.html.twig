@@ -2,9 +2,9 @@
     {% import 'LivreBundle:Macro:lieu.html.twig'  as lieu_macro %}
     <li data-type="maison" data-id="{{ maison.id }}">
         <span class="avec_border"><i class="glyphicon glyphicon-home"></i> {{ maison.nom }}</span>
-        <a href="" class="lieu_update"><span class="" title="Modifier cette maison"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a href=""><span class="" title="Ajouter une pièce"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="" class="lieu_supprime"><span class="" title="Supprimer cette maison"><span class="glyphicon glyphicon-trash"></span></a>
+        <a href="" class="lieu_update"><span title="Modifier cette maison" class="glyphicon glyphicon-pencil"></span></a>
+        <a href="" class="lieu_ajout_fils"><span title="Ajouter une pièce" class="glyphicon glyphicon-plus"></span></a>
+        <a href="" class="lieu_supprime"><span title="Supprimer cette maison" class="glyphicon glyphicon-trash"></span></a>
     {% if maison.pieces |length>0 %}
         <ul>
             {% for piece in maison.pieces %}
@@ -17,11 +17,11 @@
 
 {% macro affiche_piece(piece, avec_parent) %}
     {% import 'LivreBundle:Macro:lieu.html.twig'  as lieu_macro %}
-    <li {% if avec_parent %}class="avec_parent"{% endif %} class="lieu_update" data-type="piece" data-id="{{ piece.id }}">
+    <li {% if avec_parent %}class="avec_parent"{% endif %}  data-type="piece" data-id="{{ piece.id }}">
         <span class="avec_border"><i class="glyphicon glyphicon-piggy-bank"></i> {{ piece.nom }}</span>
-        <a href=""  class="lieu_update"><span class="" title="Modifier cette pièce"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a href=""><span class="" title="Ajouter un meuble"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="" class="lieu_supprime"><span class="" title="Supprimer cette pièce"><span class="glyphicon glyphicon-trash"></span></a>
+        <a href="" class="lieu_update"><span  title="Modifier cette pièce" class="glyphicon glyphicon-pencil"></span></a>
+        <a href="" class="lieu_ajout_fils"><span title="Ajouter un meuble" class="glyphicon glyphicon-plus"></span></a>
+        <a href="" class="lieu_supprime"><span title="Supprimer cette pièce" class="glyphicon glyphicon-trash"></span></a>
         {% if piece.meubles|length>0 %}
             <ul>
                 {% for meuble in piece.meubles %}
@@ -36,9 +36,9 @@
     {% import 'LivreBundle:Macro:lieu.html.twig'  as lieu_macro %}
     <li {% if avec_parent %}class="avec_parent"{% endif %} data-type="meuble" data-id="{{ meuble.id }}">
         <span class="avec_border"><i class="glyphicon glyphicon-th-list"></i> {{ meuble.nom }}</span>
-        <a href="" class="lieu_update"><span class="" title="Modifier ce meuble"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a href=""><span class="" title="Ajouter une étagère"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="" class="lieu_supprime"><span class="" title="Supprimer ce meuble"><span class="glyphicon glyphicon-trash"></span></a>
+        <a href="" class="lieu_update"><span  title="Modifier ce meuble" class="glyphicon glyphicon-pencil"></span></a>
+        <a href="" class="lieu_ajout_fils"><span title="Ajouter une étagère" class="glyphicon glyphicon-plus"></span></a>
+        <a href="" class="lieu_supprime"><span title="Supprimer ce meuble" class="glyphicon glyphicon-trash"></span></a>
         {% if meuble.etageres|length>0 %}
             <ul>
                 {% for etagere in meuble.etageres %}
@@ -53,7 +53,7 @@
 {% macro affiche_etagere(etagere, avec_parent) %}
     <li {% if avec_parent %}class="avec_parent"{% endif %} data-type="etagere" data-id="{{ etagere.id }}">
         <span class="avec_border"><i class="glyphicon glyphicon-book"></i> {{ etagere.nom }}</span>
-        <a href="" class="lieu_update"><span class="" title="Modifier cette étagère"><span class="glyphicon glyphicon-pencil"></span></a>
-        <a href="" class="lieu_supprime"><span class="" title="Supprimer cette étagère"><span class="glyphicon glyphicon-trash"></span></a
+        <a href="" class="lieu_update"><span  title="Modifier cette étagère" class="glyphicon glyphicon-pencil"></span></a>
+        <a href="" class="lieu_supprime"><span  title="Supprimer cette étagère" class="glyphicon glyphicon-trash"></span></a
     </li>
 {% endmacro %}

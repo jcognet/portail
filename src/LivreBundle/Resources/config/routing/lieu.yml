@@ -24,6 +24,7 @@ livre_lieu_enregistre_ajax:
     defaults: { _controller: LivreBundle:Lieu:enregistreAjax, id: null }
     options:
       expose: true
+# Supprimer un lieu
 livre_lieu_form_supprime_ajax:
   path:     /form/delete/{typeLieu}/{id}
   defaults: { _controller: LivreBundle:Lieu:supprimeAjax}
@@ -33,5 +34,11 @@ livre_lieu_form_supprime_ajax:
 livre_lieu_affiche_arbre_lieu_ajax:
     path:     /form/affiche/arbre
     defaults: { _controller: LivreBundle:Lieu:afficheArbreLieuAjax }
+    options:
+      expose: true
+# Form d'ajout d'un nouveau lieu
+livre_lieu_ajoute_fils_ajax:
+    path:     /form/ajoute_fils/{typeLieu}/{id}
+    defaults: { _controller: LivreBundle:Lieu:ajouteFilsAjax }
     options:
       expose: true

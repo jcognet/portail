@@ -84,7 +84,31 @@ class LieuService
      */
     protected function nettoieTypeLieu($typeLieu)
     {
-        return ucfirst(strtolower($typeLieu));
+        return ucfirst(strtolower(trim($typeLieu)));
+    }
+
+    /**
+     * Retourne le type de lieu enfant d'un type de lieu
+     * @param $typeLieu
+     * @return string
+     * @throws \Exception
+     */
+    public function getTypeLieuForFils($typeLieu){
+        $typeLieuEnfant ='';
+        switch (strtolower(trim($typeLieu))){
+            case self::TYPE_LIEU_MAISON:
+                $typeLieuEnfant =self::TYPE_LIEU_PIECE;
+                break;
+            case self::TYPE_LIEU_PIECE:
+                $typeLieuEnfant =self::TYPE_LIEU_MEUBLE;
+                break;
+            case self::TYPE_LIEU_MEUBLE:
+                $typeLieuEnfant =self::TYPE_LIEU_ETAGERE;
+                break;
+            default:
+                throw new \Exception("Le type de lieu ".$typeLieu." ne peut pas avoir d'enfants.");
+        }
+        return $typeLieuEnfant;
     }
 }
 

@@ -14,6 +14,7 @@ var ROUTE_LIEU_ENREGISTRE = 'livre_lieu_enregistre_ajax'; // Route Symfony géra
 var ROUTE_MAJ_ARBRE = 'livre_lieu_affiche_arbre_lieu_ajax';
 var ROUTE_FORM_ENREGISTRE = 'livre_lieu_form_update_ajax';
 var ROUTE_FORM_SUPPRIMER = 'livre_lieu_form_supprime_ajax';
+var ROUTE_AJOUTE_FILS = 'livre_lieu_ajoute_fils_ajax';
 
 var BTN_CHOIX_LIEU = null;
 var MODAL_AJOUTER_LIEU = null;
@@ -196,6 +197,13 @@ function addEventArbre() {
             supprimeLieu(typeLieu, lieuId);
         e.preventDefault();
     });
+    // Ajout d'un fils
+    $('.lieu_ajout_fils').on('click', function (e) {
+        var typeLieu = $(this).closest('li').attr('data-type');
+        var lieuId = $(this).closest('li').attr('data-id');
+        ajouteFilsLieu(typeLieu, lieuId);
+        e.preventDefault();
+    });
 }
 // Met à jour un lieu
 function updateLieu(typeLieu, lieuId) {
@@ -235,6 +243,28 @@ function supprimeLieu(typeLieu, lieuId){
 
         error: function (resultat, statut, erreur) {
             updateArbreLieu();
+        }
+    });
+}
+// ajoute fils à un lieu
+function ajouteFilsLieu(typeLieu, lieuId){
+    setAjaxWorking(DIV_MES_LIEUX_ID);
+    var url = Routing.generate(ROUTE_AJOUTE_FILS, {'id': lieuId, 'typeLieu': typeLieu});
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (retour, statut) {
+            HID_TYPE_LIEU.val(retour.typeLieuFils)
+            MODAL_AJOUTER_LIEU.find('.modal-body').html(retour.html);
+            MODAL_AJOUTER_LIEU.modal('show');
+            unsetAjaxWorking(DIV_MES_LIEUX_ID);
+        },
+
+        error: function (resultat, statut, erreur) {
+            unsetAjaxWorking(DIV_MES_LIEUX_ID);
         }
     });
 }

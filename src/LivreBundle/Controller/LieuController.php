@@ -22,8 +22,6 @@ class LieuController extends Controller
     public function listeAction(Request $request)
     {
         $this->securite();
-        //TODO : protéger
-        //TODO : ajouter un fils à un lieu
         $formTypeLieu = $this->createForm(LieuType::class);
         // Affichage
         return $this->render('LivreBundle:Lieu:liste.html.twig', array(
@@ -67,7 +65,6 @@ class LieuController extends Controller
      */
     public function getFormUpdateAjaxAction(Request $request, $typeLieu, $id = null)
     {
-        // Ce type de formulaire est dynamique
         $formNouveauLieu = null;
         $typeLieu        = ucfirst($typeLieu);
         $lieu            = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
@@ -135,7 +132,7 @@ class LieuController extends Controller
     {
         $lieu = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
         $this->securite($lieu);
-        $em   = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $em->remove($lieu);
         $em->flush();
         $code = 200;
@@ -170,9 +167,44 @@ class LieuController extends Controller
         }
         // Vérifie si l'utilisateur possède bien le lieu en paramètre
         $user = $this->getUser();
-        if(false === is_null($lieu) && $lieu->getUser()->getId() !== $user->getId()){
+        if (false === is_null($lieu) && $lieu->getUser()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }
         return true;
+    }
+
+
+    /**
+     *  Ajoute un fils à un type de lieu avec un id donné
+     * @param Request $request
+     * @param $typeLieu
+     * @param $id
+     * @return JsonResponse
+     */
+    public function ajouteFilsAjaxAction(Request $request, $typeLieu, $id)
+    {
+        // Initilisation
+        $formNouveauLieu = null;
+        $typeLieu        = ucfirst($typeLieu);
+        $lieu            = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
+        $typeLieuFils    = $this->get('livre.lieu')->getTypeLieuForFils($typeLieu);
+        // Sécurite
+        $this->securite($lieu);
+        // Gestion du formulaore
+        $formNouveauLieu = $this->createForm(
+            $this->get('livre.lieu')->getFormFromTypeLieu($typeLieuFils)
+        );
+        $formNouveauLieu->get(strtolower($typeLieu))->setData($lieu);
+        // Html
+        $html = $this->renderView('LivreBundle:Block:form_lieu_' . strtolower($typeLieuFils) . '.html.twig', array(
+            'form_nouveau_lieu' => $formNouveauLieu->createView()
+        ));
+        // Retourne
+        return new JsonResponse(array(
+                'html'         => $html,
+                'typeLieuFils' => $typeLieuFils
+            )
+        );
+
     }
 }

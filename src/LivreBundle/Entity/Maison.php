@@ -40,7 +40,7 @@ class Maison
     /**
      * @var \LivreBundle\Entity\Piece
      *
-     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Piece", mappedBy="maison")
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Piece", mappedBy="maison", cascade={"remove"})
      */
     private $pieces;
 

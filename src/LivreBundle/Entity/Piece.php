@@ -48,7 +48,7 @@ class Piece
     /**
      * @var \LivreBundle\Entity\Meuble
      *
-     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Meuble", mappedBy="piece")
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Meuble", mappedBy="piece", cascade={"remove"})
      */
     private $meubles;
 

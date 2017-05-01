@@ -98,7 +98,7 @@ class LieuController extends Controller
         $html = '';
         $lieu = null;
         // Récupération en base si existant
-        if (false === is_null($id) && strlen($id)>0 && intval($id)>0)
+        if (false === is_null($id) && strlen($id) > 0 && intval($id) > 0)
             $lieu = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
         // Gestion du formulaire
         $formNouveauLieu = $this->createForm(
@@ -108,10 +108,8 @@ class LieuController extends Controller
         // Si aucun lieu, on récupère la data
         if (true === is_null($lieu))
             $lieu = $formNouveauLieu->getData();
-        dump($lieu);
         if ($formNouveauLieu->isValid()) {
             // Ajout de l'utilisateur
-            $lieu = $formNouveauLieu->getData();
             $em   = $this->getDoctrine()->getManager();
             $lieu->setUser($this->getUser());
             $em->persist($lieu);
@@ -127,6 +125,26 @@ class LieuController extends Controller
         return new JsonResponse(array(
             'code' => $code,
             'html' => $html
+        ));
+    }
+
+    /**
+     * Supprimer un lieu
+     * @param Request $request
+     * @param $typeLieu
+     * @return JsonResponse
+     */
+    public function supprimeAjaxAction(Request $request, $typeLieu, $id)
+    {
+        //TODO : protéger
+        $lieu = $this->get('livre.lieu')->getEntityFromTypeLieu($typeLieu, $id);
+        $em   = $this->getDoctrine()->getManager();
+        $em->remove($lieu);
+        $em->flush();
+        $code = 200;
+
+        return new JsonResponse(array(
+            'code' => 200,
         ));
     }
 

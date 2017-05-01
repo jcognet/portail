@@ -1,4 +1,5 @@
 // Quelques constantes
+var BTN_CHOIX_LIEU_ID = 'livrebundle_lieu_btnChoix'; // ID du bouton du formulaire de rajout d'un lieu
 var AJOUTER_LIEU_ID = 'div_ajouter_lieu';
 var MODAL_AJOUTER_LIEU_ID = 'modalAjouterLieu';
 var DDL_TYPE_LIEU_ID = 'livrebundle_lieu_typeLieu';
@@ -12,8 +13,9 @@ var ROUTE_LIEU_AJOUT = 'livre_lieu_form_ajax'; // Route Symfony gérant l'ajout
 var ROUTE_LIEU_ENREGISTRE = 'livre_lieu_enregistre_ajax'; // Route Symfony gérant l'ajout
 var ROUTE_MAJ_ARBRE = 'livre_lieu_affiche_arbre_lieu_ajax';
 var ROUTE_FORM_ENREGISTRE = 'livre_lieu_form_update_ajax';
+var ROUTE_FORM_SUPPRIMER = 'livre_lieu_form_supprime_ajax';
 
-
+var BTN_CHOIX_LIEU = null;
 var MODAL_AJOUTER_LIEU = null;
 var FORM_AJOUTER_LIEU = null;
 var AJOUTER_LIEU = null;
@@ -29,6 +31,7 @@ var dureeAttenteChargement = 500;
 var chargementTimeout = null;
 $(document).ready(function () {
     // Mise en place des constantes
+    BTN_CHOIX_LIEU = $('#' + BTN_CHOIX_LIEU_ID);
     MODAL_AJOUTER_LIEU = $('#' + MODAL_AJOUTER_LIEU_ID);
     AJOUTER_LIEU = $('#' + AJOUTER_LIEU_ID);
     FORM_AJOUTER_LIEU = AJOUTER_LIEU.find('form');
@@ -43,7 +46,13 @@ $(document).ready(function () {
     // Evenements
     DDL_TYPE_LIEU.on('change', function () {
         HID_TYPE_LIEU.val(DDL_TYPE_LIEU.val());
-        gereFormulaireLieu();
+        if(HID_TYPE_LIEU.val().length>0)
+            gereFormulaireLieu();
+    });
+    BTN_CHOIX_LIEU.on('click', function(){
+        HID_TYPE_LIEU.val(DDL_TYPE_LIEU.val());
+        if(HID_TYPE_LIEU.val().length>0)
+            gereFormulaireLieu();
     });
     BTN_ENREGISTRER_LIEU.on('click', function () {
         enregistreFormulaireLieu();
@@ -172,10 +181,19 @@ function updateArbreLieu() {
 }
 // Gère les évènements de l'ardre
 function addEventArbre() {
+    // Mise à jour d'un lieu
     $('.lieu_update').on('click', function (e) {
-        var typeLieu = $(this).attr('data-type');
-        var lieuId = $(this).attr('data-id');
+        var typeLieu = $(this).closest('li').attr('data-type');
+        var lieuId = $(this).closest('li').attr('data-id');
         updateLieu(typeLieu, lieuId);
+        e.preventDefault();
+    });
+    // Suppression d'un lieu
+    $('.lieu_supprime').on('click', function (e) {
+        var typeLieu = $(this).closest('li').attr('data-type');
+        var lieuId = $(this).closest('li').attr('data-id');
+        if(confirm("Souhaitez-vous supprimer cet élément et ses enfants ? "))
+            supprimeLieu(typeLieu, lieuId);
         e.preventDefault();
     });
 }
@@ -194,6 +212,24 @@ function updateLieu(typeLieu, lieuId) {
         success: function (retour, statut) {
             MODAL_AJOUTER_LIEU.find('.modal-body').html(retour);
             MODAL_AJOUTER_LIEU.modal('show');
+            updateArbreLieu();
+        },
+
+        error: function (resultat, statut, erreur) {
+            updateArbreLieu();
+        }
+    });
+}
+// Supprime un lieu
+function supprimeLieu(typeLieu, lieuId){
+    var url = Routing.generate(ROUTE_FORM_SUPPRIMER, {'id': lieuId, 'typeLieu': typeLieu});
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: false,
+        cache: false,
+        processData: false,
+        success: function (retour, statut) {
             updateArbreLieu();
         },
 

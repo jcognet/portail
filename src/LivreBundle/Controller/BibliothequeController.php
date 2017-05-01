@@ -164,8 +164,8 @@ class BibliothequeController extends Controller
     }
 
     /**
-     * Gère la sécurité de la page
-     * @param Livre $livre
+     *  Gère la sécurité du controller
+     * @param Livre|null $livre
      * @return bool
      */
     protected function securite(Livre $livre = null){

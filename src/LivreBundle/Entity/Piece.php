@@ -3,6 +3,7 @@
 namespace LivreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use LivreBundle\Interfaces\LieuInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="piece")
  * @ORM\Entity(repositoryClass="LivreBundle\Repository\PieceRepository")
  */
-class Piece
+class Piece implements LieuInterface
 {
     /**
      * @var int

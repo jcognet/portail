@@ -17,3 +17,9 @@ services:
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
+      # form des isbn
+  livre.form.recherche_isbn:
+    class: LivreBundle\Form\RechercheISBNLivreType
+    arguments: ["@security.token_storage"]
+    tags:
+      - { name: form.type }

@@ -23,14 +23,19 @@
                         <div id="form_ajout_erreur" class="alert-danger"></div>
                     </div>
                 </div>
-                <div class="col-sm-2">
-                    {{ form_label(form_ajout.isbn) }} :
-                </div>
-                <div class="col-sm-4">
-                    {{ form_widget(form_ajout.isbn) }}
-                </div>
-                <div class="col-sm-3">
-                    {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
+                <div class="row">
+                    <div class="col-sm-2">
+                        {{ form_label(form_ajout.isbn) }} :
+                    </div>
+                    <div class="col-sm-4">
+                        {{ form_widget(form_ajout.isbn) }}
+                    </div>
+                    <div class="col-sm-2">
+                        {{ form_widget(form_ajout.lieu) }}
+                    </div>
+                    <div class="col-sm-3">
+                        {{ form_row(form_ajout.btnAjouterLivre, {'attr': {'class':'btn btn-primary pull-right'}}) }}
+                    </div>
                 </div>
 
                 {{ form_rest(form_ajout) }}
@@ -39,7 +44,7 @@
         </div>
         <div id="liste_livre">
             <h2>Liste des derniers livres</h2>
-            {{ bibliotheque_macro.affiche_form_liste_entete()}}
+            {{ bibliotheque_macro.affiche_form_liste_entete() }}
             <div id="liste_livre_ajout"></div>
             {% for form_livre in form_bibliotheque %}
                 {{ bibliotheque_macro.affiche_form_liste_livre(form_livre) }}
@@ -52,7 +57,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                            aria-hidden="true">&times;</span></button>
                     <h2 class="modal-title" id="modalDetailLabel">ciao pantine</h2>
                 </div>
                 <div class="modal-body">

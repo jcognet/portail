@@ -55,7 +55,6 @@ class User extends \FOS\UserBundle\Model\User
     private $jourProchaineAlerte = null;
 
 
-
     /**
      * @var Livre[]
      *
@@ -99,7 +98,6 @@ class User extends \FOS\UserBundle\Model\User
      * @ORM\OrderBy({"nom" = "ASC"})
      */
     private $etageres;
-
 
 
     /**
@@ -393,10 +391,11 @@ class User extends \FOS\UserBundle\Model\User
      * Returne si l'utilisateur possède au moins une pièce sans maison
      * @return bool
      */
-    public function hasPieceSansMaison(){
+    public function hasPieceSansMaison()
+    {
         $hasPieceSansMaison = false;
-        foreach($this->getPieces() as $piece){
-            if(is_null($piece->getMaison())){
+        foreach ($this->getPieces() as $piece) {
+            if (is_null($piece->getMaison())) {
                 $hasPieceSansMaison = true;
                 break;
             }
@@ -408,10 +407,11 @@ class User extends \FOS\UserBundle\Model\User
      * Returne si l'utilisateur possède au moins un meuble sans piece
      * @return bool
      */
-    public function hasMeubleSansPiece(){
+    public function hasMeubleSansPiece()
+    {
         $hasMeubleSansPiece = false;
-        foreach($this->getMeubles() as $meuble){
-            if(is_null($meuble->getPiece())){
+        foreach ($this->getMeubles() as $meuble) {
+            if (is_null($meuble->getPiece())) {
                 $hasMeubleSansPiece = true;
                 break;
             }
@@ -423,14 +423,37 @@ class User extends \FOS\UserBundle\Model\User
      *  Returne si l'utilisateur possède au moins une étagère sans meuble
      * @return bool
      */
-    public function hasEtagereSansMeuble(){
+    public function hasEtagereSansMeuble()
+    {
         $hasEtagereSansMeuble = false;
-        foreach($this->getEtageres() as $etagere){
-            if(is_null($etagere->getMeuble())){
+        foreach ($this->getEtageres() as $etagere) {
+            if (is_null($etagere->getMeuble())) {
                 $hasEtagereSansMeuble = true;
                 break;
             }
         }
         return $hasEtagereSansMeuble;
+    }
+
+    /**
+     * Retourne le référentiel lieu de la personne
+     * @return array
+     */
+    public function getReferentielLieu()
+    {
+        $referentiel = array();
+        foreach ($this->getMaisons() as $maison) {
+            $referentiel[] = $maison;
+            foreach ($maison->getPieces() as $piece) {
+                $referentiel[] = $piece;
+                foreach ($piece->getMeubles() as $meuble) {
+                    $referentiel[] = $meuble;
+                    foreach ($meuble->getEtageres() as $etagere) {
+                        $referentiel[] = $etagere;
+                    }
+                }
+            }
+        }
+        return $referentiel;
     }
 }

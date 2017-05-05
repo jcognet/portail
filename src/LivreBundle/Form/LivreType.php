@@ -7,6 +7,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormEvent;
 
 class LivreType extends AbstractType
 {
@@ -16,10 +18,15 @@ class LivreType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('prix')
-            ;
+            ->add('prix');
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event) {
+            $form  = $event->getForm();
+            $livre = $event->getData();
+            $form->add('lieu', AjoutLieuLivreType::class, array('livre' => $livre));
+        });
+
     }
-    
+
     /**
      * {@inheritdoc}
      */

@@ -3,7 +3,9 @@
 namespace LivreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
+use LivreBundle\Entity\Livre;
 use LivreBundle\Form\LieuType;
+use LivreBundle\Interfaces\LieuInterface;
 
 
 /**
@@ -93,22 +95,55 @@ class LieuService
      * @return string
      * @throws \Exception
      */
-    public function getTypeLieuForFils($typeLieu){
-        $typeLieuEnfant ='';
-        switch (strtolower(trim($typeLieu))){
+    public function getTypeLieuForFils($typeLieu)
+    {
+        $typeLieuEnfant = '';
+        switch (strtolower(trim($typeLieu))) {
             case self::TYPE_LIEU_MAISON:
-                $typeLieuEnfant =self::TYPE_LIEU_PIECE;
+                $typeLieuEnfant = self::TYPE_LIEU_PIECE;
                 break;
             case self::TYPE_LIEU_PIECE:
-                $typeLieuEnfant =self::TYPE_LIEU_MEUBLE;
+                $typeLieuEnfant = self::TYPE_LIEU_MEUBLE;
                 break;
             case self::TYPE_LIEU_MEUBLE:
-                $typeLieuEnfant =self::TYPE_LIEU_ETAGERE;
+                $typeLieuEnfant = self::TYPE_LIEU_ETAGERE;
                 break;
             default:
-                throw new \Exception("Le type de lieu ".$typeLieu." ne peut pas avoir d'enfants.");
+                throw new \Exception("Le type de lieu " . $typeLieu . " ne peut pas avoir d'enfants.");
         }
         return $typeLieuEnfant;
+    }
+
+    /**
+     * Ajoute un lieu à un livre
+     * @param LieuInterface|null $lieu
+     * @param Livre $livre
+     * @return LieuInterface
+     * @throws \Exception
+     */
+    public function setLieuToLivre(LieuInterface $lieu = null, Livre $livre)
+    {
+        // Remise à zero des liaisons
+        $livre->setMaison(null)
+            ->setPiece(null)
+            ->setMeuble(null)
+            ->setEtagere(null);
+        // Mise en place de la bonne liaison
+        if (false === is_null($lieu)) {
+            $class = strtolower((new \ReflectionClass($lieu))->getShortName());
+            switch ($class) {
+                case 'maison':
+                case 'piece':
+                case 'meuble':
+                case 'etagere':
+                    $setter = 'set'.ucfirst($class);
+                    $livre->$setter($lieu);
+                    break;
+                default:
+                    throw new \Exception('Type inconnu : ' . $class);
+            }
+        }
+        return $lieu;
     }
 }
 

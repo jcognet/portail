@@ -44,6 +44,36 @@ class Livre
 
 
     /**
+     * @var \LivreBundle\Entity\Maison
+     *
+     * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Maison", inversedBy="listeLivres")
+     */
+    private $maison;
+
+
+    /**
+     * @var \LivreBundle\Entity\Piece
+     *
+     * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Piece", inversedBy="listeLivres")
+     */
+    private $piece;
+
+    /**
+     * @var \LivreBundle\Entity\Meuble
+     *
+     * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Meuble", inversedBy="listeLivres")
+     */
+    private $meuble;
+
+    /**
+     * @var \LivreBundle\Entity\Etagere
+     *
+     * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\Etagere", inversedBy="listeLivres")
+     */
+    private $etagere;
+
+
+    /**
      * @var \LivreBundle\Entity\BaseLivre
      *
      * @ORM\ManyToOne(targetEntity="LivreBundle\Entity\BaseLivre")
@@ -208,5 +238,121 @@ class Livre
     public function getBaseLivre()
     {
         return $this->baseLivre;
+    }
+
+    /**
+     * Set maison
+     *
+     * @param \LivreBundle\Entity\Maison $maison
+     *
+     * @return Livre
+     */
+    public function setMaison(\LivreBundle\Entity\Maison $maison = null)
+    {
+        $this->maison = $maison;
+
+        return $this;
+    }
+
+    /**
+     * Get maison
+     *
+     * @return \LivreBundle\Entity\Maison
+     */
+    public function getMaison()
+    {
+        return $this->maison;
+    }
+
+    /**
+     * Set piece
+     *
+     * @param \LivreBundle\Entity\Piece $piece
+     *
+     * @return Livre
+     */
+    public function setPiece(\LivreBundle\Entity\Piece $piece = null)
+    {
+        $this->piece = $piece;
+
+        return $this;
+    }
+
+    /**
+     * Get piece
+     *
+     * @return \LivreBundle\Entity\Piece
+     */
+    public function getPiece()
+    {
+        return $this->piece;
+    }
+
+    /**
+     * Set meuble
+     *
+     * @param \LivreBundle\Entity\Meuble $meuble
+     *
+     * @return Livre
+     */
+    public function setMeuble(\LivreBundle\Entity\Meuble $meuble = null)
+    {
+        $this->meuble = $meuble;
+
+        return $this;
+    }
+
+    /**
+     * Get meuble
+     *
+     * @return \LivreBundle\Entity\Meuble
+     */
+    public function getMeuble()
+    {
+        return $this->meuble;
+    }
+
+    /**
+     * Set etagere
+     *
+     * @param \LivreBundle\Entity\Etagere $etagere
+     *
+     * @return Livre
+     */
+    public function setEtagere(\LivreBundle\Entity\Etagere $etagere = null)
+    {
+        $this->etagere = $etagere;
+
+        return $this;
+    }
+
+    /**
+     * Get etagere
+     *
+     * @return \LivreBundle\Entity\Etagere
+     */
+    public function getEtagere()
+    {
+        return $this->etagere;
+    }
+
+    /**
+     * @return LieuInteface
+     */
+    public function getLieu()
+    {
+        if (false === is_null($this->getEtagere())) {
+            return $this->getEtagere();
+        }
+        if (false === is_null($this->getPiece())) {
+            return $this->getPiece();
+        }
+        if (false === is_null($this->getMeuble())) {
+            return $this->getMeuble();
+        }
+        if (false === is_null($this->getMaison())) {
+            return $this->getMaison();
+        }
+        return null;
     }
 }

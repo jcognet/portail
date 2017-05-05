@@ -2,23 +2,19 @@
 
 namespace LivreBundle\Form;
 
+use Doctrine\ORM\Mapping\Entity;
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use UserBundle\Entity\User;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 class RechercheISBNLivreType extends AbstractType
 {
-    /**
-     * @var null|TokenStorageInterface
-     */
-    protected $tokenStorage = null;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
 
     /**
      * {@inheritdoc}
@@ -27,15 +23,9 @@ class RechercheISBNLivreType extends AbstractType
     {
         $builder->add('isbn', null, array(
             'attr' => array('maxlength' => 13),
-        ))->add(
-            'lieu', ChoiceType::class, array(
-                'mapped'   => false,
-                'expanded' => false,
-                'multiple' => false,
-                'label'    => 'lieu',
-                'choices'  => $this->tokenStorage->getToken()->getUser()->getReferentielLieu(),
-            )
-        );
+        ))->add('lieu', AjoutLieuLivreType::class, array(
+            'label' => false
+        ));
     }
 
 

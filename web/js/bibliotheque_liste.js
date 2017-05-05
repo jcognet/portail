@@ -161,6 +161,7 @@ function addEvent() {
         var livreId = rowParent.attr('data-livre-id');
         modifieLivre(livreId, rowParent);
     });
+
     // Suppression d'un livre
     $('#liste_livre .lnk_suppression_livre').off('click');
     $('#liste_livre .lnk_suppression_livre').on('click', function () {
@@ -173,6 +174,8 @@ function addEvent() {
         var livreId = rowParent.attr('data-livre-id');
         supprimeLivre(livreId, rowParent);
     });
+
+    gereLieuLivre();
 }
 // Affiche un livre en pop in
 function afficheLivre(baseLivreId) {
@@ -257,5 +260,29 @@ function supprimeLivre(livreId, divParent){
             unsetAjaxWorking(divParent.attr('id'));
             addEvent();
         }
+    });
+}
+// Gère le changement de lieu
+function gereLieuLivre(){
+    // Gestion des menu déroulants cachés
+    $('.ddl_lieu_main').off('change');
+    $('.ddl_lieu_main').on('change', function(e){
+        var lieuChoisi = $(this).find(":selected");
+        var lieuType =  lieuChoisi.attr('data-type');
+        var lieuId = lieuChoisi.attr('data-id');
+        var formLieu =$(this).closest('form');
+        // Protection
+        if(lieuType.length == 0 || lieuType.length == 0)
+            return;
+        // Remise a 0 de tous les menus déroulants
+        formLieu.find('.ddl_lieu_class').val('');
+        formLieu.find('select[data-type='+lieuType+']').val(lieuId);
+    });
+    // Gestion de l'envoi du formulaire
+    $('#liste_livre  select.ddl_lieu_main').off('change');
+    $('#liste_livre  select.ddl_lieu_main').on('change', function () {
+        var rowParent = $(this).closest('.row');
+        var livreId = rowParent.attr('data-livre-id');
+        modifieLivre(livreId, rowParent);
     });
 }

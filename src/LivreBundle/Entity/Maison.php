@@ -52,6 +52,13 @@ class Maison implements LieuInterface
      */
     private $user;
 
+    /**
+     * @var \LivreBundle\Entity\Livre
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Livre", mappedBy="maison")
+     */
+    private $listeLivres;
+
 
     /**
      * Get id
@@ -174,5 +181,39 @@ class Maison implements LieuInterface
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Add listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     *
+     * @return Maison
+     */
+    public function addListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres[] = $listeLivre;
+
+        return $this;
+    }
+
+    /**
+     * Remove listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     */
+    public function removeListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres->removeElement($listeLivre);
+    }
+
+    /**
+     * Get listeLivres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListeLivres()
+    {
+        return $this->listeLivres;
     }
 }

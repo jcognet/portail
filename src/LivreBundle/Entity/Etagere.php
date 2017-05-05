@@ -46,6 +46,13 @@ class Etagere implements LieuInterface
      */
     private $user;
 
+    /**
+     * @var \LivreBundle\Entity\Livre
+     *
+     * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Livre", mappedBy="etagere")
+     */
+    private $listeLivres;
+
 
     /**
      * Get id
@@ -127,5 +134,46 @@ class Etagere implements LieuInterface
     public function getNom()
     {
         return $this->nom;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->listeLivres = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     *
+     * @return Etagere
+     */
+    public function addListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres[] = $listeLivre;
+
+        return $this;
+    }
+
+    /**
+     * Remove listeLivre
+     *
+     * @param \LivreBundle\Entity\Livre $listeLivre
+     */
+    public function removeListeLivre(\LivreBundle\Entity\Livre $listeLivre)
+    {
+        $this->listeLivres->removeElement($listeLivre);
+    }
+
+    /**
+     * Get listeLivres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getListeLivres()
+    {
+        return $this->listeLivres;
     }
 }

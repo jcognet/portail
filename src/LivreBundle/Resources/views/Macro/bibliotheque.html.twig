@@ -8,10 +8,13 @@
         <div class="col-md-4 text-center lien_pop_in">
             {{ base_livre.titre }}
         </div>
-        <div class="col-md-4 text-center lien_pop_in">
+        <div class="col-md-2 text-center lien_pop_in">
             {{ livre.dateAjout|date('d/m/Y à H:i') }}
         </div>
         <div class="col-md-3 text-center">
+            {{ form_widget(form.lieu) }}
+        </div>
+        <div class="col-md-2 text-center">
             {{ form_widget(form.prix) }}
         </div>
         <div class="col-md-1">
@@ -30,10 +33,13 @@
         <div class="col-md-4 text-center">
             Titre
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-2 text-center">
             Date d'ajout
         </div>
         <div class="col-md-3 text-center">
+            Lieu
+        </div>
+        <div class="col-md-2 text-center">
             Prix (en euros)
         </div>
         <div class="col-md-1">

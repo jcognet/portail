@@ -18,6 +18,10 @@
             <h2>Ajout</h2>
             <div class="row">
                 {{ form_start(form_ajout) }}
+                {{ form_widget(form_ajout.lieu.maison) }}
+                {{ form_widget(form_ajout.lieu.piece) }}
+                {{ form_widget(form_ajout.lieu.meuble) }}
+                {{ form_widget(form_ajout.lieu.etagere) }}
                 <div class="row">
                     <div class="col-sm-9">
                         <div id="form_ajout_erreur" class="alert-danger"></div>

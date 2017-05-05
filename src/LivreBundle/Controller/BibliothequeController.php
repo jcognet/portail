@@ -21,7 +21,7 @@ class BibliothequeController extends Controller
      */
     public function listeAction(Request $request)
     {
-        //TODO : notion d'un lieu
+        //TODO : notion d'un lieu. Garder le lieu après le post d'un isbn pour l'ajout d'un livre
         $this->securite();
         // Formulaire pour modifier les dernières entrées de la bibliotheque
         //$formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());
@@ -58,6 +58,7 @@ class BibliothequeController extends Controller
 
         if ($formAjout->isSubmitted() && $formAjout->isValid()) {
             $isbn = $formAjout->get('isbn')->getData();
+            $lieu = $formAjout->get('lieu')->get('lieu')->getData();
             // On recherche si le livre est en base
             $baseLivre = $this->getDoctrine()->getRepository('LivreBundle:BaseLivre')->findOneByIsbn($isbn);
             // S'il n'existe pas, on appelle google
@@ -77,7 +78,7 @@ class BibliothequeController extends Controller
                         ->setPrix($baseLivre->getPrix())
                         ->setBaseLivre($baseLivre)
                         ->setProprietaire($this->getUser());
-
+                    $this->get('livre.lieu')->setLieuToLivre($lieu, $livre);
                     $em->persist($livre);
                     $em->flush();
                 } else {
@@ -133,6 +134,8 @@ class BibliothequeController extends Controller
         $formModifie = $this->createForm(LivreType::class, $livre);
         $formModifie->handleRequest($request);
         if ($formModifie->isSubmitted() && $formModifie->isValid()) {
+            $lieu = $formModifie->get('lieu')->get('lieu')->getData();
+            $this->get('livre.lieu')->setLieuToLivre($lieu, $livre);
             $em->persist($livre);
             $em->flush();
         } else {

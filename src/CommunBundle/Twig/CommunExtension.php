@@ -52,7 +52,7 @@ class CommunExtension extends \Twig_Extension
     public function modeDev()
     {
         return in_array(
-            $this->rs->getCurrentRequest()->getUri(),
+            $this->rs->getCurrentRequest()->getHost(),
             $this->urlDev
         );
     }

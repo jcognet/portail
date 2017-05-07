@@ -39,6 +39,8 @@ class AjoutLieuLivreType extends AbstractType
         $lieu  = null;
         if (false === is_null($livre)) {
             $lieu = $livre->getLieu();
+        }elseif (false === $options{'lieu'}) {
+            $lieu =  $options{'lieu'};
         }
         $builder->add(
                 'lieu', ChoiceType::class, array(
@@ -147,6 +149,7 @@ class AjoutLieuLivreType extends AbstractType
         $resolver->setDefaults(array(
             'mapped' => false,
             'livre'  => null,
+            'lieu'  => null,
         ));
     }
 

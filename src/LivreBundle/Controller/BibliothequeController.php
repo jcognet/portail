@@ -21,7 +21,6 @@ class BibliothequeController extends Controller
      */
     public function listeAction(Request $request)
     {
-        //TODO : notion d'un lieu. Garder le lieu après le post d'un isbn pour l'ajout d'un livre
         $this->securite();
         // Formulaire pour modifier les dernières entrées de la bibliotheque
         //$formBibliotheque = $this->createForm(ListeLivreType::class, $this->getUser());

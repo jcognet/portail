@@ -24,11 +24,14 @@
                 {{ form(form_recherche) }}
             </div>
         </div>
-        <h2>Liste des livres</h2>
-        <div id="liste_livre">
-          {% embed 'LivreBundle:Block:livre_liste.html.twig' %}
-            {% endembed %}
+        <div>
+            <h2>Liste des livres</h2>
+            <div id="liste_livre">
+                {% embed 'LivreBundle:Block:livre_liste.html.twig' %}
+                {% endembed %}
+            </div>
         </div>
+    </div>
     </div>
     <div class="col-sm-6">
         <div id="detail_livre">

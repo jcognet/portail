@@ -27,7 +27,6 @@ class LivreController extends Controller
      */
     public function listeAction(Request $request)
     {
-        // TODO : pop up détail livre image
         // Gestion des info evoyées
         $form = $this->createFormRecherche();
         // Dernier livres trouvés
@@ -45,13 +44,6 @@ class LivreController extends Controller
         ));
     }
 
-
-    public function editAction()
-    {
-        //TODO : à développer
-        return $this->render('LivreBundle:Livre:edit.html.twig', array(// ...
-        ));
-    }
 
     /**
      * Affiche le détail d'un livre

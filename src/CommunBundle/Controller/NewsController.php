@@ -6,6 +6,7 @@ use CommunBundle\Entity\News;
 use CommunBundle\Form\NewsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,6 +46,7 @@ class NewsController extends Controller
      */
     public function listeAction(Request $request)
     {
+        $form = $this->createFormRecherche();
         // Dernières news affichées
         $paginator          = $this->get('knp_paginator');
         $listeNewsPaginator = $paginator->paginate(
@@ -55,7 +57,8 @@ class NewsController extends Controller
             $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
         );
         return $this->render('CommunBundle:News:liste.html.twig', array(
-            'liste_news_paginator' => $listeNewsPaginator
+            'liste_news_paginator' => $listeNewsPaginator,
+            'form_recherche' => $form->createView()
         ));
     }
 
@@ -133,11 +136,19 @@ class NewsController extends Controller
      */
     public function rechercheAjaxAction(Request $request)
     {
+        $form = $this->createFormRecherche();
+        $form->handleRequest($request);
+
+        $texte = "";
+        if ($form->isSubmitted() && $form->isValid()) {
+            $texte = $form->get('label')->getData();
+        }
 
         $paginator          = $this->get('knp_paginator');
         $listeNewsPaginator = $paginator->paginate(
-            $this->getDoctrine()->getRepository('CommunBundle:News')->getQueryListe(
-                $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')
+            $this->getDoctrine()->getRepository('CommunBundle:News')->getQueryListeRecherche(
+                $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'),
+                $texte
             ),
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', self::MAX_ELEMENT_PAGINATION)
@@ -145,5 +156,28 @@ class NewsController extends Controller
         return $this->render('CommunBundle:Block:news_liste.html.twig', array(
             'liste_news_paginator' => $listeNewsPaginator
         ));
+    }
+
+    /**
+     *  Crée le formulaire de recherche
+     * @return mixed
+     */
+    protected function createFormRecherche()
+    {
+        $formBuilder = $this->createFormBuilder()
+            ->add('label', TextType::class, array(
+                'required' => false,
+                'label'    => 'Texte',
+
+            ))
+            ->add('chercher', SubmitType::class, array(
+                'label' => 'Chercher',
+                'attr'=>array(
+                    'class'=> 'btn btn-primary'
+                )
+
+            ));
+
+        return $formBuilder->getForm();
     }
 }

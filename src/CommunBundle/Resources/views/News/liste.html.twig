@@ -17,12 +17,25 @@
     {% endblock %}
 {% block body %}
     <div class="col-sm-6" id="liste_news_bloc">
-        <h2>Liste des actualités</h2>
-        <div id="liste_news">
-            {% embed 'CommunBundle:Block:news_liste.html.twig' %}
-            {% endembed %}
+        <div id="recherche_news_bloc">
+            <h2 id="recherche_news_titre">
+                Recherche de news
+                <small>
+                    <span id="recherche_livre_ouvrir" class="glyphicon glyphicon-resize-full"></span>
+                    <span id="recherche_livre_fermer" class="glyphicon glyphicon-resize-small"></span>
+                </small>
+            </h2>
+            <div id="recherche_news">
+                {{ form(form_recherche) }}
+            </div>
         </div>
-
+        <div>
+            <h2>Liste des actualités</h2>
+            <div id="liste_news">
+                {% embed 'CommunBundle:Block:news_liste.html.twig' %}
+                {% endembed %}
+            </div>
+        </div>
     </div>
     <div class="col-sm-6">
         <div id="detail_news">

@@ -96,10 +96,34 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
     public function getQueryListe($inTouteActu = false)
     {
         $builder = $this->createQueryBuilder('n');
+        // Gestion des admins
         if (false === $inTouteActu)
             $builder->andWhere('n.dateMiseEnLigne<= :now')
                 ->setParameter('now', new \DateTime());
 
+        $builder->addOrderBy('n.dateMiseEnLigne', 'DESC')
+            ->getQuery();
+        return $builder;
+    }
+
+    /**
+     * Liste toutes les news
+     * @param $inTouteActu bool Si true affiche toutes les news
+     * @param $texte string texte de recherche
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getQueryListeRecherche($inTouteActu = false, $texte)
+    {
+        $builder = $this->createQueryBuilder('n');
+        // Gestion des admins
+        if (false === $inTouteActu)
+            $builder->andWhere('n.dateMiseEnLigne<= :now')
+                ->setParameter('now', new \DateTime());
+        // Recherche sur le titre ou corps
+        if(strlen($texte)>0){
+            $builder->andWhere('n.titre like :texte OR n.corps like :texte')
+                ->setParameter('texte', '%'.$texte.'%');
+        }
         $builder->addOrderBy('n.dateMiseEnLigne', 'DESC')
             ->getQuery();
         return $builder;

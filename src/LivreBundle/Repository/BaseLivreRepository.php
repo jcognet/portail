@@ -25,7 +25,7 @@ class BaseLivreRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Retourne un livre à partir de son isbn
-     * @param $isbn
+     * @param $isbn string
      * @return BaseLivre |null
      */
     public function findOneByIsbn($isbn)
@@ -39,7 +39,7 @@ class BaseLivreRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Eecherche un livre sur son label
-     * @param $texte
+     * @param $texte string
      * @return \Doctrine\ORM\Query
      */
     public function getQueryLivreLivreRecherche($texte)

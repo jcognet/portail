@@ -8,3 +8,12 @@ var route_detail = 'commun_news_detail_ajax';
 var route_recherche = 'commun_news_recherche_ajax';
 // Formulaire de recherche
 var formRecherche = null;
+$(document).ready(function () {
+    formRecherche = $("#recherche_news form");
+
+    // Lance la recherche
+    formRecherche.on('submit', function (e) {
+        rechercheObjet(this);
+        e.preventDefault();
+    });
+});

@@ -23,7 +23,7 @@ $(document).ready(function () {
         gereAffichageZoneRechercheLivre(!zoneRechechercheVisible());
     });
     // Lance la recherche
-    $('#recherche_livre form').on('submit', function (e) {
+    formRecherche.on('submit', function (e) {
         rechercheObjet(this);
         e.preventDefault();
     });

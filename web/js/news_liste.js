@@ -10,10 +10,32 @@ var route_recherche = 'commun_news_recherche_ajax';
 var formRecherche = null;
 $(document).ready(function () {
     formRecherche = $("#recherche_news form");
-
+    // Gestion de la zone de recherche
+    gereAffichageZoneRecherche(zone_recherche_visible);
+    // Action sur la zone d'ouverture de la recherche
+    $('#recherche_news_titre').on('click', function (e) {
+        gereAffichageZoneRecherche(!zoneRechechercheVisible());
+    });
     // Lance la recherche
     formRecherche.on('submit', function (e) {
         rechercheObjet(this);
         e.preventDefault();
     });
 });
+
+// Gère la zone d'affichage de la recherche
+function gereAffichageZoneRecherche(inOuvre) {
+    if (inOuvre) {
+        $("#recherche_news").slideDown();
+        $('#recherche_news_ouvrir').hide();
+        $('#recherche_news_fermer').slideDown();
+    } else {
+        $("#recherche_news").slideUp();
+        $('#recherche_news_ouvrir').slideDown();
+        $('#recherche_news_fermer').hide();
+    }
+}
+// Retourne true si la zone de recherche est visible
+function zoneRechechercheVisible() {
+    return $("#recherche_news").is(':visible');
+}

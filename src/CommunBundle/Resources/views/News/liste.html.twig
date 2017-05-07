@@ -1,6 +1,9 @@
 {% import "macro/general.html.twig" as generalMacro %}
 {% extends '@Commun/base.html.twig' %}
 {% block javascripts %}
+    <script>
+        var zone_recherche_visible = false;
+    </script>
     <script src="{{ asset('js/liste.js') }}"></script>
     <script src="{{ asset('js/news_liste.js') }}"></script>
 {% endblock %}
@@ -21,12 +24,19 @@
             <h2 id="recherche_news_titre">
                 Recherche de news
                 <small>
-                    <span id="recherche_livre_ouvrir" class="glyphicon glyphicon-resize-full"></span>
-                    <span id="recherche_livre_fermer" class="glyphicon glyphicon-resize-small"></span>
+                    <span id="recherche_news_ouvrir" class="glyphicon glyphicon-resize-full"></span>
+                    <span id="recherche_news_fermer" class="glyphicon glyphicon-resize-small"></span>
                 </small>
             </h2>
             <div id="recherche_news">
-                {{ form(form_recherche) }}
+                {{ form_start(form_recherche) }}
+                <div class="col-sm-10">
+                    {{ form_widget(form_recherche.label) }}
+                </div>
+                <div class="col-sm-2">
+                    {{ form_widget(form_recherche.chercher) }}
+                </div>
+                {{ form_end(form_recherche) }}
             </div>
         </div>
         <div>

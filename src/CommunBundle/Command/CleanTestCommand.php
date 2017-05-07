@@ -23,8 +23,7 @@ class CleanTestCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($this->getContainer()->getParameter('kernel.environment') != 'test') {
-            $output->writeln('Cette commande doit être seulement exécutée en environnement de test');
-            die();
+            throw new \RuntimeException('Cette commande doit être seulement exécutée en environnement de test');
         }
         try {
             // Suppression de la base de données
@@ -34,7 +33,7 @@ class CleanTestCommand extends ContainerAwareCommand
                 '--env'   => 'test'
             );
             $inputDrop      = new ArrayInput($argumentsDrop);
-            $returnCodeDrop = $commandDrop->run($inputDrop, $output);
+            $commandDrop->run($inputDrop, $output);
         } catch (\Exception $e) {
 
         }
@@ -44,7 +43,7 @@ class CleanTestCommand extends ContainerAwareCommand
             '--env' => 'test',
         );
         $inputCreate      = new ArrayInput($argumentsCreate);
-        $returnCodeCreate = $commandCreate->run($inputCreate, $output);
+        $commandCreate->run($inputCreate, $output);
         // Lecture du dump de test
         $dbUser     = $this->getContainer()->getParameter('database_user');
         $dbHost     = $this->getContainer()->getParameter('database_host');
@@ -55,7 +54,6 @@ class CleanTestCommand extends ContainerAwareCommand
             $command .= "-p" . $dbPassword . " ";
         }
         $command .= $dbName . " < test/SQL/data.sql";
-        //echo $command;
         // Exécution
         $outputCommand = array();
         $outputCode    = array();
@@ -92,10 +90,11 @@ class CleanTestCommand extends ContainerAwareCommand
                 'isbn'  => $isbn
             );
             $inputLivre     = new ArrayInput($argumentsLivre);
-            $returnLivre    = $commandLivre->run($inputLivre, $output);
+            $commandLivre->run($inputLivre, $output);
         }
         $output->writeln('Fini !');
     }
 
 
 }
+

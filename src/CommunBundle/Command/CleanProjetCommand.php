@@ -32,7 +32,7 @@ class CleanProjetCommand extends ContainerAwareCommand
                 '--force' => true,
             );
             $inputDrop      = new ArrayInput($argumentsDrop);
-            $returnCodeDrop = $commandDrop->run($inputDrop, $output);
+            $commandDrop->run($inputDrop, $output);
         }catch (\Exception $exception){
 
         }
@@ -40,21 +40,21 @@ class CleanProjetCommand extends ContainerAwareCommand
         $commandCreate    = $this->getApplication()->find('doctrine:database:create');
         $argumentsCreate  = array();
         $inputCreate      = new ArrayInput($argumentsCreate);
-        $returnCodeCreate = $commandCreate->run($inputCreate, $output);
+        $commandCreate->run($inputCreate, $output);
         // Création des tables
         $commandTablesCreate    = $this->getApplication()->find('doctrine:schema:update');
         $argumentsTablesCreate  = array(
             '--force' => true
         );
         $inputTablesCreate      = new ArrayInput($argumentsTablesCreate);
-        $returnCodeTablesCreate = $commandTablesCreate->run($inputTablesCreate, $output);
+        $commandTablesCreate->run($inputTablesCreate, $output);
         // Execution de la commande des fixtures
         $commandFixtures    = $this->getApplication()->find('doctrine:fixtures:load');
         $argumentsFixtures  = array(
             '--no-interaction' => true
         );
         $inputFixtures      = new ArrayInput($argumentsFixtures);
-        $returnCodeFixtures = $commandFixtures->run($inputFixtures, $output);
+        $commandFixtures->run($inputFixtures, $output);
         // récupération des devises
         $duree     = 60;
         if ($input->getOption('duree') > 0) {
@@ -65,7 +65,7 @@ class CleanProjetCommand extends ContainerAwareCommand
             '--duree' => $duree,
         );
         $inputDevise      = new ArrayInput($argumentsDevise);
-        $returnCodeDevise = $commandDevise->run($inputDevise, $output);
+        $commandDevise->run($inputDevise, $output);
         // Ajout de quelques livres
         $listeIsbn = array('2955358401', '281041744X', '2373490641', '2302055853', '2800177195');
         foreach ($listeIsbn as $isbn) {
@@ -75,7 +75,7 @@ class CleanProjetCommand extends ContainerAwareCommand
                 'isbn'  => $isbn
             );
             $inputLivre     = new ArrayInput($argumentsLivre);
-            $returnLivre    = $commandLivre->run($inputLivre, $output);
+            $commandLivre->run($inputLivre, $output);
         }
     }
 

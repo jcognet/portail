@@ -50,6 +50,8 @@ class BackupService
         if (substr($this->repertoire, -1) != '/' && substr($this->repertoire, -1) != '\\') {
             $this->repertoire .= DIRECTORY_SEPARATOR;
         }
+        echo $this->repertoire;
+        die();
     }
 
     /**

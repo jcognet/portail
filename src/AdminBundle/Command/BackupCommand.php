@@ -40,7 +40,6 @@ class BackupCommand extends ContainerAwareCommand
             $command .= "-p" . $dbPassword . " ";
         }
         $command .= $dbName . " > " . $repertoire . $fileName;
-        //echo $command;
         // Exécution
         $outputCommand = array();
         $outputCode    = array();

@@ -2,6 +2,7 @@
     "name": "jerome/changesous",
     "license": "proprietary",
     "type": "project",
+    "description": "Bac à sable de Jérôme Cognet, outil de suivi de devise et de suivi de sa bibliotheque"
     "autoload": {
         "psr-4": {
             "": "src/"

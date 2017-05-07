@@ -76,13 +76,13 @@ class AlertService
                         $this->em->persist($suivi->getUser());
                     }
                     $this->em->persist($suivi);
-                    $this->em->flush(); // Flush pour relancer l'alerte en cas de problème
                     $this->ecrit("Fin de l'alerte utilisateur avec id : " . $suivi->getUser()->getId() . " - email : " . $suivi->getUser()->getEmail());
                 }
             } catch (\Exception $ex) {
                 $listeErreurs[] = $ex;
             }
         }
+        $this->em->flush(); // Flush pour relancer l'alerte en cas de problème
         // Affichage des erreurs
         if (count($listeErreurs) > 0) {
             $this->ecritErreur("Nombre d'erreurs : " + count($listeErreurs));

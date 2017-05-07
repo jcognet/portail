@@ -173,7 +173,7 @@ class News
         return $this->dateMiseEnLigne;
     }
 
-    function __construct()
+    public function __construct()
     {
         $this->dateCreation    = new \DateTime();
         $this->dateMiseEnLigne = new \DateTime("+5 hours"); // La news est publiée plus tard par défaut

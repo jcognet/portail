@@ -190,7 +190,7 @@ class GoogleGetLivreService
      * @param $retourGoogle
      * @return BaseLivre
      */
-    protected function analyseRetourGoogle($retourGoogle)
+    protected function analyseRetourGoogle(\stdClass $retourGoogle)
     {
         // PRotection
         if (0 === $retourGoogle->totalItems)
@@ -233,7 +233,7 @@ class GoogleGetLivreService
      * @param $livreGoogle
      * @return BaseLivre
      */
-    protected function convertitGoogleLivre($livreGoogle)
+    protected function convertitGoogleLivre(\stdClass $livreGoogle)
     {
         // Création du livre si nécessaire
         if (true === is_null($livre = $this->em->getRepository('LivreBundle:BaseLivre')->findOneByGoogleId($livreGoogle->id))) {
@@ -295,7 +295,7 @@ class GoogleGetLivreService
      * @param BaseLivre $livre
      * @return Auteur[)
      */
-    protected function convertitGoogleAuteurs($livreGoogle, BaseLivre $livre)
+    protected function convertitGoogleAuteurs(\stdClass $livreGoogle, BaseLivre $livre)
     {
         $listeAuteurs = array();
         // Suppression de tous les auteurs
@@ -335,7 +335,7 @@ class GoogleGetLivreService
      * @param BaseLivre $livre
      * @return Editeur|null
      */
-    protected function convertitGoogleEditeur($livreGoogle, BaseLivre $livre)
+    protected function convertitGoogleEditeur(\stdClass $livreGoogle, BaseLivre $livre)
     {
         $editeur = null;
         if (true === property_exists($livreGoogle, 'volumeInfo') &&
@@ -370,7 +370,7 @@ class GoogleGetLivreService
      * @param BaseLivre $livre
      * @return bool|null|\Symfony\Component\HttpFoundation\File\File
      */
-    protected function convertitImage($livreGoogle, BaseLivre $livre)
+    protected function convertitImage(\stdClass $livreGoogle, BaseLivre $livre)
     {
         // Récupération du contenu du selfLink qui propose + d'image
         $urlImage = null;
@@ -404,7 +404,7 @@ class GoogleGetLivreService
      * @param BaseLivre $livre
      * @return Categorie[]
      */
-    protected function convertitCategories($livreGoogle, BaseLivre $livre)
+    protected function convertitCategories(\stdClass $livreGoogle, BaseLivre $livre)
     {
         $listeCategories = array();
         // Récupération du contenu du selfLink qui propose + de catégories
@@ -441,7 +441,7 @@ class GoogleGetLivreService
      * @param BaseLivre $livre
      * @return Serie|null
      */
-    public function convertitSeries($livreGoogle, BaseLivre $livre)
+    public function convertitSeries(\stdClass $livreGoogle, BaseLivre $livre)
     {
         $serie = null;
         if (true === property_exists($livreGoogle, "volumeInfo")
@@ -470,7 +470,7 @@ class GoogleGetLivreService
      * @param $livreGoogle
      * @return mixed|string
      */
-    protected function getContentSelfLink($livreGoogle)
+    protected function getContentSelfLink(\stdClass $livreGoogle)
     {
         if (false === is_object($this->contentSelfLink)) {
             $selfLink              = $livreGoogle->selfLink;

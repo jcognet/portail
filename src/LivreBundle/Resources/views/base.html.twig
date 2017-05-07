@@ -10,4 +10,12 @@
      {% block admin_header %}
      {% endblock admin_header %}
  {% endblock header %}
-
+{% block body %}
+    <div class="col-sm-2">
+        {{ render(controller('LivreBundle:Commun:menu', {'request': app.request})) }}
+    </div>
+    <div class="col-sm-10">
+        {% block zone_body %}
+        {% endblock %}
+    </div>
+{% endblock body %}

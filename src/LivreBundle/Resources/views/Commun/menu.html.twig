@@ -1,0 +1,15 @@
+<ul class="nav nav-pills nav-stacked">
+    <li {% if route_courante =='livre_homepage'  %} class="active" {% endif %}><a href="{{ path('livre_homepage') }}">Tous les livres</a></li>
+    {% if app.user %}
+        <li
+                {% if route_courante =='livre_lieu_liste' or route_courante =='livre_lieu_homepage'  %} class="active" {% endif %}
+        ><a href="{{ path('livre_lieu_liste') }}">
+                <span class="glyphicon glyphicon-tree-deciduous"></span>Mes lieux
+            </a></li>
+        <li
+                {% if route_courante =='livre_bibliotheque_liste'  %} class="active" {% endif %}
+        ><a href="{{ path('livre_bibliotheque_liste') }}">
+                <span class="glyphicon glyphicon-heart"></span>Ma bibliothèque
+            </a></li>
+    {% endif %}
+</ul>

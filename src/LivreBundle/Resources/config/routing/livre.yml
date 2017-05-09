@@ -19,15 +19,13 @@ livre_detail_ajax:
     options:
         expose: true
 
-# Détail d'un livre en ajax
+# Recherche d'un livre en ajax
 livre_recherche_ajax:
     path:     /recherche
     defaults: { _controller: LivreBundle:Livre:rechercheAjax}
     options:
         expose: true
-# Pop in detail livre
-livre_detail_pop_in:
-    path:     /detail/popin/{id}
-    defaults: { _controller: LivreBundle:Livre:detailPopIn }
-    options:
-        expose: true
+# Détail d'un livre en url absolu
+livre_detail:
+    path:     /detail_livre/{id}/{slug}
+    defaults: { _controller: LivreBundle:Livre:detail }

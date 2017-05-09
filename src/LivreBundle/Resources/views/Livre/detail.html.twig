@@ -1,0 +1,11 @@
+{% extends "LivreBundle::base.html.twig" %}
+{% import "@Livre/Macro/livre.html.twig" as livreMacro %}
+{% block title_header %}
+    Détail d'un livre : {{ livre.titre }}
+{% endblock %}
+{% block zone_body %}
+<div class="col-sm-6">
+    {% embed ('LivreBundle:Block:livre_detail.html.twig') %}
+    {% endembed %}
+</div>
+    {% endblock%}

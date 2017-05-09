@@ -17,6 +17,7 @@
             {{ knp_pagination_sortable(liste_livres, 'Date de création', 'l.dateCreation') }}
         </th>
         <th class="col-sm-1">ISBN</th>
+        <th class="col-sm-1">&nbsp;</th>
     </tr>
     </thead>
     <tbody>
@@ -30,6 +31,11 @@
             </td>
             <td>
                 {{ livre.isbn10 }}
+            </td>
+            <td>
+                <a href="{{ path('livre_detail', {'id': livre.id, 'slug': livre.slug})  }}">
+                    <span class="glyphicon glyphicon-road"></span>
+                </a>
             </td>
         </tr>
     {% endfor %}

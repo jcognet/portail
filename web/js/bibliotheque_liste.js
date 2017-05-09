@@ -4,10 +4,10 @@ var ISBN_BUTTON_ID = 'livrebundle_rechercheIBSNLivre_btnAjouterLivre'; // ID du 
 var ISBN_DIV_ID = 'form_ajout'; // id de la div avec le champ ISBN
 var LISTE_AJOUT_DIV_ID = 'liste_livre_ajout'; // id de la div après laquelle le nouveau livre sera ajouté
 var ERREUR_DIV_ID = 'form_ajout_erreur'; // id de la div avec les erreurs
-var MODAL_DETAIL_ID = 'modalDetail'; // id de la div de la modele
+var DETAIL_DIV_ID = 'detail_livre';
 
 var ROUTE_AJOUT = 'livre_bibliotheque_ajout_ajax'; // Route Symfony gérant l'ajout
-var ROUTE_DETAIL_POP_IN = 'livre_detail_pop_in';
+var ROUTE_DETAIL = 'livre_detail_ajax';
 var ROUTE_MODIFIE = 'livre_bibliotheque_modifie_ajax';
 var ROUTE_SUPPRESSION = 'livre_bibliotheque_supprime_ajax';
 
@@ -16,7 +16,7 @@ var ISBN_BUTTON = null;
 var ISBN_FORM_JS = null;
 var LISTE_AJOUT_DIV = null;
 var ERREUR_DIV = null;
-var MODAL_DETAIL = null;
+var DETAIL_DIV = null;
 // Quelques variables globales à la page
 var isbnInputTimer;
 var dureeAttenteSaisie = 2000; // En seconde
@@ -29,7 +29,7 @@ $(document).ready(function () {
     ISBN_FORM_JS = ISBN_INPUT.closest('form').get(0);
     LISTE_AJOUT_DIV = $('#' + LISTE_AJOUT_DIV_ID);
     ERREUR_DIV = $('#' + ERREUR_DIV_ID);
-    MODAL_DETAIL = $('#' + MODAL_DETAIL_ID);
+    DETAIL_DIV = $('#' + DETAIL_DIV_ID);
 
     // Evenements
     // saisi dans le champ ISBN
@@ -45,7 +45,6 @@ $(document).ready(function () {
     addEvent();
 
     ERREUR_DIV.hide();
-    MODAL_DETAIL.hide();
 });
 
 // function ajout livre à la bibliotheque
@@ -122,9 +121,8 @@ function isISBN(isbn) {
     }
     return ((sum % 11) == 0);
 }
-// Affiche la modale de détail d'un livre
-function afficheModalLivre(baseLivreId, divParent) {
-    MODAL_DETAIL.modal('hide');
+// Affiche le détail d'un livre
+function afficheDetailLivre(baseLivreId, divParent) {
     // Cas où le livre n'est pas encore dans le buffer
     if (!(baseLivreId in bufferLivre)) {
         return rechercheLivre(baseLivreId, divParent);
@@ -139,7 +137,7 @@ function addEvent() {
     $('.lien_pop_in').on('click', function () {
         var rowParent = $(this).closest('.row');
         var livreId = rowParent.attr('data-base-livre-id');
-        afficheModalLivre(livreId, rowParent);
+        afficheDetailLivre(livreId, rowParent);
     });
     // Mise en place du style alterné
     var iRowLivre = 0;
@@ -155,16 +153,18 @@ function addEvent() {
         rowLivre.get(0).style.height =rowLivre.get(1).offsetHeight+'px';
     }
     // Modification d'un livre
-    $('#liste_livre input').off('change');
-    $('#liste_livre input').on('change', function () {
+    var liste_input = $('#liste_livre input');
+    liste_input.off('change');
+    liste_input.on('change', function () {
         var rowParent = $(this).closest('.row');
         var livreId = rowParent.attr('data-livre-id');
         modifieLivre(livreId, rowParent);
     });
 
     // Suppression d'un livre
-    $('#liste_livre .lnk_suppression_livre').off('click');
-    $('#liste_livre .lnk_suppression_livre').on('click', function () {
+    var liste_suppression =$('#liste_livre .lnk_suppression_livre');
+    liste_suppression.off('click');
+    liste_suppression.on('click', function () {
         if(!confirm('Voulez-vous vraiment supprimer cet élément ? ')){
             e.preventDefault();
             return false;
@@ -176,20 +176,19 @@ function addEvent() {
     });
 
     gereLieuLivre();
+    gereAffichageLieuInSelect();
 }
 // Affiche un livre en pop in
 function afficheLivre(baseLivreId) {
     if (baseLivreId in bufferLivre) {
-        MODAL_DETAIL.find('.modal-title').html(bufferLivre[baseLivreId]['titre']);
-        MODAL_DETAIL.find('.modal-body').html(bufferLivre[baseLivreId]['html']);
-        MODAL_DETAIL.modal('show');
+        DETAIL_DIV.html(bufferLivre[baseLivreId]);
     }
     livreBuffer();
 }
 // Recherche le livre en baseLivreId
 function rechercheLivre(baseLivreId, divParent) {
     setAjaxWorking(divParent.attr('id'));
-    var url = Routing.generate(ROUTE_DETAIL_POP_IN, {'id': baseLivreId});
+    var url = Routing.generate(ROUTE_DETAIL, {'id': baseLivreId});
     $.ajax({
         url: url,
         type: 'POST',
@@ -197,10 +196,8 @@ function rechercheLivre(baseLivreId, divParent) {
         cache: false,
         processData: false,
         success: function (retour, statut) { // success est toujours en place, bien sûr !
-            var titre = retour.titre;
-            var html = retour.html;
             unsetAjaxWorking(divParent.attr('id'));
-            bufferLivre[baseLivreId] = {'titre': titre, 'html': html};
+            bufferLivre[baseLivreId] = retour;
             afficheLivre(baseLivreId);
         },
 
@@ -214,8 +211,10 @@ function livreBuffer(){
     // Affichage d'une icone avant chaque élément dans le buffer
     for (var livreId in bufferLivre) {
         var element =  $("div[data-base-livre-id="+livreId+"]");
-        var caseName = $(element.children('.lien_pop_in').get(0));
-        if(caseName.children('.glyphicon-record').length ==0)
+        console.log(livreId)
+        var caseName = $(element.find('.lien_pop_in').get(0));
+        console.log(caseName)
+        if(caseName.find('.glyphicon-record').length ==0)
             caseName.prepend('<span class="glyphicon glyphicon-record"></span>');
     }
 }
@@ -265,8 +264,9 @@ function supprimeLivre(livreId, divParent){
 // Gère le changement de lieu
 function gereLieuLivre(){
     // Gestion des menu déroulants cachés
-    $('.ddl_lieu_main').off('change');
-    $('.ddl_lieu_main').on('change', function(e){
+    var ddl_lieu_main = $('.ddl_lieu_main');
+    ddl_lieu_main.off('change');
+    ddl_lieu_main.on('change', function(e){
         var lieuChoisi = $(this).find(":selected");
         var lieuType =  lieuChoisi.attr('data-type');
         var lieuId = lieuChoisi.attr('data-id');
@@ -279,10 +279,17 @@ function gereLieuLivre(){
         formLieu.find('select[data-type='+lieuType+']').val(lieuId);
     });
     // Gestion de l'envoi du formulaire
-    $('#liste_livre  select.ddl_lieu_main').off('change');
-    $('#liste_livre  select.ddl_lieu_main').on('change', function () {
+    var select_lieu = $('#liste_livre  select.ddl_lieu_main');
+    select_lieu.off('change');
+    select_lieu.on('change', function () {
         var rowParent = $(this).closest('.row');
         var livreId = rowParent.attr('data-livre-id');
         modifieLivre(livreId, rowParent);
     });
+}
+// Ajout des paddings devant les lieux
+function gereAffichageLieuInSelect(){
+    $('option[data-type="piece"]').css('padding-left', 5);
+    $('option[data-type="meuble"]').css('padding-left', 10);
+    $('option[data-type="etagere"]').css('padding-left', 15);
 }

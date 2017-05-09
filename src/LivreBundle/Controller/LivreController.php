@@ -144,21 +144,9 @@ class LivreController extends Controller
         return $formBuilder->getForm();
     }
 
-    /**
-     * Récupère le détail d'un livre
-     * @param Request $request
-     * @param BaseLivre $livre
-     * @return JsonResponse
-     */
-    public function detailPopInAction(Request $request, BaseLivre $livre)
-    {
-        $contenu = $this->renderView('LivreBundle:Block:livre_detail_popin.html.twig', array(
-            'livre' => $livre,
-        ));
-        $titre   = $livre->getTitre();
-        return new JsonResponse(array(
-            'titre'   => $titre,
-            'html' => $contenu
+    public function detailAction(Request $request, BaseLivre $livre){
+        return $this->render('LivreBundle:Livre:detail.html.twig', array(
+            'livre'  => $livre,
         ));
     }
 

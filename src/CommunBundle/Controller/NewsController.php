@@ -3,7 +3,7 @@
 namespace CommunBundle\Controller;
 
 use CommunBundle\Entity\News;
-use CommunBundle\Form\NewsType;
+use CommunBundle\Form\Type\NewsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

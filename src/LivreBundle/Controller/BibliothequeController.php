@@ -3,9 +3,9 @@
 namespace LivreBundle\Controller;
 
 use LivreBundle\Entity\Livre;
-use LivreBundle\Form\ListeLivreType;
-use LivreBundle\Form\LivreType;
-use LivreBundle\Form\RechercheISBNLivreType;
+use LivreBundle\Form\Type\ListeLivreType;
+use LivreBundle\Form\Type\LivreType;
+use LivreBundle\Form\Type\RechercheISBNLivreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\JsonResponse;

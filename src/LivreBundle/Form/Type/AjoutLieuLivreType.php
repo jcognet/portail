@@ -1,6 +1,6 @@
 <?php
 
-namespace LivreBundle\Form;
+namespace LivreBundle\Form\Type;
 
 use LivreBundle\Service\LieuService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

@@ -4,7 +4,7 @@ namespace LivreBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use LivreBundle\Entity\Livre;
-use LivreBundle\Form\LieuType;
+use LivreBundle\Form\Type\LieuType;
 use LivreBundle\Interfaces\LieuInterface;
 
 

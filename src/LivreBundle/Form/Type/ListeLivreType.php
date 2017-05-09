@@ -1,21 +1,24 @@
 <?php
 
-namespace UserBundle\Form;
+namespace LivreBundle\Form\Type;
 
+use LivreBundle\Form\Type\LivreType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ConfigurationAlerteType extends AbstractType
+class ListeLivreType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('sendMailForAlert', null, array('required' => false))
-            ->add('joursAvantRelance')
-            ->add('jourProchaineAlerte');
+        $builder->add('listeLivres', CollectionType::class, array(
+            'entry_type' => LivreType::class,
+            'label'      => false,
+        ));
     }
 
     /**
@@ -24,8 +27,7 @@ class ConfigurationAlerteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'        => 'UserBundle\Entity\User',
-            'validation_groups' => 'configuration_alert'
+            'data_class' => 'UserBundle\Entity\User'
         ));
     }
 
@@ -34,7 +36,7 @@ class ConfigurationAlerteType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'userbundle_user';
+        return 'livrebundle_liste_livre';
     }
 
 

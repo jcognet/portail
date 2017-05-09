@@ -3,8 +3,8 @@
 namespace LivreBundle\Controller;
 
 use LivreBundle\Entity\Maison;
-use LivreBundle\Form\LieuType;
-use LivreBundle\Form\MaisonType;
+use LivreBundle\Form\Type\LieuType;
+use LivreBundle\Form\Type\MaisonType;
 use LivreBundle\Interfaces\LieuInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Button;

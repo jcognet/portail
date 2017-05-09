@@ -1,6 +1,6 @@
 <?php
 
-namespace CommunBundle\Form;
+namespace CommunBundle\Form\Type;
 
 use CommunBundle\Entity\News;
 use Ivory\CKEditorBundle\Form\Type\CKEditorType;

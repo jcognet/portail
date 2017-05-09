@@ -1,15 +1,15 @@
 <?php
 
-namespace LivreBundle\Form;
+namespace LivreBundle\Form\Type;
 
-use LivreBundle\Entity\Meuble;
+use LivreBundle\Entity\Maison;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class EtagereType extends AbstractType
+class PieceType extends AbstractType
 {
     /**
      * @var null|TokenStorageInterface
@@ -27,14 +27,14 @@ class EtagereType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('nom', null, array('label' => 'Nom'))
-            ->add('meuble', EntityType::class, array(
-                'choices'      => $this->tokenStorage->getToken()->getUser()->getMeubles(),
+        $builder->add('nom', null, array('label'=>'Nom'))
+            ->add('etage', null, array('label'=>'Etage'))
+            ->add('maison', EntityType::class, array(
+                'choices'      => $this->tokenStorage->getToken()->getUser()->getMaisons(),
                 'choice_label' => 'nom',
-                'class'        => Meuble::class,
+                'class'        => Maison::class,
                 'empty_data'   => null,
-                'placeholder'  => "Meuble de l'étagère"
+                'placeholder'  => "Maison de la pièce"
             ));
     }
 
@@ -44,7 +44,7 @@ class EtagereType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'LivreBundle\Entity\Etagere'
+            'data_class' => 'LivreBundle\Entity\Piece'
         ));
     }
 
@@ -53,7 +53,7 @@ class EtagereType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'livrebundle_etagere';
+        return 'livrebundle_piece';
     }
 
 

@@ -1,25 +1,25 @@
 services:
     # form des pièces
   livre.form.piece:
-    class: LivreBundle\Form\PieceType
+    class: LivreBundle\Form\Type\PieceType
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
     # form des meubles
   livre.form.meuble:
-    class: LivreBundle\Form\MeubleType
+    class: LivreBundle\Form\Type\MeubleType
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
     # form des meubles
   livre.form.etagere:
-    class: LivreBundle\Form\EtagereType
+    class: LivreBundle\Form\Type\EtagereType
     arguments: ["@security.token_storage"]
     tags:
       - { name: form.type }
     # form pour gérer les lieux
   livre.form.ajout_lieu_livre:
-    class: LivreBundle\Form\AjoutLieuLivreType
+    class: LivreBundle\Form\Type\AjoutLieuLivreType
     arguments: ["@livre.lieu", "@security.token_storage"]
     tags:
       - { name: form.type }

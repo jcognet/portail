@@ -4,6 +4,7 @@ namespace UserBundle\Entity;
 
 use DeviseBundle\Entity\SuiviDevise;
 use Doctrine\ORM\Mapping as ORM;
+use LivreBundle\Entity\Livre;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -65,7 +66,7 @@ class User extends \FOS\UserBundle\Model\User
 
 
     /**
-     * @var \LivreBundle\Entity\Maison
+     * @var \LivreBundle\Entity\Maison[]
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Maison", mappedBy="user")
      * @ORM\OrderBy({"nom" = "ASC"})
@@ -74,7 +75,7 @@ class User extends \FOS\UserBundle\Model\User
 
 
     /**
-     * @var \LivreBundle\Entity\Piece
+     * @var \LivreBundle\Entity\Piece[]
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Piece", mappedBy="user")
      * @ORM\OrderBy({"nom" = "ASC"})
@@ -83,7 +84,7 @@ class User extends \FOS\UserBundle\Model\User
 
 
     /**
-     * @var \LivreBundle\Entity\Meuble
+     * @var \LivreBundle\Entity\Meuble[]
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Meuble", mappedBy="user")
      * @ORM\OrderBy({"nom" = "ASC"})
@@ -92,7 +93,7 @@ class User extends \FOS\UserBundle\Model\User
 
 
     /**
-     * @var \LivreBundle\Entity\Etagere
+     * @var \LivreBundle\Entity\Etagere[]
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Etagere", mappedBy="user")
      * @ORM\OrderBy({"nom" = "ASC"})
@@ -138,7 +139,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get listeDevises
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return SuiviDevise[]
      */
     public function getListeDevises()
     {
@@ -244,7 +245,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get listeLivres
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return   \LivreBundle\Entity\Livre[]
      */
     public function getListeLivres()
     {
@@ -278,7 +279,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get maisons
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return  \LivreBundle\Entity\Maison[]
      */
     public function getMaisons()
     {
@@ -312,7 +313,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get pieces
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return  \LivreBundle\Entity\Piece[]
      */
     public function getPieces()
     {
@@ -346,7 +347,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get meubles
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return  \LivreBundle\Entity\Meuble[]
      */
     public function getMeubles()
     {
@@ -380,7 +381,7 @@ class User extends \FOS\UserBundle\Model\User
     /**
      * Get etageres
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return  \LivreBundle\Entity\Etagere[]
      */
     public function getEtageres()
     {

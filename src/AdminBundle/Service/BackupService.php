@@ -26,6 +26,7 @@ class BackupService
      * BackupService constructor.
      * @param $kernelDir
      * @param $backUpDirectory
+     * @param $dureeBackUp
      */
     public function __construct($kernelDir, $backUpDirectory, $dureeBackUp)
     {

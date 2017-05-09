@@ -2,6 +2,7 @@
 
 namespace LivreBundle\Service;
 use LivreBundle\Entity\BaseLivre;
+use LivreBundle\Entity\Livre;
 use Symfony\Component\Filesystem\Filesystem;
 use TransverseBundle\Service\CurlService;
 
@@ -74,7 +75,7 @@ class LivreImageService
 
     /**
      * Retourne le répertoire d'upload d'une image d'un livre
-     * @param Livre $livre
+     * @param BaseLivre $livre
      * @return string
      */
     public function getPathUploadImage(BaseLivre $livre){

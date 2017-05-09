@@ -26,9 +26,11 @@ class CommunExtension extends \Twig_Extension
      */
     private $urlDev = array();
 
+
     /**
      * CommunExtension constructor.
      * @param RequestStack $rs
+     * @param $urlDev
      */
     public function __construct(RequestStack $rs, $urlDev)
     {
@@ -80,7 +82,7 @@ class CommunExtension extends \Twig_Extension
 
     /**
      * Retourne si le menu est actif ou pas pour un espace donné (se base sur la route)
-     * @param $route
+     * @param $routePropose
      * @return bool
      */
     public function pageEstActif($routePropose)

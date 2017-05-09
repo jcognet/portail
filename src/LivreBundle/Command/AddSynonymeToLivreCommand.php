@@ -3,10 +3,8 @@
 namespace LivreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -20,9 +18,9 @@ class AddSynonymeToLivreCommand extends ContainerAwareCommand
         $this
             ->setName('livre:add:synonyme')
             ->setDescription('Ajouter un synonyme à un libre.')
-            ->addArgument('type', null, InputArgument::REQUIRED, "Type d'objet à traiter", null)
-            ->addArgument('livreId', null, InputArgument::REQUIRED, 'Id du livre à traiter', null)
-            ->addArgument('synonyme', null, InputArgument::REQUIRED, 'Synonyme à ajouter', null);
+            ->addArgument('type', null, InputArgument::REQUIRED, "Type d'objet à traiter")
+            ->addArgument('livreId', null, InputArgument::REQUIRED, 'Id du livre à traiter')
+            ->addArgument('synonyme', null, InputArgument::REQUIRED, 'Synonyme à ajouter');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

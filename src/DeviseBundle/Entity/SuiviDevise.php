@@ -73,7 +73,7 @@ class SuiviDevise
      *
      * @param string $seuilMin
      *
-     * @return suivi_devise
+     * @return SuiviDevise
      */
     public function setSeuilMin($seuilMin)
     {
@@ -99,7 +99,7 @@ class SuiviDevise
      *
      * @param \DateTime $dateAlerte
      *
-     * @return suivi_devise
+     * @return SuiviDevise
      */
     public function setDateAlerte($dateAlerte)
     {
@@ -123,7 +123,7 @@ class SuiviDevise
      *
      * @param string $seuilMax
      *
-     * @return suivi_devise
+     * @return SuiviDevise
      */
     public function setSeuilMax($seuilMax)
     {

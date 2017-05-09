@@ -3,6 +3,7 @@
 namespace LivreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use LivreBundle\Interfaces\LieuInterface;
 
 /**
  * Livre
@@ -115,53 +116,7 @@ class Livre
         return $this->dateAjout;
     }
 
-    /**
-     * Set dateAction
-     *
-     * @param \DateTime $dateAction
-     *
-     * @return Livre
-     */
-    public function setDateAction($dateAction)
-    {
-        $this->dateAction = $dateAction;
 
-        return $this;
-    }
-
-    /**
-     * Get dateAction
-     *
-     * @return \DateTime
-     */
-    public function getDateAction()
-    {
-        return $this->dateAction;
-    }
-
-    /**
-     * Set action
-     *
-     * @param string $action
-     *
-     * @return Livre
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-
-        return $this;
-    }
-
-    /**
-     * Get action
-     *
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
 
     /**
      * Set prix
@@ -337,7 +292,7 @@ class Livre
     }
 
     /**
-     * @return LieuInteface
+     * @return LieuInterface
      */
     public function getLieu()
     {

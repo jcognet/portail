@@ -53,7 +53,7 @@ class Maison implements LieuInterface
     private $user;
 
     /**
-     * @var \LivreBundle\Entity\Livre
+     * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="LivreBundle\Entity\Livre", mappedBy="maison")
      */

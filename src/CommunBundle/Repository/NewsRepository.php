@@ -90,7 +90,7 @@ class NewsRepository extends \Doctrine\ORM\EntityRepository
 
     /**
      * Liste toutes les news
-     * @param $inTouteActu Si true affiche toutes les news
+     * @param $inTouteActu bool Si true affiche toutes les news
      * @return \Doctrine\ORM\QueryBuilder
      */
     public function getQueryListe($inTouteActu = false)

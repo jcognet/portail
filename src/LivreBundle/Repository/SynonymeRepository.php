@@ -2,9 +2,6 @@
 
 namespace LivreBundle\Repository;
 
-use LivreBundle\Entity\Auteur;
-use LivreBundle\Entity\BaseLivre;
-use LivreBundle\Entity\Categorie;
 use LivreBundle\Entity\Synonyme;
 use LivreBundle\Traits\SynonymeTrait;
 
@@ -21,7 +18,7 @@ class SynonymeRepository extends \Doctrine\ORM\EntityRepository
      * Met à jour un synonyme
      * @param $objet
      * @param $label
-     * @return Synonyme|\Doctrine\ORM\QueryBuilder
+     * @return Synonyme
      * @throws \Exception
      */
     public function persist($objet, $label)
@@ -49,7 +46,7 @@ class SynonymeRepository extends \Doctrine\ORM\EntityRepository
      * Recherche un synonyme d'après un label passé en paramètre pour un objet donné
      * @param $objet
      * @param $label
-     * @return \Doctrine\ORM\QueryBuilder
+     * @return Synonyme|null
      * @throws \Exception
      */
     public function findSynonyme($objet, $label)

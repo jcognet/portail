@@ -116,7 +116,8 @@ class GoogleGetLivreService
     }
 
     /**
-     * URL de la requête API avec un q
+     *  URL de la requête API avec un q
+     * @param $isbn
      * @return string
      */
     protected function getPrimeGoogleApiUrl($isbn)
@@ -125,7 +126,8 @@ class GoogleGetLivreService
     }
 
     /**
-     * URL de la requête API avec un q
+     *  URL de la requête API avec un q
+     * @param $isbn
      * @return string
      */
     protected function getSecondaryGoogleApiUrl($isbn)
@@ -194,7 +196,7 @@ class GoogleGetLivreService
     {
         // PRotection
         if (0 === $retourGoogle->totalItems)
-            return;
+            return null;
         // Récupération du livre courant
         $bookPremier = current($retourGoogle->items);
         $book        = $this->getContentSelfLink($bookPremier);
@@ -214,7 +216,7 @@ class GoogleGetLivreService
         $editeur = $this->convertitGoogleEditeur($book, $livre);
         $this->ecrit("Editeur : " . $editeur->getReferenceGoogle() . " - id : " . $editeur->getId());
         // Gestion des images
-        $image = $this->convertitImage($book, $livre);
+        $this->convertitImage($book, $livre);
         // Gestion des catégories
         $listeCategories = $this->convertitCategories($book, $livre);
         foreach ($listeCategories as $categorie) {
@@ -293,7 +295,7 @@ class GoogleGetLivreService
      * Convertit un retour google en auteurs et le livre à un livre
      * @param $livreGoogle
      * @param BaseLivre $livre
-     * @return Auteur[)
+     * @return Auteur[]
      */
     protected function convertitGoogleAuteurs(\stdClass $livreGoogle, BaseLivre $livre)
     {

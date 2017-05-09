@@ -96,29 +96,6 @@ class Batch
         return $this->type;
     }
 
-    /**
-     * Set fin
-     *
-     * @param boolean $fin
-     *
-     * @return Batch
-     */
-    public function setFin($fin)
-    {
-        $this->fin = $fin;
-
-        return $this;
-    }
-
-    /**
-     * Get fin
-     *
-     * @return bool
-     */
-    public function getFin()
-    {
-        return $this->fin;
-    }
 
     /**
      * Set commentaire

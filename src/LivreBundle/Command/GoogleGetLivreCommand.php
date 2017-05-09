@@ -3,10 +3,8 @@
 namespace LivreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -20,7 +18,7 @@ class GoogleGetLivreCommand extends ContainerAwareCommand
         $this
             ->setName('livre:google:get-by-isbn')
             ->setDescription('Fait appel à Google pour récupérer les informations d\'un livre.')
-            ->addArgument('isbn', null, InputArgument::REQUIRED, 'ISBN de livre à chercher', null);
+            ->addArgument('isbn', null, InputArgument::REQUIRED, 'ISBN de livre à chercher');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -85,7 +85,7 @@ class AlertService
         $this->em->flush(); // Flush pour relancer l'alerte en cas de problème
         // Affichage des erreurs
         if (count($listeErreurs) > 0) {
-            $this->ecritErreur("Nombre d'erreurs : " + count($listeErreurs));
+            $this->ecritErreur("Nombre d'erreurs : " . count($listeErreurs));
             foreach ($listeErreurs as $erreur) {
                 $this->ecritErreur($erreur->getMessage());
                 $this->ecritErreur($erreur->getFile());

@@ -50,7 +50,7 @@ class Devise
     private $coursJour;
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="jour", type="datetime", nullable=true)
      */
@@ -203,7 +203,7 @@ class Devise
     /**
      * Set moyenne60Jours
      *
-     * @param \DateTime $moyenne60Jours
+     * @param string $moyenne60Jours
      *
      * @return Devise
      */
@@ -217,7 +217,7 @@ class Devise
     /**
      * Get moyenne60Jours
      *
-     * @return \DateTime
+     * @return string
      */
     public function getMoyenne60Jours()
     {

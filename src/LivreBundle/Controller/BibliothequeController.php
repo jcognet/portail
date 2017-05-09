@@ -3,7 +3,6 @@
 namespace LivreBundle\Controller;
 
 use LivreBundle\Entity\Livre;
-use LivreBundle\Form\Type\ListeLivreType;
 use LivreBundle\Form\Type\LivreType;
 use LivreBundle\Form\Type\RechercheISBNLivreType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -94,7 +93,7 @@ class BibliothequeController extends Controller
             }
         }
         // Code de retours
-        $contentHtml = '';
+        $content = '';
         $codeRetour  = '';
         // Création du nouveau formulaire
         $formLivre = null;
@@ -120,8 +119,9 @@ class BibliothequeController extends Controller
     }
 
     /**
-     * Modiei un livre l'utilisateur courant
+     *  Modifie un livre l'utilisateur courant
      * @param Request $request
+     * @param Livre $livre
      * @return Response
      */
     public function modifieAjaxAction(Request $request, Livre $livre)

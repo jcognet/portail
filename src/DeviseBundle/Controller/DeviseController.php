@@ -3,24 +3,10 @@
 namespace DeviseBundle\Controller;
 
 use DeviseBundle\Entity\Devise;
-use DeviseBundle\Entity\News;
 use DeviseBundle\Entity\SuiviDevise;
-use Doctrine\Bundle\DoctrineBundle\Command\Proxy\ClearQueryCacheDoctrineCommand;
-use FOS\UserBundle\Form\Type\RegistrationFormType;
-use ReCaptcha\ReCaptcha;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use UserBundle\Entity\User;
 
 class DeviseController extends Controller
@@ -43,7 +29,6 @@ class DeviseController extends Controller
             'moyenne_60'  => $devise->getMoyenne60Jours(),
             'moyenne_90'  => $devise->getMoyenne90Jours(),
             'moyenne_120' => $devise->getMoyenne120Jours(),
-            'cours'       => array()
         );
 
         $listeCoursJournee = $this->getDoctrine()->getRepository('DeviseBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
@@ -76,7 +61,6 @@ class DeviseController extends Controller
             'moyenne_60'  => $devise->getMoyenne60Jours(),
             'moyenne_90'  => $devise->getMoyenne90Jours(),
             'moyenne_120' => $devise->getMoyenne120Jours(),
-            'cours'       => array()
         );
 
         $listeCoursJournee = $this->getDoctrine()->getRepository('DeviseBundle:CoursJournee')->getListeSurPeriode(null, $this->getParameter('nombre_jours'), $devise);
@@ -122,7 +106,6 @@ class DeviseController extends Controller
     {
         //TODO : protéger sur les valeurs $valeurEuros et $valeurAutre, que se passe-t-il si chaîne de caractères ou float ?
         // Calcul
-        $data = 0;
         if ($valeurEuros > 0) {
             $data = $valeurEuros * $devise->getCoursJour();
         } else {

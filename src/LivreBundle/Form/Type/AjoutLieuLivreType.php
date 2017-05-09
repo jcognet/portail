@@ -23,6 +23,11 @@ class AjoutLieuLivreType extends AbstractType
      */
     protected $lieuService = null;
 
+    /**
+     * @var null|TokenStorageInterface
+     */
+    protected $tokenStorage = null;
+
     public function __construct(LieuService $lieuService, TokenStorageInterface $tokenStorage)
     {
         $this->lieuService  = $lieuService;
@@ -53,7 +58,6 @@ class AjoutLieuLivreType extends AbstractType
                     'multiple'     => false,
                     'choices'      => $this->tokenStorage->getToken()->getUser()->getReferentielLieu(),
                     'choice_label' => function ($lieu, $key, $index) {
-                        /** @var Category $category */
                         return $lieu->getNom();
                     },
                     'choice_attr'  => function ($val, $key, $index) {

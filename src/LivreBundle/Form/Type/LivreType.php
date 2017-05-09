@@ -2,7 +2,6 @@
 
 namespace LivreBundle\Form\Type;
 
-use LivreBundle\Form\Type\AjoutLieuLivreType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

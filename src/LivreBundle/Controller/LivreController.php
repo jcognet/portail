@@ -2,15 +2,12 @@
 
 namespace LivreBundle\Controller;
 
-use Doctrine\ORM\Query\Expr\Base;
 use LivreBundle\Entity\BaseLivre;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Iban;
 use Symfony\Component\Validator\Constraints\Isbn;
 
 class LivreController extends Controller

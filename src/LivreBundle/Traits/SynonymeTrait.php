@@ -21,7 +21,7 @@ trait SynonymeTrait
      *
      * @param \LivreBundle\Entity\Synonyme $synonyme
      *
-     * @return Editeur
+     * @return SynonymeTrait
      */
     public function addSynonyme(\LivreBundle\Entity\Synonyme $synonyme)
     {
@@ -39,7 +39,6 @@ trait SynonymeTrait
     {
         $listeSynonyme = array();
         foreach ($this->listeSynonymes as $s) {
-            $ajoutSynonyme = true;
             if ($s->getId() != $synonyme->getId()) {
                 $listeSynonyme[] = $s;
             }

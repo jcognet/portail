@@ -78,7 +78,6 @@ class CurlService
             curl_close($resource);
             throw $e;
         }
-        return new File($pathDestination);
     }
 }
 

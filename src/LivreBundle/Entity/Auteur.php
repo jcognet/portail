@@ -5,6 +5,7 @@ namespace LivreBundle\Entity;
 use LivreBundle\Traits\SynonymeTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Auteur
@@ -332,7 +333,7 @@ class Auteur
      */
     public function __construct()
     {
-        $this->livres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->livres = new ArrayCollection();
     }
 
     /**

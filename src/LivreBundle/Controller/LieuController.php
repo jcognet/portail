@@ -2,13 +2,9 @@
 
 namespace LivreBundle\Controller;
 
-use LivreBundle\Entity\Maison;
 use LivreBundle\Form\Type\LieuType;
-use LivreBundle\Form\Type\MaisonType;
 use LivreBundle\Interfaces\LieuInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Button;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -80,9 +76,10 @@ class LieuController extends Controller
 
 
     /**
-     * Enregistre un lieu
+     *  Enregistre un lieu
      * @param Request $request
      * @param $typeLieu
+     * @param null $id
      * @return JsonResponse
      */
     public function enregistreAjaxAction(Request $request, $typeLieu, $id = null)
@@ -123,9 +120,10 @@ class LieuController extends Controller
     }
 
     /**
-     * Supprimer un lieu
+     *  Supprime un lieu
      * @param Request $request
      * @param $typeLieu
+     * @param $id
      * @return JsonResponse
      */
     public function supprimeAjaxAction(Request $request, $typeLieu, $id)

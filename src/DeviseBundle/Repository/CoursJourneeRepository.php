@@ -2,6 +2,7 @@
 
 namespace DeviseBundle\Repository;
 
+use DeviseBundle\Entity\CoursJournee;
 use DeviseBundle\Entity\Devise;
 
 /**

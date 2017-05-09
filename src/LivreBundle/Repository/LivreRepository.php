@@ -2,7 +2,6 @@
 
 namespace LivreBundle\Repository;
 use LivreBundle\Entity\BaseLivre;
-use LivreBundle\Entity\Livre;
 use UserBundle\Entity\User;
 
 /**

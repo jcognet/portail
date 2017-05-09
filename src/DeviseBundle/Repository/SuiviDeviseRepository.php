@@ -10,9 +10,10 @@ namespace DeviseBundle\Repository;
  */
 class SuiviDeviseRepository extends \Doctrine\ORM\EntityRepository
 {
+
     /**
-     *Renvoie les suivi à relancer
-     * @return \Doctrine\ORM\QueryBuilder
+     * Renvoie les suivi à relancer
+     * @return array
      */
     public function findSuiviARelancer()
     {

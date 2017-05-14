@@ -63,7 +63,7 @@ var WebCodeCamJS = function(element) {
             flipVertical: false,
             flipHorizontal: false,
             zoom: 0,
-            beep: 'audio/beep.mp3',
+            beep: AUDIO_ASSET,
             decoderWorker: DECODER_WORKER_ASSET,
             brightness: 0,
             autoBrightnessValue: 0,

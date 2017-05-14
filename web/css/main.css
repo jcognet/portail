@@ -46,3 +46,8 @@
 div .active{
     background-color: #F5F5F5;
 }
+.icon-barcode {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}

@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>WebCodeCamJS</title>
+    <script src="/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
 </head>
 <body>
 <div class="container" id="QR-Code">
@@ -65,7 +67,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
     <script type="text/javascript" src="js/filereader.js"></script>
     <script>

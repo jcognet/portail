@@ -306,8 +306,8 @@
     </div>
     <script type="text/javascript" src="js/filereader.js"></script>
     <script>
-    var DECODER_WORKER_ASSET = "/edsa-changesous/js/DecoderWorker.js";
-    var AUDIO_ASSET = "/edsa-changesous/audio/beep.mp3";
+    var DECODER_WORKER_ASSET = "js/DecoderWorker.js";
+    var AUDIO_ASSET = "audio/beep.mp3";
     </script>
     <script type="text/javascript" src="js/qrcodelib.js"></script>
     <script type="text/javascript" src="js/webcodecamjs.js"></script>

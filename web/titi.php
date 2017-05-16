@@ -6,6 +6,7 @@
     <title>WebCodeCamJS</title>
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/quagga.js"></script>
     <script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/quagga.js"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
 </head>

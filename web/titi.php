@@ -19,22 +19,6 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script>
-        var host = "serratus.github.io";
-        if ((host == window.location.host) && (window.location.protocol != "https:")) {
-            window.location.protocol = "https";
-        }
-    </script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-56318310-1', 'auto');
-      ga('send', 'pageview');
-
-    </script>
   </head>
   <body>
     <div class="wrapper">
@@ -97,77 +81,11 @@
             <li>Use custom mount-point (Query-Selector)</li>
         </ul>
     </p>
-    <div class="source-code">
-        <h4>Source</h4>
-        <div class="collapsable-source">
-            <pre>
-                <code class="language-javascript">
-var Quagga = window.Quagga;
-var App = {
-    _scanner: null,
-    init: function() {
-        this.attachListeners();
-    },
-    decode: function(src) {
-        Quagga
-            .decoder({readers: ['ean_reader']})
-            .locator({patchSize: 'medium'})
-            .fromImage(src, {size: 800})
-            .toPromise()
-            .then(function(result) {
-                document.querySelector('input.isbn').value = result.codeResult.code;
-            })
-            .catch(function() {
-                document.querySelector('input.isbn').value = "Not Found";
-            })
-            .then(function() {
-                this.attachListeners();
-            }.bind(this));
-    },
-    attachListeners: function() {
-        var self = this,
-            button = document.querySelector('.input-field input + .button.scan'),
-            fileInput = document.querySelector('.input-field input[type=file]');
-
-        button.addEventListener("click", function onClick(e) {
-            e.preventDefault();
-            button.removeEventListener("click", onClick);
-            document.querySelector('.input-field input[type=file]').click();
-        });
-
-        fileInput.addEventListener("change", function onChange(e) {
-            e.preventDefault();
-            fileInput.removeEventListener("change", onChange);
-            if (e.target.files && e.target.files.length) {
-                self.decode(URL.createObjectURL(e.target.files[0]));
-            }
-        });
-    }
-};
-App.init();
-                </code>
-            </pre>
-        </div>
-        <div class="collapsable-source">
-            <pre>
-                <code class="language-html">
-&lt;form&gt;
-    &lt;div class=&quot;input-field&quot;&gt;
-        &lt;label for=&quot;isbn_input&quot;&gt;EAN:&lt;/label&gt;
-        &lt;input id=&quot;isbn_input&quot; class=&quot;isbn&quot; type=&quot;text&quot; /&gt;
-        &lt;button type=&quot;button&quot; class=&quot;icon-barcode button scan&quot;&gt;&amp;nbsp;&lt;/button&gt;
-        &lt;input type=&quot;file&quot; id=&quot;file&quot; capture/&gt;
-    &lt;/div&gt;
-&lt;/form&gt;
-                </code>
-            </pre>
-        </div>
-    </div>
 </section>
 
-<script src="../js/quagga.js" type="text/javascript"></script>
-<script src="index.js" type="text/javascript"></script>
-<script src="../js/prism.js"></script>
+<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/quagga.js" type="text/javascript"></script>
+<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/file-input/index.js" type="text/javascript"></script>
+<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/prism.js"></script>
 
 
       </section>

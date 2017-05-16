@@ -44,15 +44,6 @@
       <section>
         <h1>Examples</h1>
 
-<ul>
-    <li><a href="../sandbox/">Mobile Sandbox</a> for playing around with all the various settings</li>
-    <li><a href="../scan-to-input/">Video-based Example</a> showcasing an input field for barcodes</li>
-    <li><a href="../file-input/">File-based Example</a> showcasing an input field for barcodes</li>
-    <li><a href="../multiple/">Video-based Example</a> showcasing the use of multiple readers</li>
-    <li><a href="../static_images/">Demo with sample images</a></li>
-    <li><a href="../live_w_locator/">Demo with live-stream</a> using <code>getUserMedia</code></li>
-    <li><a href="../file_input/">Demo with file-input</a> showcasing a use for mobile</li>
-</ul>
 
 <link rel="stylesheet" type="text/css" href="https://serratus.github.io/quaggaJS/stylesheets/prism.css" />
 <style>
@@ -84,7 +75,7 @@
 </section>
 
 <script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/quagga.js" type="text/javascript"></script>
-<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/file-input/index.js" type="text/javascript"></script>
+<script src="./js/quagga.js" type="text/javascript"></script>
 <script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/prism.js"></script>
 
 

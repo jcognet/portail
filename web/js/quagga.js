@@ -6,9 +6,9 @@ var App = {
     },
     decode: function(src) {
         Quagga
-            .decoder({readers: ['ean_reader']})
+            .decoder({readers: ['code_128_reader','ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader','upc_e_reader', 'i2of5_reader']})
             .locator({patchSize: 'medium'})
-            .fromImage(src, {size: 800})
+            .fromSource(src)
             .toPromise()
             .then(function(result) {
                 document.querySelector('input.isbn').value = result.codeResult.code;
@@ -35,7 +35,7 @@ var App = {
             e.preventDefault();
             fileInput.removeEventListener("change", onChange);
             if (e.target.files && e.target.files.length) {
-                self.decode(URL.createObjectURL(e.target.files[0]));
+self.decode(e.target.files[0]);
             }
         });
     }

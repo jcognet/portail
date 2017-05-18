@@ -6,19 +6,9 @@
   <body>
     <div class="wrapper">
       <section>
-        <h1>Examples</h1>
 
 
-<link rel="stylesheet" type="text/css" href="https://serratus.github.io/quaggaJS/stylesheets/prism.css" />
-<style>
-    input[type=file] {
-        display: none;
-    }
-</style>
 <section id="container" class="container">
-    <h3>Scan barcode to input-field</h3>
-    <p>Click the <strong>button</strong> next to the input-field
-        to select a file or snap a picture</p>
     <div>
         <form>
             <div class="input-field">
@@ -32,9 +22,9 @@
 
 </section>
 
-<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/quagga.js" type="text/javascript"></script>
 <script src="./js/quagga.js" type="text/javascript"></script>
-<script src="https://serratus.github.io/quaggaJS/v1.0.0-beta.1/examples/js/prism.js"></script>
+<script src="./js/isbn.js" type="text/javascript"></script>
+
 
 
       </section>

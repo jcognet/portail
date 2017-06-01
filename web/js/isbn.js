@@ -11,11 +11,10 @@ var App = {
             .fromSource(src)
             .toPromise()
             .then(function (result) {
-               $('#input_isbn').value = result.codeResult.code;
+               $('.isbn_input').value = result.codeResult.code;
             })
             .catch(function () {
-                console.log("erreur")
-                $('#input_isbn').val("Code bar non reconnu");
+                $('.isbn_input').val("Code bar non reconnu");
             })
             .then(function () {
                 this.attachListeners();
@@ -23,13 +22,12 @@ var App = {
     },
     attachListeners: function () {
         var self = this,
-            button = $('#button_isbn'),
-            fileInput = $('#file_isbn');
-
+            button = $('.isbn_button'),
+            fileInput = $('.isbn_file');
+        console.log(button)
         button.on("click", function (e) {
-            $('#button_isbn').attr('disabled', true);
             e.preventDefault();
-            $('#file_isbn').click();
+            $('.isbn_file').click();
         });
 
         fileInput.on("change", function (e) {
@@ -37,7 +35,7 @@ var App = {
             if (e.target.files && e.target.files.length) {
                 self.decode(e.target.files[0]);
             }
-            $('#button_isbn').attr('disabled', false);
+            $('.isbn_button').attr('disabled', false);
         });
     }
 };

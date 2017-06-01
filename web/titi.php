@@ -14,11 +14,11 @@
         <form>
             <div class="input-field">
                 <label for="isbn_input">Code barre :</label>
-                <input  id="input_isbn" type="text" />
-                <button type="button" id="button_isbn">
+                <input  class="isbn_input" type="text" />
+                <button type="button" class="isbn_button">
                     <span class="glyphicon glyphicon-barcode"></span>&nbsp;
                 </button>
-                <input id="file_isbn" type="file"  capture/>
+                <input class="isbn_file" type="file"  capture/>
             </div>
         </form>
     </div>

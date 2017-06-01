@@ -1,42 +1,43 @@
 var Quagga = window.Quagga;
 var App = {
     _scanner: null,
-    init: function() {
+    init: function () {
         this.attachListeners();
     },
-    decode: function(src) {
+    decode: function (src) {
         Quagga
-            .decoder({readers: ['code_128_reader','ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader','upc_e_reader', 'i2of5_reader']})
+            .decoder({readers: ['code_128_reader', 'ean_reader', 'ean_8_reader', 'code_39_reader', 'code_39_vin_reader', 'codabar_reader', 'upc_reader', 'upc_e_reader', 'i2of5_reader']})
             .locator({patchSize: 'medium'})
             .fromSource(src)
             .toPromise()
-            .then(function(result) {
-                document.querySelector('input.isbn').value = result.codeResult.code;
+            .then(function (result) {
+               $('#input_isbn').value = result.codeResult.code;
             })
-            .catch(function() {
-                document.querySelector('input.isbn').value = "Not Found";
+            .catch(function () {
+                console.log("erreur")
+                $('#input_isbn').val("Code bar non reconnu");
             })
-            .then(function() {
+            .then(function () {
                 this.attachListeners();
             }.bind(this));
     },
-    attachListeners: function() {
+    attachListeners: function () {
         var self = this,
-            button = document.querySelector('.input-field input + .button.scan'),
-            fileInput = document.querySelector('.input-field input[type=file]');
+            button = $('#button_isbn'),
+            fileInput = $('#file_isbn');
 
-        button.addEventListener("click", function onClick(e) {
+        button.on("click", function (e) {
+            $('#button_isbn').attr('disabled', true);
             e.preventDefault();
-            button.removeEventListener("click", onClick);
-            document.querySelector('.input-field input[type=file]').click();
+            $('#file_isbn').click();
         });
 
-        fileInput.addEventListener("change", function onChange(e) {
+        fileInput.on("change", function (e) {
             e.preventDefault();
-            fileInput.removeEventListener("change", onChange);
             if (e.target.files && e.target.files.length) {
-self.decode(e.target.files[0]);
+                self.decode(e.target.files[0]);
             }
+            $('#button_isbn').attr('disabled', false);
         });
     }
 };

@@ -46,3 +46,6 @@
 div .active{
     background-color: #F5F5F5;
 }
+#file_isbn{
+    visibility: hidden;
+}

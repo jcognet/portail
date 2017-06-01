@@ -2,25 +2,14 @@
 
 namespace LivreBundle\Form\Type;
 
-use LivreBundle\Entity\Meuble;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 
-class EtagereType extends AbstractType
+class ISBNType extends AbstractType
 {
-    /**
-     * @var null|TokenStorageInterface
-     */
-    protected $tokenStorage = null;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
-    {
-        $this->tokenStorage = $tokenStorage;
-    }
-
+    private static $premiereInstance = false;
 
     /**
      * {@inheritdoc}
@@ -28,33 +17,32 @@ class EtagereType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nom', null, array('label' => 'Nom'))
-            ->add('meuble', EntityType::class, array(
-                'choices'      => $this->tokenStorage->getToken()->getUser()->getMeubles(),
-                'choice_label' => 'nom',
-                'class'        => Meuble::class,
-                'empty_data'   => null,
-                'placeholder'  => "Meuble de l'étagère"
+            ->add('ISBN', null, array(
+                'label' => 'ISBN',
+                'attr'  => array(
+                    'class' => 'isbn_input'
+                )
             ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'LivreBundle\Entity\Etagere'
-        ));
-    }
 
     /**
      * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
-        return 'livrebundle_etagere';
+        return 'livrebundle_isbn';
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(FormView $view, FormInterface $form, array $options)
+    {
+        $options['affiche_js'] = self::$premiereInstance;
+        parent::buildView($view, $form, $options);
+        self::$premiereInstance = true;
+    }
 
 }

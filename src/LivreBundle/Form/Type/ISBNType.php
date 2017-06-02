@@ -3,6 +3,7 @@
 namespace LivreBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
@@ -40,8 +41,8 @@ class ISBNType extends AbstractType
      */
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
-        $options['affiche_js'] = self::$premiereInstance;
         parent::buildView($view, $form, $options);
+        $view->vars['affiche_js'] = self::$premiereInstance;
         self::$premiereInstance = true;
     }
 

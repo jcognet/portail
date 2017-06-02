@@ -1,0 +1,10 @@
+{% block _livrebundle_isbn_widget %}
+    {{ block('form_widget') }}
+    <button type="button" class="isbn_button">
+        <span class="glyphicon glyphicon-barcode"></span>&nbsp;
+    </button>
+    <input class="isbn_file" type="file" capture/>
+    {% if affiche_js %}
+****
+{% endif %}
+{% endblock %}

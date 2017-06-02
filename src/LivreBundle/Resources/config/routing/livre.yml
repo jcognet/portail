@@ -29,3 +29,7 @@ livre_recherche_ajax:
 livre_detail:
     path:     /detail_livre/{id}/{slug}
     defaults: { _controller: LivreBundle:Livre:detail }
+# Test du champ ISBN
+livre_test_isbn:
+    path:     /test_isbn
+    defaults: { _controller: LivreBundle:Livre:testIBSN }

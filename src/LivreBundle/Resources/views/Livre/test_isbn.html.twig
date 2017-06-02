@@ -1,0 +1,8 @@
+{% extends "LivreBundle::base.html.twig" %}
+{% import "@Livre/Macro/livre.html.twig" as livreMacro %}
+{% block title_header %}
+    Test du champ ISBN
+{% endblock %}
+{% block zone_body %}
+   {{ form(form) }}
+{% endblock%}

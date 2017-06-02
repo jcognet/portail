@@ -3,6 +3,7 @@
 namespace LivreBundle\Controller;
 
 use LivreBundle\Entity\BaseLivre;
+use LivreBundle\Form\Type\ISBNType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -144,10 +145,28 @@ class LivreController extends Controller
         return $formBuilder->getForm();
     }
 
+    /**
+     * @param Request $request
+     * @param BaseLivre $livre
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function detailAction(Request $request, BaseLivre $livre){
         return $this->render('LivreBundle:Livre:detail.html.twig', array(
             'livre'  => $livre,
         ));
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function testIBSNAction(Request $request){
+        $form = $this->createForm(ISBNType::class);
+        dump($form);
+        return $this->render('LivreBundle:Livre:test_isbn.html.twig', array(
+            'form'  => $form->createView(),
+        ));
+    }
+
 
 }

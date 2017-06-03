@@ -16,7 +16,7 @@ var App = {
             .catch(function () {
                 dest.val("Code bar non reconnu");
             })
-            .bind(this));
+            .bind(this);
     },
     attachListeners: function () {
         var self = this,
@@ -29,7 +29,7 @@ var App = {
             console.log($(this).parent().find('.isbn_file'));
             $(this).parent().find('.isbn_file').click();
         });
-        
+
         fileInputs.on("change", function (e) {
             e.preventDefault();
             if (e.target.files && e.target.files.length) {

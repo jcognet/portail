@@ -162,9 +162,10 @@ class LivreController extends Controller
      */
     public function testIBSNAction(Request $request){
         $form = $this->createForm(ISBNType::class);
-        dump($form);
+        $form2 = $this->createForm(ISBNType::class);
         return $this->render('LivreBundle:Livre:test_isbn.html.twig', array(
             'form'  => $form->createView(),
+            'form2'  => $form2->createView(),
         ));
     }
 

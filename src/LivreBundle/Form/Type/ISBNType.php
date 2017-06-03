@@ -10,7 +10,11 @@ use Symfony\Component\Form\FormView;
 class ISBNType extends AbstractType
 {
 
-    private static $premiereInstance = false;
+    /**
+     * Indique si une instance du champ a déjà été créé
+     * @var bool
+     */
+    private static $premiereInstance = true;
 
     /**
      * {@inheritdoc}
@@ -43,7 +47,7 @@ class ISBNType extends AbstractType
     {
         parent::buildView($view, $form, $options);
         $view->vars['affiche_js'] = self::$premiereInstance;
-        self::$premiereInstance = true;
+        self::$premiereInstance = false;
     }
 
 }

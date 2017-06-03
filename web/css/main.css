@@ -49,3 +49,10 @@ div .active{
 .isbn_file{
     visibility: hidden;
 }
+.isbn_input{
+    padding-right:50px;
+    display: inline;
+}
+.isbn_button{
+    margin-left: -40px;
+}

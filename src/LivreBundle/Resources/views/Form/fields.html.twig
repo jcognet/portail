@@ -1,10 +1,18 @@
-{% block _livrebundle_isbn_widget %}
-    {{ block('form_widget') }}
-    <button type="button" class="isbn_button">
-        <span class="glyphicon glyphicon-barcode"></span>&nbsp;
-    </button>
-    <input class="isbn_file" type="file" capture/>
-    {% if affiche_js %}
-****
-{% endif %}
+{% block _livrebundle_isbn_ISBN_widget %}
+
+    <div class="form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
+        {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
+        <button type="button" class="isbn_button">
+            <span class="glyphicon glyphicon-barcode"></span>&nbsp;
+        </button>
+        <input class="isbn_file" type="file" capture/>
+
+    </div>
+
+    {% if form.parent.vars.affiche_js %}
+        <script src="{{ asset('js/quagga.js') }}" type="text/javascript"></script>
+        <script src="{{  asset('js/isbn.js') }}" type="text/javascript"></script>
+    {% endif %}
+
 {% endblock %}

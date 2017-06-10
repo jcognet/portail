@@ -16,7 +16,6 @@ var App = {
             .catch(function () {
                 dest.val("Code bar non reconnu");
             })
-            .bind(this);
     },
     attachListeners: function () {
         var self = this,
